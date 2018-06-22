@@ -1,0 +1,31 @@
+/* common.css
+
+ * 
+ */
+.error {
+	color: red;
+	font-weight: bolder;
+}
+
+.message {
+	color: red;
+	font-weight: bolder;
+}
+
+.grey {
+	background-color: #BBBBBB;
+}
+
+.green {
+	background-color: #95FF9B;
+}
+
+.orange {
+	background-color: #FEE594;
+}
+
+.greenColour{
+	color: green;
+	font-weight: bolder;
+	font-size: 20;
+}

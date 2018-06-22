@@ -1,0 +1,753 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- * PopulateDatabase.xml -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+
+	<!-- User accounts -->
+
+	<bean id="userAccount1" class="security.UserAccount">
+		<property name="username" value="admin" />
+		<property name="password" value="$2a$10$PwFDmJN77so.mHWn8kQOeusey.LOntFOfss476MI3uM/QQAJqBfce" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount2" class="security.UserAccount">
+		<property name="username" value="chorbi1" />
+		<property name="password" value="3daa859a294cdefb20a84840240a76f5" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CHORBI" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount3" class="security.UserAccount">
+		<property name="username" value="chorbi2" />
+		<property name="password" value="0c8746de81268518ff83490301db8652" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CHORBI" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount4" class="security.UserAccount">
+		<property name="username" value="chorbi3" />
+		<property name="password" value="a2da05a88eead7e64593826cafc6a7a7" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CHORBI" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount5" class="security.UserAccount">
+		<property name="username" value="chorbi4" />
+		<property name="password" value="a09dd233386632e297a7f4f461989563" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CHORBI" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount6" class="security.UserAccount">
+		<property name="username" value="chorbi5" />
+		<property name="password" value="7e062f6f2a4c0f7ec5abacef2917e033" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CHORBI" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount7" class="security.UserAccount">
+		<property name="username" value="manager1" />
+		<property name="password" value="c240642ddef994358c96da82c0361a58" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount8" class="security.UserAccount">
+		<property name="username" value="manager2" />
+		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount9" class="security.UserAccount">
+		<property name="username" value="manager3" />
+		<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Other domain beans come here -->
+
+	<!-- Administrators -->
+
+	<bean id="administrator1" class="domain.Administrator">
+		<property name="name" value="Administrator" />
+		<property name="surname" value="Surname Admin 1" />
+		<property name="email" value="adminitrator1@mail.com" />
+		<property name="phoneNumber" value="+34 600212524" />
+		<property name="userAccount" ref="userAccount1" />
+	</bean>
+
+	<!-- Chorbies -->
+
+	<bean id="chorbi1" class="domain.Chorbi">
+		<property name="name" value="Chorbi 1" />
+		<property name="surname" value="surname1" />
+		<property name="email" value="chorbi1@gmail.com" />
+		<property name="phoneNumber" value="+34 600252623" />
+		<property name="userAccount" ref="userAccount2" />
+		<property name="picture"
+			value="http://fress.co/wp-content/uploads/2014/07/sonreir.jpg" />
+		<property name="description" value="description1" />
+		<property name="typeRelationship" value="LOVE" />
+		<property name="birthDate" value="06/06/1992" />
+		<property name="genre" value="WOMAN" />
+		<property name="country" value="España" />
+		<property name="state" value="Andalucía" />
+		<property name="province" value="Sevilla" />
+		<property name="city" value="Sevilla" />
+		<property name="isBanned" value="false" />
+		<property name="amountFee" value="0.0" />
+	</bean>
+
+	<bean id="chorbi2" class="domain.Chorbi">
+		<property name="name" value="Chorbi 2" />
+		<property name="surname" value="surname2" />
+		<property name="email" value="chorbi2@mail.com" />
+		<property name="phoneNumber" value="+34 636987560" />
+		<property name="userAccount" ref="userAccount3" />
+		<property name="picture"
+			value="http://www.blockpublicidad.com/270/camisa-oxford-hombre-tokio.jpg" />
+		<property name="description" value="description2" />
+		<property name="typeRelationship" value="FRIENDSHIP" />
+		<property name="birthDate" value="27/11/1995" />
+		<property name="genre" value="MAN" />
+		<property name="country" value="Inglaterra" />
+		<property name="state" value="Cornwall" />
+		<property name="province" value="Bristol" />
+		<property name="city" value="Bristol" />
+		<property name="isBanned" value="false" />
+		<property name="amountFee" value="0.0" />
+	</bean>
+
+	<bean id="chorbi3" class="domain.Chorbi">
+		<property name="name" value="Chorbi 3" />
+		<property name="surname" value="surname3" />
+		<property name="email" value="chorbi3@mail.com" />
+		<property name="phoneNumber" value="+34 612635540" />
+		<property name="userAccount" ref="userAccount4" />
+		<property name="picture"
+			value="http://stylelovely.com/wp-content/uploads/hombres_sexy-290x290.jpg" />
+		<property name="description" value="description3" />
+		<property name="typeRelationship" value="ACTIVITIES" />
+		<property name="birthDate" value="21/05/1986" />
+		<property name="genre" value="MAN" />
+		<property name="country" value="España" />
+		<property name="state" value="Andalucía" />
+		<property name="province" value="Granada" />
+		<property name="city" value="Guadix" />
+		<property name="isBanned" value="false" />
+		<property name="amountFee" value="0.0" />
+	</bean>
+
+	<bean id="chorbi4" class="domain.Chorbi">
+		<property name="name" value="Chorbi 4" />
+		<property name="surname" value="surname4" />
+		<property name="email" value="chorbi4@mail.com" />
+		<property name="phoneNumber" value="+34 669635540" />
+		<property name="userAccount" ref="userAccount5" />
+		<property name="picture"
+			value="http://static3.modaellos.com/wp-content/uploads/2015/04/los-mejores-cortes-de-cabello-para-hombres-de-acuerdo-a-tu-tipo-de-rostro-tipo-de-rostro-alargado-estilos-de-peinados-600x885.jpg" />
+		<property name="description" value="description4" />
+		<property name="typeRelationship" value="ACTIVITIES" />
+		<property name="birthDate" value="19/08/1987" />
+		<property name="genre" value="MAN" />
+		<property name="country" value="España" />
+		<property name="state" value="Andalucía" />
+		<property name="province" value="Jaen" />
+		<property name="city" value="Linares" />
+		<property name="isBanned" value="false" />
+		<property name="amountFee" value="0.0" />
+	</bean>
+
+	<bean id="chorbi5" class="domain.Chorbi">
+		<property name="name" value="Chorbi 5" />
+		<property name="surname" value="surname5" />
+		<property name="email" value="chorbi5@mail.com" />
+		<property name="phoneNumber" value="+34 612635598" />
+		<property name="userAccount" ref="userAccount6" />
+		<property name="picture"
+			value="http://www.politicaysociedad.net/wp-content/uploads/2014/05/frases-mujeres.jpg" />
+		<property name="description" value="description5" />
+		<property name="typeRelationship" value="LOVE" />
+		<property name="birthDate" value="03/10/1994" />
+		<property name="genre" value="WOMAN" />
+		<property name="country" value="España" />
+		<property name="state" value="Madrid" />
+		<property name="province" value="Madrid" />
+		<property name="city" value="Madrid" />
+		<property name="isBanned" value="false" />
+		<property name="amountFee" value="0.0" />
+	</bean>
+
+	<!-- Managers -->
+
+	<bean id="manager1" class="domain.Manager">
+		<property name="name" value="Manager 1" />
+		<property name="surname" value="surname manager 1" />
+		<property name="email" value="manager1@gmail.com" />
+		<property name="phoneNumber" value="+34 688989100" />
+		<property name="userAccount" ref="userAccount7" />
+		<property name="company" value="company 1" />
+		<property name="VATNumber" value="B-26300010" />
+		<property name="amountFee" value="1.0" />
+	</bean>
+
+	<bean id="manager2" class="domain.Manager">
+		<property name="name" value="Manager 2" />
+		<property name="surname" value="surname manager 2" />
+		<property name="email" value="manager2@gmail.com" />
+		<property name="phoneNumber" value="+34 611030300" />
+		<property name="userAccount" ref="userAccount8" />
+		<property name="company" value="company 2" />
+		<property name="VATNumber" value="B-26300066" />
+		<property name="amountFee" value="1.0" />
+	</bean>
+
+	<bean id="manager3" class="domain.Manager">
+		<property name="name" value="Manager 3" />
+		<property name="surname" value="surname manager 3" />
+		<property name="email" value="manager3@gmail.com" />
+		<property name="phoneNumber" value="+34 677455630" />
+		<property name="userAccount" ref="userAccount9" />
+		<property name="company" value="company 3" />
+		<property name="VATNumber" value="B-26123010" />
+		<property name="amountFee" value="1.0" />
+	</bean>
+
+	<!-- Events -->
+
+	<bean id="event1" class="domain.Event">
+		<property name="title" value="Title 1" />
+		<property name="moment" value="2018/05/15 12:30" />
+		<property name="description" value="Description 1" />
+		<property name="picture"
+			value="http://www.ecotactil.com/wp-content/uploads/2016/06/6197706_orig.jpg" />
+		<property name="seats" value="275" />
+		<property name="manager" ref="manager1" />
+		<property name="chorbies">
+			<list>
+				<ref bean="chorbi1" />
+				<ref bean="chorbi2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="event2" class="domain.Event">
+		<property name="title" value="Title 2" />
+		<property name="moment" value="2018/05/17 10:00" />
+		<property name="description" value="Description 2" />
+		<property name="picture"
+			value="http://www.princess-hotels.com/es/img/slide-eventos-yucatan2.jpg" />
+		<property name="seats" value="35" />
+		<property name="manager" ref="manager2" />
+		<property name="chorbies">
+			<list>
+				<ref bean="chorbi1" />
+				<ref bean="chorbi4" />
+				<ref bean="chorbi5" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="event3" class="domain.Event">
+		<property name="title" value="Title 3" />
+		<property name="moment" value="2016/06/18 22:00" />
+		<property name="description" value="Description 3" />
+		<property name="picture"
+			value="http://meandyoueventosyprotocolo.com/wp-content/uploads/2014/10/slider2.jpg" />
+		<property name="seats" value="150" />
+		<property name="manager" ref="manager3" />
+		<property name="chorbies">
+			<list>
+				<ref bean="chorbi1" />
+				<ref bean="chorbi2" />
+				<ref bean="chorbi3" />
+				<ref bean="chorbi4" />
+				<ref bean="chorbi5" />
+			</list>
+		</property>
+	</bean>
+
+
+
+	<!-- SearchTemplates -->
+
+	<bean id="searchTemplate1" class="domain.SearchTemplate">
+		<property name="kindRelationship" value="" />
+		<property name="age" value="" />
+		<property name="genre" value="MAN" />
+		<property name="country" value="" />
+		<property name="state" value="" />
+		<property name="province" value="" />
+		<property name="city" value="" />
+		<property name="keyword" value="" />
+		<property name="chorbi" ref="chorbi1" />
+		<property name="results">
+			<list>
+			</list>
+		</property>
+	</bean>
+	<bean id="searchTemplate2" class="domain.SearchTemplate">
+		<property name="kindRelationship" value="LOVE" />
+		<property name="age" value="" />
+		<property name="genre" value="WOMAN" />
+		<property name="country" value="España" />
+		<property name="state" value="" />
+		<property name="province" value="" />
+		<property name="city" value="" />
+		<property name="keyword" value="" />
+		<property name="chorbi" ref="chorbi2" />
+		<property name="results">
+			<list>
+			</list>
+		</property>
+	</bean>
+	<bean id="searchTemplate3" class="domain.SearchTemplate">
+		<property name="kindRelationship" value="" />
+		<property name="age" value="" />
+		<property name="genre" value="MAN" />
+		<property name="country" value="" />
+		<property name="state" value="" />
+		<property name="province" value="" />
+		<property name="city" value="Granada" />
+		<property name="keyword" value="" />
+		<property name="chorbi" ref="chorbi3" />
+		<property name="results">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="searchTemplate4" class="domain.SearchTemplate">
+		<property name="kindRelationship" value="" />
+		<property name="age" value="" />
+		<property name="genre" value="MAN" />
+		<property name="country" value="" />
+		<property name="state" value="" />
+		<property name="province" value="" />
+		<property name="city" value="" />
+		<property name="keyword" value="" />
+		<property name="chorbi" ref="chorbi4" />
+		<property name="results">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="searchTemplate5" class="domain.SearchTemplate">
+		<property name="kindRelationship" value="" />
+		<property name="age" value="" />
+		<property name="genre" value="MAN" />
+		<property name="country" value="" />
+		<property name="state" value="" />
+		<property name="province" value="" />
+		<property name="city" value="Granada" />
+		<property name="keyword" value="" />
+		<property name="chorbi" ref="chorbi5" />
+		<property name="results">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<!-- CreditCards -->
+
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holderName" value="Sandra Fernandez Gil" />
+		<property name="brandName" value="MASTERCARD" />
+		<property name="number" value="4916200030888862" />
+		<property name="expDate" value="2019/05/31" />
+		<property name="cvv" value="931" />
+		<property name="actor" ref="chorbi1" />
+	</bean>
+
+	<bean id="creditCard2" class="domain.CreditCard">
+		<property name="holderName" value="José Fernandez Goméz" />
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4532080559775532" />
+		<property name="expDate" value="2020/05/31" />
+		<property name="cvv" value="500" />
+		<property name="actor" ref="chorbi2" />
+
+	</bean>
+
+	<bean id="creditCard3" class="domain.CreditCard">
+		<property name="holderName" value="Fernando Jimenez" />
+		<property name="brandName" value="AMEX" />
+		<property name="number" value="5343143570837420" />
+		<property name="expDate" value="2018/04/30" />
+		<property name="cvv" value="120" />
+		<property name="actor" ref="chorbi3" />
+	</bean>
+
+	<bean id="creditCard4" class="domain.CreditCard">
+		<property name="holderName" value="Alonso Perez" />
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4776037041014115" />
+		<property name="expDate" value="2020/11/11" />
+		<property name="cvv" value="112" />
+		<property name="actor" ref="manager1" />
+	</bean>
+
+	<bean id="creditCard5" class="domain.CreditCard">
+		<property name="holderName" value="Ana Gonzalez" />
+		<property name="brandName" value="AMEX" />
+		<property name="number" value="377579036183083" />
+		<property name="expDate" value="2018/06/01" />
+		<property name="cvv" value="366" />
+		<property name="actor" ref="manager2" />
+	</bean>
+
+	<!-- Likes -->
+
+	<bean id="like1" class="domain.Like">
+		<property name="moment" value="2018/05/19 20:36" />
+		<property name="stars" value="2" />
+		<property name="author" ref="chorbi1" />
+		<property name="receiver" ref="chorbi2" />
+	</bean>
+
+	<bean id="like2" class="domain.Like">
+		<property name="moment" value="2018/04/29 17:42" />
+		<property name="stars" value="1" />
+		<property name="author" ref="chorbi3" />
+		<property name="receiver" ref="chorbi4" />
+	</bean>
+
+	<bean id="like3" class="domain.Like">
+		<property name="moment" value="2018/06/26 13:49" />
+		<property name="stars" value="0" />
+		<property name="author" ref="chorbi1" />
+		<property name="receiver" ref="chorbi4" />
+	</bean>
+
+	<!-- Comments -->
+
+	<bean id="comment6" class="domain.Comment">
+		<property name="moment" value="2012/09/09 12:30" />
+		<property name="title" value="Hola" />
+		<property name="description" value="Estoy interesado en ti" />
+		<property name="stars" value="4" />
+		<property name="author" ref="chorbi2" />
+		<property name="commentable" ref="like1" />
+	</bean>
+
+	<bean id="comment7" class="domain.Comment">
+		<property name="moment" value="2014/06/10 14:40" />
+		<property name="title" value="Lo siento" />
+		<property name="description" value="No pude asistir a nuestro encuentro" />
+		<property name="stars" value="1" />
+		<property name="author" ref="chorbi3" />
+		<property name="commentable" ref="like2" />
+	</bean>
+
+	<bean id="comment8" class="domain.Comment">
+		<property name="moment" value="2015/12/14 11:50" />
+		<property name="title" value="Hola" />
+		<property name="description" value="Me gustaria conocerte" />
+		<property name="stars" value="3" />
+		<property name="author" ref="chorbi1" />
+		<property name="commentable" ref="like3" />
+	</bean>
+
+	<!-- Chirp -->
+
+	<bean id="chirp1" class="domain.Chirp">
+		<property name="moment" value="2016/03/02 12:25" />
+		<property name="subject" value="Hola" />
+		<property name="text" value="Como estas?" />
+		<property name="receiver" ref="chorbi1" />
+		<property name="sender" ref="chorbi2" />
+		<property name="attachments">
+			<list>
+				<value>http://www.google.es</value>
+			</list>
+		</property>
+		<property name="folder" ref="folder1" />
+	</bean>
+
+	<bean id="chirp2" class="domain.Chirp">
+		<property name="moment" value="2016/03/02 12:25" />
+		<property name="subject" value="Hola" />
+		<property name="text" value="Como estas?" />
+		<property name="receiver" ref="chorbi1" />
+		<property name="sender" ref="chorbi2" />
+		<property name="attachments">
+			<list>
+				<value>http://www.google.es</value>
+			</list>
+		</property>
+		<property name="folder" ref="folder5" />
+	</bean>
+
+	<bean id="chirp3" class="domain.Chirp">
+		<property name="moment" value="2016/03/02 12:25" />
+		<property name="subject" value="¿Hola que tal?" />
+		<property name="text" value="Genial mi numero es +34 603287292" />
+		<property name="receiver" ref="chorbi1" />
+		<property name="sender" ref="chorbi2" />
+		<property name="attachments">
+			<list>
+			</list>
+		</property>
+		<property name="folder" ref="folder1" />
+	</bean>
+
+	<bean id="chirp4" class="domain.Chirp">
+		<property name="moment" value="2016/03/02 12:25" />
+		<property name="subject" value="¿Hola que tal?" />
+		<property name="text" value="Genial mi numero es +34 603287292" />
+		<property name="receiver" ref="chorbi1" />
+		<property name="sender" ref="chorbi2" />
+		<property name="attachments">
+			<list>
+			</list>
+		</property>
+		<property name="folder" ref="folder5" />
+	</bean>
+
+	<bean id="chirp5" class="domain.Chirp">
+		<property name="moment" value="2016/03/02 12:25" />
+		<property name="subject" value="Hola" />
+		<property name="text" value="Hola, ¿como estas?" />
+		<property name="receiver" ref="chorbi3" />
+		<property name="sender" ref="chorbi1" />
+		<property name="attachments">
+			<list>
+				<value>http://www.facebook.com</value>
+			</list>
+		</property>
+		<property name="folder" ref="folder2" />
+	</bean>
+
+	<bean id="chirp6" class="domain.Chirp">
+		<property name="moment" value="2016/03/02 12:25" />
+		<property name="subject" value="Hola" />
+		<property name="text" value="Hola, ¿como estas?" />
+		<property name="receiver" ref="chorbi3" />
+		<property name="sender" ref="chorbi1" />
+		<property name="attachments">
+			<list>
+				<value>http://www.facebook.com</value>
+			</list>
+		</property>
+		<property name="folder" ref="folder7" />
+	</bean>
+
+	<!-- Configuration -->
+
+	<bean id="configuration" class="domain.Configuration">
+		<property name="banners">
+			<list>
+				<value>http://oi68.tinypic.com/f2nddz.jpg</value>
+				<value> http://oi64.tinypic.com/24ziryc.jpg</value>
+				<value> http://oi67.tinypic.com/2r6pnwy.jpg</value>
+			</list>
+		</property>
+		<property name="cacheTime" value="12:25:30" />
+		<property name="managersFee" value="1.00" />
+		<property name="chorbiesFee" value="1.00" />
+	</bean>
+
+	<!-- Folders -->
+
+	<bean id="folder1" class="domain.Folder">
+		<property name="name" value="Inbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi1" />
+	</bean>
+
+	<bean id="folder2" class="domain.Folder">
+		<property name="name" value="Outbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi1" />
+	</bean>
+
+	<bean id="folder3" class="domain.Folder">
+		<property name="name" value="Trashbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi1" />
+	</bean>
+
+	<bean id="folder4" class="domain.Folder">
+		<property name="name" value="Inbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi2" />
+	</bean>
+
+	<bean id="folder5" class="domain.Folder">
+		<property name="name" value="Outbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi2" />
+	</bean>
+
+	<bean id="folder6" class="domain.Folder">
+		<property name="name" value="Trashbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi2" />
+	</bean>
+
+	<bean id="folder7" class="domain.Folder">
+		<property name="name" value="Inbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi3" />
+	</bean>
+
+	<bean id="folder8" class="domain.Folder">
+		<property name="name" value="Outbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi3" />
+	</bean>
+
+	<bean id="folder9" class="domain.Folder">
+		<property name="name" value="Trashbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi3" />
+	</bean>
+
+	<bean id="folder10" class="domain.Folder">
+		<property name="name" value="Inbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi4" />
+	</bean>
+
+	<bean id="folder11" class="domain.Folder">
+		<property name="name" value="Outbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi4" />
+	</bean>
+
+	<bean id="folder12" class="domain.Folder">
+		<property name="name" value="Trashbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi4" />
+	</bean>
+
+	<bean id="folder13" class="domain.Folder">
+		<property name="name" value="Inbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi5" />
+	</bean>
+
+	<bean id="folder14" class="domain.Folder">
+		<property name="name" value="Outbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi5" />
+	</bean>
+
+	<bean id="folder15" class="domain.Folder">
+		<property name="name" value="Trashbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="chorbi5" />
+	</bean>
+	
+	<bean id="folder16" class="domain.Folder">
+		<property name="name" value="Inbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="manager1" />
+	</bean>
+
+	<bean id="folder17" class="domain.Folder">
+		<property name="name" value="Outbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="manager1" />
+	</bean>
+
+	<bean id="folder18" class="domain.Folder">
+		<property name="name" value="Trashbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="manager1" />
+	</bean>
+	
+	<bean id="folder19" class="domain.Folder">
+		<property name="name" value="Inbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="manager2" />
+	</bean>
+
+	<bean id="folder20" class="domain.Folder">
+		<property name="name" value="Outbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="manager2" />
+	</bean>
+
+	<bean id="folder21" class="domain.Folder">
+		<property name="name" value="Trashbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="manager2" />
+	</bean>
+	
+	<bean id="folder22" class="domain.Folder">
+		<property name="name" value="Inbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="manager3" />
+	</bean>
+
+	<bean id="folder23" class="domain.Folder">
+		<property name="name" value="Outbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="manager3" />
+	</bean>
+
+	<bean id="folder24" class="domain.Folder">
+		<property name="name" value="Trashbox" />
+		<property name="cantModify" value="true" />
+		<property name="actor" ref="manager3" />
+	</bean>
+
+
+
+</beans>
