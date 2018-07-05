@@ -10,6 +10,27 @@
 	">
 
 	<util:list id="converters">
+	
+		<bean class="converters.AuthorityToStringConverter" />
+	
+		<bean class="converters.ActorToStringConverter" />
+		<bean class="converters.StringToActorConverter" />
+		
+		<bean class="converters.AdministrativoToStringConverter" />		
+		
+		<bean class="converters.AlumnoToStringConverter" />
+		
+		<bean class="converters.CarpetaToStringConverter" />
+		
+		<bean class="converters.CoordinadorToStringConverter" />
+		
+		<bean class="converters.MensajeToStringConverter" />
+		
+		<bean class="converters.OfertaToStringConverter" />
+		
+		<bean class="converters.TutorToStringConverter" />
+		
+		<bean class="converters.ValoracionToStringConverter" />		
 
 		
 	</util:list>

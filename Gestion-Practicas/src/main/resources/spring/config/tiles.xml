@@ -16,17 +16,15 @@
 		<value>/views/welcome/tiles.xml</value>
 
 		<value>/views/actor/tiles.xml</value>
-		<value>/views/administrator/tiles.xml</value>
-		<value>/views/chorbi/tiles.xml</value>
-		<value>/views/creditCard/tiles.xml</value>
-		<value>/views/configuration/tiles.xml</value>
-		<value>/views/searchTemplate/tiles.xml</value>
-		<value>/views/comment/tiles.xml</value>
-		<value>/views/chirp/tiles.xml</value>
-		<value>/views/folder/tiles.xml</value>
-		<value>/views/like/tiles.xml</value>
-		<value>/views/manager/tiles.xml</value>
-		<value>/views/event/tiles.xml</value>
+		<value>/views/administrativo/tiles.xml</value>
+		<value>/views/alumno/tiles.xml</value>
+		<value>/views/carpeta/tiles.xml</value>
+		<value>/views/coordinador/tiles.xml</value>
+		<value>/views/mensaje/tiles.xml</value>
+		<value>/views/oferta/tiles.xml</value>
+		<value>/views/tutor/tiles.xml</value>
+		<value>/views/valoracion/tiles.xml</value>
+		
 	</util:list>
 
 </beans>

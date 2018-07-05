@@ -18,7 +18,14 @@
 		<value>/views/security/messages</value>		
 		<value>/views/welcome/messages</value>
 		
-		<value>/views/administrator/messages</value>
+		<value>/views/actor/messages</value>
+		<value>/views/alumno/messages</value>
+		<value>/views/carpeta/messages</value>
+		<value>/views/coordinador/messages</value>
+		<value>/views/mensaje/messages</value>
+		<value>/views/oferta/messages</value>
+		<value>/views/tutor/messages</value>
+		<value>/views/valoracion/messages</value>
 		
 		
 	</util:list>
