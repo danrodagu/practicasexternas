@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public abstract class Valoracion extends DomainEntity {
+public class Valoracion extends DomainEntity {
 
 	private String titulo;
 	private String cuerpo;

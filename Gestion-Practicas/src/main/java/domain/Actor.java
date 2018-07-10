@@ -20,7 +20,6 @@ public abstract class Actor extends DomainEntity {
 	private String nombre;
 	private String apellidos;
 	private String uvus;
-	private String password;
 
 	// Constructors -----------------------------------------------------------
 
@@ -58,16 +57,6 @@ public abstract class Actor extends DomainEntity {
 
 	public void setUvus(String uvus) {
 		this.uvus = uvus;
-	}
-
-	@NotNull
-	@NotBlank
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	// Relationships ----------------------------------------------------------

@@ -49,17 +49,17 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	@Column(unique = true)
 	@Override
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	@Size(min = 5, max = 32)
+	@Size(min = 5, max = 61)
 	@Override
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
@@ -71,8 +71,9 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	@ElementCollection
 	@Override
 	public Collection<Authority> getAuthorities() {
-		// WARNING: Should return an unmodifiable copy, but it's not possible with hibernate!
-		return authorities;
+		// WARNING: Should return an unmodifiable copy, but it's not possible with
+		// hibernate!
+		return this.authorities;
 	}
 
 	public void setAuthorities(Collection<Authority> authorities) {
@@ -81,16 +82,16 @@ public class UserAccount extends DomainEntity implements UserDetails {
 
 	public void addAuthority(Authority authority) {
 		Assert.notNull(authority);
-		Assert.isTrue(!authorities.contains(authority));
+		Assert.isTrue(!this.authorities.contains(authority));
 
-		authorities.add(authority);
+		this.authorities.add(authority);
 	}
 
 	public void removeAuthority(Authority authority) {
 		Assert.notNull(authority);
-		Assert.isTrue(authorities.contains(authority));
-		
-		authorities.remove(authority);
+		Assert.isTrue(this.authorities.contains(authority));
+
+		this.authorities.remove(authority);
 	}
 
 	@Transient

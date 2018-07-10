@@ -11,263 +11,53 @@
 	<!-- User accounts -->
 
 	<bean id="userAccount1" class="security.UserAccount">
-		<property name="username" value="admin" />
-		<property name="password" value="$2a$10$PwFDmJN77so.mHWn8kQOeusey.LOntFOfss476MI3uM/QQAJqBfce" />
+		<property name="username" value="administrativo" />
+		<property name="password" value="$2a$10$PN8nxobHJYCmEMtRiaVj4.4f0hAi86i1AQCtuStDu0Xmvv9xJark2" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="ADMIN" />
+					<property name="authority" value="ADMINISTRATIVO" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
 	<bean id="userAccount2" class="security.UserAccount">
-		<property name="username" value="chorbi1" />
-		<property name="password" value="3daa859a294cdefb20a84840240a76f5" />
+		<property name="username" value="coordi" />
+		<property name="password" value="$2a$10$fcf.d6byXUh7Yj9mHwN8bONkj0q5hrBCkNwicxbWAjaCilydY40Y." />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="CHORBI" />
+					<property name="authority" value="COORDI" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="userAccount3" class="security.UserAccount">
-		<property name="username" value="chorbi2" />
-		<property name="password" value="0c8746de81268518ff83490301db8652" />
-		<property name="authorities">
-			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="CHORBI" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="userAccount4" class="security.UserAccount">
-		<property name="username" value="chorbi3" />
-		<property name="password" value="a2da05a88eead7e64593826cafc6a7a7" />
-		<property name="authorities">
-			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="CHORBI" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="userAccount5" class="security.UserAccount">
-		<property name="username" value="chorbi4" />
-		<property name="password" value="a09dd233386632e297a7f4f461989563" />
-		<property name="authorities">
-			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="CHORBI" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="userAccount6" class="security.UserAccount">
-		<property name="username" value="chorbi5" />
-		<property name="password" value="7e062f6f2a4c0f7ec5abacef2917e033" />
-		<property name="authorities">
-			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="CHORBI" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="userAccount7" class="security.UserAccount">
-		<property name="username" value="manager1" />
-		<property name="password" value="c240642ddef994358c96da82c0361a58" />
-		<property name="authorities">
-			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="MANAGER" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="userAccount8" class="security.UserAccount">
-		<property name="username" value="manager2" />
-		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
-		<property name="authorities">
-			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="MANAGER" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="userAccount9" class="security.UserAccount">
-		<property name="username" value="manager3" />
-		<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
-		<property name="authorities">
-			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="MANAGER" />
-				</bean>
-			</list>
-		</property>
-	</bean>
 
 	<!-- Other domain beans come here -->
 
-	<!-- Administrators -->
+	<!-- Administrativo -->
 
-	<bean id="administrator1" class="domain.Administrator">
-		<property name="name" value="Administrator" />
-		<property name="surname" value="Surname Admin 1" />
-		<property name="email" value="adminitrator1@mail.com" />
-		<property name="phoneNumber" value="+34 600212524" />
+	<bean id="administrativo1" class="domain.Administrativo">
+		<property name="nombre" value="Olga" />
+		<property name="apellidos" value="Pérez Sánchez" />
+		<property name="uvus" value="administrativo1@us.es" />
 		<property name="userAccount" ref="userAccount1" />
 	</bean>
 
-	<!-- Chorbies -->
+	<!-- Coordinador -->
 
-	<bean id="chorbi1" class="domain.Chorbi">
-		<property name="name" value="Chorbi 1" />
-		<property name="surname" value="surname1" />
-		<property name="email" value="chorbi1@gmail.com" />
-		<property name="phoneNumber" value="+34 600252623" />
+	<bean id="coordinador1" class="domain.Coordinador">
+		<property name="nombre" value="María Teresa" />
+		<property name="apellidos" value="Gómez López" />
+		<property name="uvus" value="mayte@us.es" />
 		<property name="userAccount" ref="userAccount2" />
-		<property name="picture"
-			value="http://fress.co/wp-content/uploads/2014/07/sonreir.jpg" />
-		<property name="description" value="description1" />
-		<property name="typeRelationship" value="LOVE" />
-		<property name="birthDate" value="06/06/1992" />
-		<property name="genre" value="WOMAN" />
-		<property name="country" value="España" />
-		<property name="state" value="Andalucía" />
-		<property name="province" value="Sevilla" />
-		<property name="city" value="Sevilla" />
-		<property name="isBanned" value="false" />
-		<property name="amountFee" value="0.0" />
 	</bean>
 
-	<bean id="chorbi2" class="domain.Chorbi">
-		<property name="name" value="Chorbi 2" />
-		<property name="surname" value="surname2" />
-		<property name="email" value="chorbi2@mail.com" />
-		<property name="phoneNumber" value="+34 636987560" />
-		<property name="userAccount" ref="userAccount3" />
-		<property name="picture"
-			value="http://www.blockpublicidad.com/270/camisa-oxford-hombre-tokio.jpg" />
-		<property name="description" value="description2" />
-		<property name="typeRelationship" value="FRIENDSHIP" />
-		<property name="birthDate" value="27/11/1995" />
-		<property name="genre" value="MAN" />
-		<property name="country" value="Inglaterra" />
-		<property name="state" value="Cornwall" />
-		<property name="province" value="Bristol" />
-		<property name="city" value="Bristol" />
-		<property name="isBanned" value="false" />
-		<property name="amountFee" value="0.0" />
-	</bean>
+<!-- 	
 
-	<bean id="chorbi3" class="domain.Chorbi">
-		<property name="name" value="Chorbi 3" />
-		<property name="surname" value="surname3" />
-		<property name="email" value="chorbi3@mail.com" />
-		<property name="phoneNumber" value="+34 612635540" />
-		<property name="userAccount" ref="userAccount4" />
-		<property name="picture"
-			value="http://stylelovely.com/wp-content/uploads/hombres_sexy-290x290.jpg" />
-		<property name="description" value="description3" />
-		<property name="typeRelationship" value="ACTIVITIES" />
-		<property name="birthDate" value="21/05/1986" />
-		<property name="genre" value="MAN" />
-		<property name="country" value="España" />
-		<property name="state" value="Andalucía" />
-		<property name="province" value="Granada" />
-		<property name="city" value="Guadix" />
-		<property name="isBanned" value="false" />
-		<property name="amountFee" value="0.0" />
-	</bean>
-
-	<bean id="chorbi4" class="domain.Chorbi">
-		<property name="name" value="Chorbi 4" />
-		<property name="surname" value="surname4" />
-		<property name="email" value="chorbi4@mail.com" />
-		<property name="phoneNumber" value="+34 669635540" />
-		<property name="userAccount" ref="userAccount5" />
-		<property name="picture"
-			value="http://static3.modaellos.com/wp-content/uploads/2015/04/los-mejores-cortes-de-cabello-para-hombres-de-acuerdo-a-tu-tipo-de-rostro-tipo-de-rostro-alargado-estilos-de-peinados-600x885.jpg" />
-		<property name="description" value="description4" />
-		<property name="typeRelationship" value="ACTIVITIES" />
-		<property name="birthDate" value="19/08/1987" />
-		<property name="genre" value="MAN" />
-		<property name="country" value="España" />
-		<property name="state" value="Andalucía" />
-		<property name="province" value="Jaen" />
-		<property name="city" value="Linares" />
-		<property name="isBanned" value="false" />
-		<property name="amountFee" value="0.0" />
-	</bean>
-
-	<bean id="chorbi5" class="domain.Chorbi">
-		<property name="name" value="Chorbi 5" />
-		<property name="surname" value="surname5" />
-		<property name="email" value="chorbi5@mail.com" />
-		<property name="phoneNumber" value="+34 612635598" />
-		<property name="userAccount" ref="userAccount6" />
-		<property name="picture"
-			value="http://www.politicaysociedad.net/wp-content/uploads/2014/05/frases-mujeres.jpg" />
-		<property name="description" value="description5" />
-		<property name="typeRelationship" value="LOVE" />
-		<property name="birthDate" value="03/10/1994" />
-		<property name="genre" value="WOMAN" />
-		<property name="country" value="España" />
-		<property name="state" value="Madrid" />
-		<property name="province" value="Madrid" />
-		<property name="city" value="Madrid" />
-		<property name="isBanned" value="false" />
-		<property name="amountFee" value="0.0" />
-	</bean>
-
-	<!-- Managers -->
-
-	<bean id="manager1" class="domain.Manager">
-		<property name="name" value="Manager 1" />
-		<property name="surname" value="surname manager 1" />
-		<property name="email" value="manager1@gmail.com" />
-		<property name="phoneNumber" value="+34 688989100" />
-		<property name="userAccount" ref="userAccount7" />
-		<property name="company" value="company 1" />
-		<property name="VATNumber" value="B-26300010" />
-		<property name="amountFee" value="1.0" />
-	</bean>
-
-	<bean id="manager2" class="domain.Manager">
-		<property name="name" value="Manager 2" />
-		<property name="surname" value="surname manager 2" />
-		<property name="email" value="manager2@gmail.com" />
-		<property name="phoneNumber" value="+34 611030300" />
-		<property name="userAccount" ref="userAccount8" />
-		<property name="company" value="company 2" />
-		<property name="VATNumber" value="B-26300066" />
-		<property name="amountFee" value="1.0" />
-	</bean>
-
-	<bean id="manager3" class="domain.Manager">
-		<property name="name" value="Manager 3" />
-		<property name="surname" value="surname manager 3" />
-		<property name="email" value="manager3@gmail.com" />
-		<property name="phoneNumber" value="+34 677455630" />
-		<property name="userAccount" ref="userAccount9" />
-		<property name="company" value="company 3" />
-		<property name="VATNumber" value="B-26123010" />
-		<property name="amountFee" value="1.0" />
-	</bean>
-
-	<!-- Events -->
+	Events
 
 	<bean id="event1" class="domain.Event">
 		<property name="title" value="Title 1" />
@@ -323,7 +113,7 @@
 
 
 
-	<!-- SearchTemplates -->
+	SearchTemplates
 
 	<bean id="searchTemplate1" class="domain.SearchTemplate">
 		<property name="kindRelationship" value="" />
@@ -403,7 +193,7 @@
 		</property>
 	</bean>
 
-	<!-- CreditCards -->
+	CreditCards
 
 	<bean id="creditCard1" class="domain.CreditCard">
 		<property name="holderName" value="Sandra Fernandez Gil" />
@@ -451,7 +241,7 @@
 		<property name="actor" ref="manager2" />
 	</bean>
 
-	<!-- Likes -->
+	Likes
 
 	<bean id="like1" class="domain.Like">
 		<property name="moment" value="2018/05/19 20:36" />
@@ -474,7 +264,7 @@
 		<property name="receiver" ref="chorbi4" />
 	</bean>
 
-	<!-- Comments -->
+	Comments
 
 	<bean id="comment6" class="domain.Comment">
 		<property name="moment" value="2012/09/09 12:30" />
@@ -503,7 +293,7 @@
 		<property name="commentable" ref="like3" />
 	</bean>
 
-	<!-- Chirp -->
+	Chirp
 
 	<bean id="chirp1" class="domain.Chirp">
 		<property name="moment" value="2016/03/02 12:25" />
@@ -587,7 +377,7 @@
 		<property name="folder" ref="folder7" />
 	</bean>
 
-	<!-- Configuration -->
+	Configuration
 
 	<bean id="configuration" class="domain.Configuration">
 		<property name="banners">
@@ -602,7 +392,7 @@
 		<property name="chorbiesFee" value="1.00" />
 	</bean>
 
-	<!-- Folders -->
+	Folders
 
 	<bean id="folder1" class="domain.Folder">
 		<property name="name" value="Inbox" />
@@ -748,6 +538,6 @@
 		<property name="actor" ref="manager3" />
 	</bean>
 
-
+ -->
 
 </beans>

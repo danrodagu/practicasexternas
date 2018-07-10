@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public abstract class Coordinador extends Actor {
+public class Coordinador extends Actor {
 
 	// Constructors -----------------------------------------------------------
 

@@ -1,5 +1,5 @@
 <%--
- * action-2.jsp
+ * action-1.jsp
 
  --%>
 
@@ -11,4 +11,4 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="profile.action.2" /></p>
+<p><spring:message code="administrator.action.1" /></p>

@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public abstract class Oferta extends DomainEntity {
+public class Oferta extends DomainEntity {
 
 	private String titulo;
 	private String descripcion;

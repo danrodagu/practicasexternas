@@ -22,16 +22,16 @@ public class Credentials {
 
 	@Size(min = 5, max = 32)
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setJ_username(String username) {
 		this.username = username;
 	}
 
-	@Size(min = 5, max = 32)
+	@Size(min = 5, max = 61)
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {

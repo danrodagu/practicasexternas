@@ -35,8 +35,8 @@ import org.hibernate.internal.util.ReflectHelper;
 import org.hibernate.jdbc.Work;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
-import utilities.DatabaseConfig;
 import domain.DomainEntity;
+import utilities.DatabaseConfig;
 
 public class DatabaseUtil {
 
@@ -45,22 +45,20 @@ public class DatabaseUtil {
 	public DatabaseUtil() {
 	}
 
-
 	// Properties -------------------------------------------------------------
 
-	private PersistenceProviderResolver	resolver;
-	private PersistenceProvider			persistenceProvider;
-	private EntityManagerFactory		entityManagerFactory;
-	private EntityManager				entityManager;
-	private Map<String, Object>			properties;
-	private String						databaseUrl;
-	private String						databaseName;
-	private String						databaseDialectName;
-	private Dialect						databaseDialect;
-	private Configuration				configuration;
-	private EntityTransaction			entityTransaction;
-	private List<PersistenceProvider>	providers;
-
+	private PersistenceProviderResolver resolver;
+	private PersistenceProvider persistenceProvider;
+	private EntityManagerFactory entityManagerFactory;
+	private EntityManager entityManager;
+	private Map<String, Object> properties;
+	private String databaseUrl;
+	private String databaseName;
+	private String databaseDialectName;
+	private Dialect databaseDialect;
+	private Configuration configuration;
+	private EntityTransaction entityTransaction;
+	private List<PersistenceProvider> providers;
 
 	public PersistenceProviderResolver getResolver() {
 		return this.resolver;
@@ -116,17 +114,29 @@ public class DatabaseUtil {
 		this.resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
 		this.providers = this.resolver.getPersistenceProviders();
 		this.persistenceProvider = new HibernatePersistenceProvider();
-		this.entityManagerFactory = this.persistenceProvider.createEntityManagerFactory(DatabaseConfig.PersistenceUnit, null);
-		if (this.entityManagerFactory == null)
-			throw new RuntimeException(String.format("Couldn't load persistence unit `%s'", DatabaseConfig.PersistenceUnit));
+		this.entityManagerFactory = this.persistenceProvider.createEntityManagerFactory(DatabaseConfig.PersistenceUnit,
+				null);
+		if (this.entityManagerFactory == null) {
+			throw new RuntimeException(
+					String.format("Couldn't load persistence unit `%s'", DatabaseConfig.PersistenceUnit));
+		}
 		this.entityManager = this.entityManagerFactory.createEntityManager();
-		if (this.entityManager == null)
-			throw new RuntimeException(String.format("Couldn't create an entity manager for persistence unit `%s'", DatabaseConfig.PersistenceUnit));
+		if (this.entityManager == null) {
+			throw new RuntimeException(String.format("Couldn't create an entity manager for persistence unit `%s'",
+					DatabaseConfig.PersistenceUnit));
+		}
 		this.properties = this.entityManagerFactory.getProperties();
 		// printProperties(properties);
 
 		this.databaseUrl = this.findProperty("javax.persistence.jdbc.url");
-		this.databaseName = StringUtils.substringAfterLast(this.databaseUrl, "/");
+
+		if (!this.databaseUrl.contains("?")) {
+			this.databaseName = StringUtils.substringAfterLast(this.databaseUrl, "/");
+		} else {
+			this.databaseName = StringUtils.substringBetween(this.databaseUrl,
+					StringUtils.substringBeforeLast(this.databaseUrl, "/") + "/", "?");
+		}
+
 		this.databaseDialectName = this.findProperty("hibernate.dialect");
 		this.databaseDialect = (Dialect) ReflectHelper.classForName(this.databaseDialectName).newInstance();
 
@@ -155,12 +165,15 @@ public class DatabaseUtil {
 	}
 
 	public void close() {
-		if (this.entityTransaction != null && this.entityTransaction.isActive())
+		if (this.entityTransaction != null && this.entityTransaction.isActive()) {
 			this.entityTransaction.rollback();
-		if (this.entityManager != null && this.entityManager.isOpen())
+		}
+		if (this.entityManager != null && this.entityManager.isOpen()) {
 			this.entityManager.close();
-		if (this.entityManagerFactory != null && this.entityManagerFactory.isOpen())
+		}
+		if (this.entityManagerFactory != null && this.entityManagerFactory.isOpen()) {
 			this.entityManagerFactory.close();
+		}
 	}
 
 	public void openTransaction() {
@@ -218,12 +231,14 @@ public class DatabaseUtil {
 		metamodel = this.entityManagerFactory.getMetamodel();
 
 		entities = metamodel.getEntities();
-		for (final EntityType<?> entity : entities)
+		for (final EntityType<?> entity : entities) {
 			result.addAnnotatedClass(entity.getJavaType());
+		}
 
 		embeddables = metamodel.getEmbeddables();
-		for (final EmbeddableType<?> embeddable : embeddables)
+		for (final EmbeddableType<?> embeddable : embeddables) {
 			result.addAnnotatedClass(embeddable.getJavaType());
+		}
 
 		return result;
 	}
@@ -238,8 +253,9 @@ public class DatabaseUtil {
 				Statement statement;
 
 				statement = connection.createStatement();
-				for (final String line : script)
+				for (final String line : script) {
 					statement.execute(line);
+				}
 				connection.commit();
 			}
 		});
@@ -250,20 +266,24 @@ public class DatabaseUtil {
 		Object value;
 
 		value = this.properties.get(property);
-		if (value == null)
+		if (value == null) {
 			throw new RuntimeException(String.format("Property `%s' was not found", property));
-		if (!(value instanceof String))
+		}
+		if (!(value instanceof String)) {
 			throw new RuntimeException(String.format("Property `%s' is not a string", property));
+		}
 		result = (String) value;
-		if (StringUtils.isBlank(result))
+		if (StringUtils.isBlank(result)) {
 			throw new RuntimeException(String.format("Property `%s' is blank", property));
+		}
 
 		return result;
 	}
 
 	protected void printProperties(final Map<String, Object> properties) {
-		for (final Entry<String, Object> entry : properties.entrySet())
+		for (final Entry<String, Object> entry : properties.entrySet()) {
 			System.out.println(String.format("%s=`%s'", entry.getKey(), entry.getValue()));
+		}
 	}
 
 }
