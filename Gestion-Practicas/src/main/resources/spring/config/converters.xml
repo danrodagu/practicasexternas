@@ -17,21 +17,29 @@
 		<bean class="converters.StringToActorConverter" />
 		
 		<bean class="converters.AdministrativoToStringConverter" />		
+		<bean class="converters.StringToAdministrativoConverter" />
 		
 		<bean class="converters.AlumnoToStringConverter" />
+		<bean class="converters.StringToAlumnoConverter" />
 		
 		<bean class="converters.CarpetaToStringConverter" />
+		<bean class="converters.StringToCarpetaConverter" />
 		
 		<bean class="converters.CoordinadorToStringConverter" />
+		<bean class="converters.StringToCoordinadorConverter" />
 		
 		<bean class="converters.MensajeToStringConverter" />
+		<bean class="converters.StringToMensajeConverter" />
 		
 		<bean class="converters.OfertaToStringConverter" />
+		<bean class="converters.StringToOfertaConverter" />
 		
 		<bean class="converters.TutorToStringConverter" />
+		<bean class="converters.StringToTutorConverter" />
 		
 		<bean class="converters.ValoracionToStringConverter" />		
-
+		<bean class="converters.StringToValoracionConverter" />
+		
 		
 	</util:list>
 
