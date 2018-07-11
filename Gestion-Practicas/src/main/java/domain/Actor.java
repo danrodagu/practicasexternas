@@ -19,7 +19,6 @@ public abstract class Actor extends DomainEntity {
 
 	private String nombre;
 	private String apellidos;
-	private String uvus;
 
 	// Constructors -----------------------------------------------------------
 
@@ -47,16 +46,6 @@ public abstract class Actor extends DomainEntity {
 
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
-	}
-
-	@NotNull
-	@NotBlank
-	public String getUvus() {
-		return this.uvus;
-	}
-
-	public void setUvus(String uvus) {
-		this.uvus = uvus;
 	}
 
 	// Relationships ----------------------------------------------------------

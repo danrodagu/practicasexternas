@@ -45,6 +45,7 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	private String password;
 	private Collection<Authority> authorities;
 
+	// Hace referencia al UVUS
 	@Size(min = 5, max = 32)
 	@Column(unique = true)
 	@Override
