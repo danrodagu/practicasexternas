@@ -14,3 +14,10 @@
 <p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
 
 <p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+
+<script type="text/javascript">			
+	$(document).ready(function() {
+		  $('nav .nav-link .active').removeClass('active');
+		  $('a[href="' + 'welcome/index.do' + '"]').addClass('active'); 
+		});
+</script>	
