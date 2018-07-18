@@ -8,6 +8,10 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
+<%
+        session.getAttribute("active");
+%>
+
 
 
 <!DOCTYPE html>
@@ -21,34 +25,51 @@
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 	
-	<br/>	
+	<br/>
+	
+	<script type='text/javascript'>
+	  function english() {	    
+	    window.location.href  = '?language=en';
+  	  }
+	</script>
+	
+	<script type='text/javascript'>
+	  function spanish() {	    
+	    window.location.href  = '?language=es';
+  	  }
+	</script>
 	
 	<div class="row" style="margin-bottom:2%">
     	<div class="span4">
 			<div class="clearfix content-heading">
 				<h1 style="float:left;margin-left:3%;margin-top:1%;padding-right:3%">Prácticas<br />Externas</h1>
 				
-				<img src="images/logo-etsii.png" alt="ETSII" class="img-fluid" style="width:60%" />
-			
-				<div style="float:right;margin-right: 6%;">
+				<img src="images/logo-etsii.png" alt="ETSII" class="img-fluid" style="width:60%" />				
+				
+				<div style="float:right;padding-right:3%;">
+					<div style="padding-bottom:5px;">
+						<img style="cursor:pointer;width:30px;height:auto;" src="images/spainflag.png" onclick="spanish()" /> | <img style="cursor:pointer;width:30px;height:auto;" src="images/ingflag.png" onclick="english()" />
+					</div>
+					<br />
 					<security:authorize access="isAnonymous()">
 						<spring:message code="master.page.login" var="login"/>
 						<input type="button" class="btn btn-dark" value="${login}" onclick="location.href = 'security/login.do';">
 					</security:authorize>
 				</div>	
+				
+					
 			</div>
 		</div>
 	</div>
 	
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <!-- <a class="navbar-brand" href="#">Navbar</a> -->
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
 	  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 	    <div class="navbar-nav">
 	      <a class="nav-item nav-link" href="welcome/index.do"><spring:message code="master.page.inicio"/><span class="sr-only">(current)</span></a>
-	      <a class="nav-item nav-link" href="security/login.do"><spring:message code="master.page.noticias"/></a>
+	      <a class="nav-item nav-link" href="welcome/noticias.do"><spring:message code="master.page.noticias"/></a>
 	      <a class="nav-item nav-link" href="#"><spring:message code="master.page.documentacion"/></a>
 	    </div>
 	  </div>
@@ -110,11 +131,14 @@
 					</li>
 				</security:authorize>
 			</ul>
-		</div>
+		</div>		
 		
-		<div>
-			<a href="?language=en">en</a> | <a href="?language=es">es</a>
-		</div>
-		
+		<script type="text/javascript">
+			var path = '<%= session.getAttribute("active") %>';
+			$(document).ready(function() {
+				  $('nav .nav-link .active').removeClass('active');
+				  $('a[href="' + path + '"]').addClass('active'); 
+				});
+		</script>	
 </html>
 

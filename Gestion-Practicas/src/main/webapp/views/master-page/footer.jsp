@@ -27,6 +27,7 @@
 	
 	<hr />
 	
-	<b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Escuela Técnica Superior de Ingeniería Informática</b>
-
+	<div class="footer text-center">
+		<p class="small">Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Escuela Técnica Superior de Ingeniería Informática</b>
+	</div>
 </html>

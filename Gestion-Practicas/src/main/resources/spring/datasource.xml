@@ -38,7 +38,23 @@
 	</bean>
 
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />		
+		<property name="dataSource" ref="dataSource" />
+		<!-- <property name="hibernateProperties">
+            <props>              
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>     
+                
+                Many examples on the net show configuration for user/pass etc in persistence.xml (JPA),
+                     hibernate.cfg.xml (Hibernate-specific). When using Spring, you should NOT do that.
+                     Instead set properties as shown in this file to avoid duplication. Whilst debugging this,
+                     I noticed that these commented out properties below are ignored anyway, instead Spring uses
+                     the dataSource bean's properties.
+                <prop key="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</prop> 
+                <prop key="hibernate.connection.url">jdbc:Oracle:thin:@localhost:1521/xe</prop>
+                <prop key="hibernate.connection.username">USERNAME</prop>
+                <prop key="hibernate.connection.password">PASSWORD</prop> 
+                            
+            </props>
+         </property> -->		
 	</bean>
 	
 	<bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator" />

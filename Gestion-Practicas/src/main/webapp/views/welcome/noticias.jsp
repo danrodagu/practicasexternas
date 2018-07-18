@@ -1,5 +1,5 @@
 <%--
- * index.jsp
+ * noticias.jsp
 
  --%>
 
@@ -11,13 +11,4 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
-
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
-
-<!-- <script type="text/javascript">			
-	$(document).ready(function() {
-		  $('nav .nav-link .active').removeClass('active');
-		  $('a[href="' + 'welcome/index.do' + '"]').addClass('active'); 
-		});
-</script> -->	
+<p>Holaaa</p> 
