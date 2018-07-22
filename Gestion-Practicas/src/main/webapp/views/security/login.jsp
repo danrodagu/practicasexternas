@@ -33,21 +33,23 @@
 	  </div>
 		<form:password id="password" path="password" cssClass="form-control col-sm-3" aria-describedby="basic-addon2" required="required"/>	
 		<form:errors class="error" path="password" />
-	</div>
-	
-	
-	<jstl:if test="${showError == true}">
-		<div class="error">
-			<spring:message code="security.login.failed" />
-		</div>
-	</jstl:if>
+	</div>	
 	<br />
 	
-	<input type="submit" value="<spring:message code="security.login" />" />	
+	<button type="submit" class="btn btn-dark"><spring:message code="security.login" /></button>
+	<br />
+	<br />
+	
+	<jstl:if test="${showError == true}">
+		<div class="alert alert-danger col-sm-4" role="alert">
+	 		 <spring:message code="security.login.failed" />
+		</div>
+	</jstl:if>	
 		
 </form:form>
 
 <script type="text/javascript">
 	document.getElementById("username").placeholder='<spring:message code="security.username" />';
 	document.getElementById("password").placeholder='<spring:message code="security.password" />';	
-</script>	
+</script>
+

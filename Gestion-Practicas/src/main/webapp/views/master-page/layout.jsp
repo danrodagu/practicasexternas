@@ -72,4 +72,25 @@
 <div>
 	<tiles:insertAttribute name="footer" />
 </div>
+
+
+<script type="text/javascript">
+	var path = '<%= session.getAttribute("active") %>';
+	$(document).ready(function() {
+		  $('nav .nav-link .active').removeClass('active');
+		  $('a[href="' + path + '"]').addClass('active'); 
+		});
+</script>
+
+<script type="text/javascript">
+	if(localStorage.getItem("language") == "en"){
+		$( "form" ).find(".form-control").attr("oninvalid", "this.setCustomValidity('Fill out this field')");
+		$( "form" ).find(".form-control").attr("oninput", "this.setCustomValidity('')");
+	}
+	if(localStorage.getItem("language") == "es"){
+		$( "form" ).find(".form-control").attr("oninvalid", "this.setCustomValidity('Completa este campo')");
+		$( "form" ).find(".form-control").attr("oninput", "this.setCustomValidity('')");
+	}
+</script>
+
 </html>

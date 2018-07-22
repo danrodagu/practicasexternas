@@ -28,16 +28,19 @@
 	<br/>
 	
 	<script type='text/javascript'>
-	  function english() {	    
-	    window.location.href  = '?language=en';
-  	  }
-	</script>
+		  function english() {	    
+		    window.location.href  = '?language=en';
+		    localStorage.setItem("language", "en");
+	  	  }
+		</script>
 	
-	<script type='text/javascript'>
-	  function spanish() {	    
-	    window.location.href  = '?language=es';
-  	  }
-	</script>
+		<script type='text/javascript'>
+		  function spanish() {	    
+		    window.location.href  = '?language=es';
+		    localStorage.setItem("language", "es");
+		  }
+		</script>	
+	
 	
 	<div class="row" style="margin-bottom:2%">
     	<div class="span4">
@@ -133,12 +136,5 @@
 			</ul>
 		</div>		
 		
-		<script type="text/javascript">
-			var path = '<%= session.getAttribute("active") %>';
-			$(document).ready(function() {
-				  $('nav .nav-link .active').removeClass('active');
-				  $('a[href="' + path + '"]').addClass('active'); 
-				});
-		</script>	
 </html>
 
