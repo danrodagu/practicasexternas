@@ -28,7 +28,7 @@
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="COORDI" />
+					<property name="authority" value="COORDINADOR" />
 				</bean>
 			</list>
 		</property>
@@ -42,7 +42,6 @@
 	<bean id="administrativo1" class="domain.Administrativo">
 		<property name="nombre" value="Olga" />
 		<property name="apellidos" value="Pérez Sánchez" />
-		<property name="uvus" value="administrativo1@us.es" />
 		<property name="userAccount" ref="userAccount1" />
 	</bean>
 
@@ -51,7 +50,6 @@
 	<bean id="coordinador1" class="domain.Coordinador">
 		<property name="nombre" value="María Teresa" />
 		<property name="apellidos" value="Gómez López" />
-		<property name="uvus" value="mayte@us.es" />
 		<property name="userAccount" ref="userAccount2" />
 	</bean>
 

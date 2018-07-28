@@ -22,13 +22,13 @@
 <br />
 <br /> --%>
 
-<spring:message code="coordinador.nombre" />
-&nbsp;&nbsp;:
+<spring:message code="coordinador.nombre" />:
+&nbsp;&nbsp;
 <jstl:out value="${coordinador.nombre}" />
 <br />
 
-<spring:message code="coordinador.apellidos" />
-&nbsp;&nbsp;: 
+<spring:message code="coordinador.apellidos" />:
+&nbsp;&nbsp;
 <jstl:out value="${coordinador.apellidos}" />
 <br />
 

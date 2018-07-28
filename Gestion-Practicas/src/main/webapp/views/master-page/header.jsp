@@ -7,6 +7,8 @@
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="jstl"	uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
         session.getAttribute("active");
@@ -56,14 +58,27 @@
 					<br />
 					<security:authorize access="isAnonymous()">
 						<spring:message code="master.page.login" var="login"/>
-						<input type="button" class="btn btn-dark" value="${login}" onclick="location.href = 'security/login.do';">
+						<input type="button" class="btn btn-dark" value="${login}" onclick="location.href = 'security/login.do';">						
 					</security:authorize>
-				</div>	
-				
 					
+					<security:authorize access="isAuthenticated()">
+						<div class="btn-group dropleft" >
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<%= session.getAttribute("uvus") %>
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenu">					
+							   <a class="dropdown-item" href="<%= session.getAttribute("rol") %>/display.do"><spring:message code="master.page.perfil"/></a>
+							    <div class="dropdown-divider"></div>
+							    <a class="dropdown-item" href="j_spring_security_logout"><spring:message code="master.page.logout" /></a>
+							</div>
+						</div>
+					</security:authorize>
+				</div>					
 			</div>
 		</div>
 	</div>
+	
+	
 	
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,26 +130,10 @@
 							<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>					
 						</ul>
 					</li>
-				</security:authorize>			
+				</security:authorize>				
 				
-				
-				<security:authorize access="isAuthenticated()">
-					<li>
-						<a class="fNiv"> 
-							<spring:message code="master.page.profile" /> 
-					        (<security:authentication property="principal.username" />)
-						</a>
-						<ul>
-							<li class="arrow"></li>
-							<li><a href="profile/action-1.do"><spring:message code="master.page.profile.action.1" /></a></li>
-							<li><a href="profile/action-2.do"><spring:message code="master.page.profile.action.2" /></a></li>
-							<li><a href="profile/action-3.do"><spring:message code="master.page.profile.action.3" /></a></li>					
-							<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
-						</ul>
-					</li>
-				</security:authorize>
 			</ul>
-		</div>		
+		</div>
 		
 </html>
 

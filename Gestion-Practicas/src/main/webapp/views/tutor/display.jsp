@@ -22,13 +22,13 @@
 <br />
 <br /> --%>
 
-<spring:message code="tutor.nombre" />
-&nbsp;&nbsp;:
+<spring:message code="tutor.nombre" />:
+&nbsp;&nbsp;
 <jstl:out value="${tutor.nombre}" />
 <br />
 
-<spring:message code="tutor.apellidos" />
-&nbsp;&nbsp;: 
+<spring:message code="tutor.apellidos" />:
+&nbsp;&nbsp;
 <jstl:out value="${tutor.apellidos}" />
 <br />
 

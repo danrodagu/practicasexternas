@@ -31,7 +31,7 @@ public class Authority implements GrantedAuthority {
 	// Values -----------------------------------------------------------------
 
 	public static final String ALUMNO = "ALUMNO";
-	public static final String COORDINADOR = "COORDI";
+	public static final String COORDINADOR = "COORDINADOR";
 	public static final String TUTOR = "TUTOR";
 	public static final String ADMINISTRATIVO = "ADMINISTRATIVO";
 

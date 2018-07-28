@@ -44,3 +44,14 @@
 input .campo{
 	width: 25px;	
 }
+
+.dropdown-toggle::after {
+    display:none !important;
+}
+
+.caret-off::before {
+    display: none;
+}
+.caret-off::after {
+    display: none;
+}

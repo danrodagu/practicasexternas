@@ -32,13 +32,14 @@
 		<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" /> 
 
 		<security:intercept-url pattern="/security/login.do" access="permitAll" /> 
-		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" /> 
+		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" />
+		<!-- <security:intercept-url pattern="/security/index.do" access="permitAll" />  -->
 
 		<security:intercept-url pattern="/welcome/**" access="permitAll" />
 
 		
 		<security:intercept-url pattern="/administrativo/**" access="hasRole('ADMINISTRATIVO')" />
-		<security:intercept-url pattern="/coordinador/**" access="hasRole('COORDI')" />
+		<security:intercept-url pattern="/coordinador/**" access="hasRole('COORDINADOR')" />
 		<security:intercept-url pattern="/alumno/**" access="hasRole('ALUMNO')" />
 		<security:intercept-url pattern="/tutor/**" access="hasRole('TUTOR')" />		
 	
