@@ -75,11 +75,11 @@
 </div>
 
 
-<script type="text/javascript">
+<script type="text/javascript">		
 	var path = '<%= session.getAttribute("active") %>';
-	$(document).ready(function() {
+	$(document).ready(function() {		  
 		  $('nav .nav-link .active').removeClass('active');
-		  $('a[href="' + path + '"]').addClass('active'); 
+		  $('#'+path).addClass('active');
 		});
 </script>
 

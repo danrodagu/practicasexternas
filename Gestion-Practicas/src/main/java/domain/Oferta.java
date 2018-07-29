@@ -4,10 +4,11 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -16,8 +17,8 @@ public class Oferta extends DomainEntity {
 	private String titulo;
 	private String descripcion;
 	private boolean esCurricular; // True: curricular; False: extracurricular
-	private Double duracion; // En meses
-	private Double dotacion;
+	private double duracion; // En meses
+	private double dotacion;
 	private String pais;
 	private String localidad;
 	private String provincia;
@@ -60,23 +61,23 @@ public class Oferta extends DomainEntity {
 	}
 
 	@NotNull
-	@NotBlank
-	public Double getDuracion() {
+	@Min(1) // mínimo real 1.5
+	@Max(6)
+	public double getDuracion() {
 		return this.duracion;
 	}
 
-	public void setDuracion(Double duracion) {
+	public void setDuracion(double duracion) {
 		this.duracion = duracion;
 	}
 
 	@NotNull
-	@NotBlank
-	@Range(min = 0)
-	public Double getDotacion() {
+	@Min(0)
+	public double getDotacion() {
 		return this.dotacion;
 	}
 
-	public void setDotacion(Double dotacion) {
+	public void setDotacion(double dotacion) {
 		this.dotacion = dotacion;
 	}
 

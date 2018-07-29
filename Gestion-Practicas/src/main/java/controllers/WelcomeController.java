@@ -42,7 +42,7 @@ public class WelcomeController extends AbstractController {
 		ModelAndView result;
 
 		HttpSession session = request.getSession();
-		session.setAttribute("active", "welcome/index.do");
+		session.setAttribute("active", "inicio");
 
 		if (!this.actorService.isAnonymous()) {
 			String uvus = this.actorService.findByPrincipal().getUserAccount().getUsername();
@@ -66,7 +66,7 @@ public class WelcomeController extends AbstractController {
 		ModelAndView result;
 
 		HttpSession session = request.getSession();
-		session.setAttribute("active", "welcome/noticias.do");
+		session.setAttribute("active", "noticias");
 
 		result = new ModelAndView("welcome/noticias");
 

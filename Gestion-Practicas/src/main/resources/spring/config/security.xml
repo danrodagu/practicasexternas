@@ -39,8 +39,11 @@
 
 		
 		<security:intercept-url pattern="/administrativo/**" access="hasRole('ADMINISTRATIVO')" />
+		
 		<security:intercept-url pattern="/coordinador/**" access="hasRole('COORDINADOR')" />
-		<security:intercept-url pattern="/alumno/**" access="hasRole('ALUMNO')" />
+			
+		<security:intercept-url pattern="/alumno/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		
 		<security:intercept-url pattern="/tutor/**" access="hasRole('TUTOR')" />		
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
@@ -49,7 +52,7 @@
 			login-page="/security/login.do"
 			password-parameter="password" 
 			username-parameter="username"
-			authentication-failure-url="/security/loginFailure.do" />
+			authentication-failure-url="/security/loginFailure.do"/>
 
 		<security:logout 
 			logout-success-url="/" 

@@ -67,7 +67,7 @@
 								<%= session.getAttribute("uvus") %>
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenu">					
-							   <a class="dropdown-item" href="<%= session.getAttribute("rol") %>/display.do"><spring:message code="master.page.perfil"/></a>
+							   <a class="dropdown-item" href="<%= session.getAttribute("rol") %>/display.do"><spring:message code="master.page.perfil"/></a>							   
 							    <div class="dropdown-divider"></div>
 							    <a class="dropdown-item" href="j_spring_security_logout"><spring:message code="master.page.logout" /></a>
 							</div>
@@ -86,9 +86,21 @@
 	  </button>
 	  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 	    <div class="navbar-nav">
-	      <a class="nav-item nav-link" href="welcome/index.do"><spring:message code="master.page.inicio"/><span class="sr-only">(current)</span></a>
-	      <a class="nav-item nav-link" href="welcome/noticias.do"><spring:message code="master.page.noticias"/></a>
+	      <a id="inicio" class="nav-item nav-link" href="welcome/index.do"><spring:message code="master.page.inicio"/><span class="sr-only">(current)</span></a>
+	      <a id="noticias" class="nav-item nav-link" href="welcome/noticias.do"><spring:message code="master.page.noticias"/></a>
 	      <a class="nav-item nav-link" href="#"><spring:message code="master.page.documentacion"/></a>
+	      <security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
+		      <div class="dropdown">
+			      <a id="alta" class="nav-item nav-link dropdown-toggle" style="cursor:pointer;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			      	Dar de alta
+			      </a>
+			      <div class="dropdown-menu" aria-labelledby="alta">
+			          <a class="dropdown-item" href="alumno/create.do"><spring:message code="master.page.alumno"/></a>
+			          <a class="dropdown-item" href="#">Another action</a>
+			          <a class="dropdown-item" href="#">Something else here</a>
+		          </div>
+		      </div>
+	      </security:authorize>
 	    </div>
 	  </div>
 	</nav>	
@@ -107,33 +119,8 @@
 		  <div class="tab-pane fade" id="nav-noticias" role="tabpanel" aria-labelledby="nav-noticias-tab">cuerpo noticias</div>
 		  <div class="tab-pane fade" id="nav-documentacion" role="tabpanel" aria-labelledby="nav-documentacion-tab">cuerpo documentacion</div>
 		</div>
-	</div> --%>
-		
-		<div>
-			<ul id="jMenu">
-				<!-- Do not forget the "fNiv" class for the first level links !! -->
-				<security:authorize access="hasRole('ADMIN')">
-					<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
-						<ul>
-							<li class="arrow"></li>
-							<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
-							<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
-						</ul>
-					</li>
-				</security:authorize>
-				
-				<security:authorize access="hasRole('CUSTOMER')">
-					<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
-						<ul>
-							<li class="arrow"></li>
-							<li><a href="customer/action-1.do"><spring:message code="master.page.customer.action.1" /></a></li>
-							<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>					
-						</ul>
-					</li>
-				</security:authorize>				
-				
-			</ul>
-		</div>
+	</div> --%>		
+	
 		
 </html>
 

@@ -19,13 +19,19 @@
  
 <%@ attribute name="path" required="true" rtexprvalue="true" %>
 <%@ attribute name="code" required="true" rtexprvalue="true" %>
+<%@ attribute name="id" required="true" %>
+<%@ attribute name="cssClass" required="true" %>
+
+<%@ attribute name="required" required="false" %>
+
+<jstl:if test="${required == null}">
+	<jstl:set var="required" value="false" />
+</jstl:if>
 
 <%-- Definition --%>
 
 <div>
-	<form:label path="${path}">
-		<spring:message code="${code}" />
-	</form:label>
-	<form:password path="${path}"/>
+	<label for="${id}"><spring:message code="${code}" /></label>
+	<form:password id="${id}" path="${path}" cssClass="${cssClass}"/>
 	<form:errors path="${path}" cssClass="error" />
 </div>

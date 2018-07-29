@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Alumno;
+import forms.AlumnoForm;
 import repositories.AlumnoRepository;
 import security.Authority;
 import security.LoginService;
@@ -113,6 +114,52 @@ public class AlumnoService {
 
 		return result;
 
+	}
+
+	public AlumnoForm takeForm(final Alumno alumno) {
+		AlumnoForm alumnoForm;
+
+		alumnoForm = new AlumnoForm();
+
+		alumnoForm.setId(alumno.getId());
+		alumnoForm.setNombre(alumno.getNombre());
+		alumnoForm.setApellidos(alumno.getApellidos());
+
+		// alumnoForm.setPicture(alumno.getPicture());
+		//
+		alumnoForm.setUsername(alumno.getUserAccount().getUsername());
+
+		return alumnoForm;
+	}
+
+	public Alumno reconstruct(final AlumnoForm alumnoForm) {
+		Alumno res;
+
+		if (alumnoForm.getId() == 0) {
+			res = this.create();
+		} else {
+			res = this.findByPrincipal();
+		}
+
+		// Comprobacion para que ambas contraseñas sean iguales
+		Assert.isTrue(alumnoForm.getPassword().equals(alumnoForm.getPassword2()), "Las contraseñas no son iguales");
+
+		if (alumnoForm.getId() != 0) {
+			Assert.isTrue(res.getId() == (alumnoForm.getId()));
+		}
+
+		res.setNombre(alumnoForm.getNombre());
+		res.setApellidos(alumnoForm.getApellidos());
+		res.setExpedienteCerrado(false);
+		// res.setOfertaAsignada(new Oferta());
+		// res.setTutorAsignado(new Tutor());
+
+		// res.setPicture(alumnoForm.getPicture());
+		//
+		res.getUserAccount().setUsername(alumnoForm.getUsername());
+		res.getUserAccount().setPassword(alumnoForm.getPassword());
+
+		return res;
 	}
 
 }

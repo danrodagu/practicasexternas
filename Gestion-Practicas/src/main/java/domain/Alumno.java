@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Access(AccessType.PROPERTY)
 @Table(name = "`Alumno`", indexes = { @Index(columnList = "expedienteCerrado") })
@@ -29,6 +31,8 @@ public class Alumno extends Actor {
 
 	// Getters and setters ----------------------------------------------------
 
+	@NotNull
+	@NotBlank
 	public boolean getExpedienteCerrado() {
 		return this.expedienteCerrado;
 	}

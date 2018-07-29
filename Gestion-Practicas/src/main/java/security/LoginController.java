@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import services.ActorService;
 
 @Controller
 @RequestMapping("/security")
@@ -26,6 +27,9 @@ public class LoginController extends AbstractController {
 
 	@Autowired
 	LoginService service;
+
+	@Autowired
+	ActorService actorService;
 
 	// Constructors -----------------------------------------------------------
 

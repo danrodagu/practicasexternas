@@ -1,11 +1,11 @@
 <%--
- * cancel.tag
+ * delete.tag
 
  --%>
- 
+
 <%@ tag language="java" body-content="empty" %>
- 
- <%-- Taglibs --%>
+
+<%-- Taglibs --%>
 
 <%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -16,12 +16,13 @@
 <%@ taglib prefix="gp" tagdir="/WEB-INF/tags" %>
 
 <%-- Attributes --%> 
- 
+
+<%@ attribute name="name" required="true" %> 
 <%@ attribute name="code" required="true" %>
-<%@ attribute name="url" required="true" %>
+<%@ attribute name="codeMessage" required="true" %>
 
 <%-- Definition --%>
-<button type="button" onclick="javascript: window.location.replace('${url}');"  >
+
+<button type="submit" name="${name}" onclick="return confirm('<spring:message code="${codeMessage}" />')" >
 	<spring:message code="${code}" />
 </button>
-

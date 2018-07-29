@@ -33,6 +33,30 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="userAccount3" class="security.UserAccount">
+		<property name="username" value="alumno" />
+		<property name="password" value="$2a$10$YB6RDGm4c6njO40k3XfBIOh5suFf60ldEs9Qw/Ix34X7YVub2cfe2" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ALUMNO" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount4" class="security.UserAccount">
+		<property name="username" value="tutor" />
+		<property name="password" value="$2a$10$3aEoothL3IqvmM1ta.8zrOmgsLp.uubk3umsAioxOf5V461ZkW9xq" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="TUTOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 
 	<!-- Other domain beans come here -->
@@ -51,6 +75,39 @@
 		<property name="nombre" value="María Teresa" />
 		<property name="apellidos" value="Gómez López" />
 		<property name="userAccount" ref="userAccount2" />
+	</bean>	
+	
+	<!-- Tutor -->
+
+	<bean id="tutor1" class="domain.Tutor">
+		<property name="nombre" value="Ángel" />
+		<property name="apellidos" value="Varela Vaca" />
+		<property name="userAccount" ref="userAccount4" />
+	</bean>
+	
+	<!-- Ofertas -->
+
+	<bean id="oferta1" class="domain.Oferta">
+		<property name="titulo" value="Oferta1" />
+		<property name="descripcion" value="Prácticas en everis" />
+		<property name="esCurricular" value="false" />
+		<property name="duracion" value="6.0" />
+		<property name="dotacion" value="400.0" />
+		<property name="pais" value="España" />
+		<property name="localidad" value="Sevilla" />
+		<property name="provincia" value="Sevilla" />
+		<property name="empresa" value="everis" />
+	</bean>
+	
+	<!-- Alumno -->
+
+	<bean id="alumno1" class="domain.Alumno">
+		<property name="nombre" value="Daniel" />
+		<property name="apellidos" value="Rodríguez Aguilar" />
+		<property name="expedienteCerrado" value="false" />
+		<property name="userAccount" ref="userAccount3" />
+		<property name="tutorAsignado" ref="tutor1" />
+		<property name="ofertaAsignada" ref="oferta1" />
 	</bean>
 
 <!-- 	

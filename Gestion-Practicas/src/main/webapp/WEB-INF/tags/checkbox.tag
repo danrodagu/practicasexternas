@@ -1,11 +1,11 @@
 <%--
- * cancel.tag
+ * checkbox.tag
 
  --%>
- 
+
 <%@ tag language="java" body-content="empty" %>
- 
- <%-- Taglibs --%>
+
+<%-- Taglibs --%>
 
 <%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -17,11 +17,21 @@
 
 <%-- Attributes --%> 
  
+<%@ attribute name="path" required="true" %>
 <%@ attribute name="code" required="true" %>
-<%@ attribute name="url" required="true" %>
+
+<%@ attribute name="link" required="false" %>
 
 <%-- Definition --%>
-<button type="button" onclick="javascript: window.location.replace('${url}');"  >
-	<spring:message code="${code}" />
-</button>
 
+	<form:checkbox path="${path}" />
+	<form:label path="${path}">
+			<jstl:if test="${link != null}">
+				<a href="${link}" target="_blank"><spring:message code="${code}" /></a>
+			</jstl:if>
+			
+			<jstl:if test="${link == null}">
+				<spring:message code="${code}" />
+			</jstl:if>
+	</form:label><br/>
+		
