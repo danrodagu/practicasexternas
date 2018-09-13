@@ -32,6 +32,8 @@
 
 <div>
 	<label for="${id}"><spring:message code="${code}" /></label>
-	<form:password id="${id}" path="${path}" cssClass="${cssClass}"/>
-	<form:errors path="${path}" cssClass="error" />
+	<form:password id="${id}" path="${path}" cssClass="${cssClass}" required="${required}"/>
+	<br />	
+	<form:errors cssClass="alert alert-danger medium" path="${path}" />	
+	
 </div>

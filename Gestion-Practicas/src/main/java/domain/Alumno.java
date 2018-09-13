@@ -12,8 +12,6 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 @Entity
 @Access(AccessType.PROPERTY)
 @Table(name = "`Alumno`", indexes = { @Index(columnList = "expedienteCerrado") })
@@ -31,13 +29,12 @@ public class Alumno extends Actor {
 
 	// Getters and setters ----------------------------------------------------
 
-	@NotNull
-	@NotBlank
+	
 	public boolean getExpedienteCerrado() {
 		return this.expedienteCerrado;
 	}
 
-	public void setExpedienteCerrado(boolean expedienteCerrado) {
+	public void setExpedienteCerrado(final boolean expedienteCerrado) {
 		this.expedienteCerrado = expedienteCerrado;
 	}
 
@@ -53,7 +50,7 @@ public class Alumno extends Actor {
 		return this.ofertaAsignada;
 	}
 
-	public void setOfertaAsignada(Oferta ofertaAsignada) {
+	public void setOfertaAsignada(final Oferta ofertaAsignada) {
 		this.ofertaAsignada = ofertaAsignada;
 	}
 
@@ -64,7 +61,7 @@ public class Alumno extends Actor {
 		return this.tutorAsignado;
 	}
 
-	public void setTutorAsignado(Tutor tutorAsignado) {
+	public void setTutorAsignado(final Tutor tutorAsignado) {
 		this.tutorAsignado = tutorAsignado;
 	}
 

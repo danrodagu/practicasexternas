@@ -39,5 +39,6 @@
 <div>
 	<label for="${id}"><spring:message code="${code}" /></label>	
 	<form:input id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}"/>	
-	<form:errors path="${path}" cssClass="error" />
+	<br />	
+	<form:errors cssClass="alert alert-danger medium" path="${path}" />	
 </div>

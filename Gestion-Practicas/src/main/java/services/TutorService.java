@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Tutor;
+import forms.TutorForm;
 import repositories.TutorRepository;
 import security.Authority;
 import security.LoginService;
@@ -113,6 +114,49 @@ public class TutorService {
 
 		return result;
 
+	}
+	
+	public TutorForm takeForm(final Tutor tutor) {
+		TutorForm tutorForm;
+
+		tutorForm = new TutorForm();
+
+		tutorForm.setId(tutor.getId());
+		tutorForm.setNombre(tutor.getNombre());
+		tutorForm.setApellidos(tutor.getApellidos());
+
+		// tutorForm.setPicture(tutor.getPicture());
+		
+		tutorForm.setUsername(tutor.getUserAccount().getUsername());
+
+		return tutorForm;
+	}
+
+	public Tutor reconstruct(final TutorForm tutorForm) {
+		Tutor res;
+
+		if (tutorForm.getId() == 0) {
+			res = this.create();
+		} else {
+			res = this.findByPrincipal();
+		}
+
+		// Comprobacion para que ambas contraseñas sean iguales
+		Assert.isTrue(tutorForm.getPassword().equals(tutorForm.getPassword2()), "Las contraseñas no son iguales");
+
+		if (tutorForm.getId() != 0) {
+			Assert.isTrue(res.getId() == (tutorForm.getId()));
+		}
+
+		res.setNombre(tutorForm.getNombre());
+		res.setApellidos(tutorForm.getApellidos());	
+
+		// res.setPicture(tutorForm.getPicture());
+		
+		res.getUserAccount().setUsername(tutorForm.getUsername());
+		res.getUserAccount().setPassword(tutorForm.getPassword());
+
+		return res;
 	}
 
 }

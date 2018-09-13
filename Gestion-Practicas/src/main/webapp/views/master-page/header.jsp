@@ -92,11 +92,11 @@
 	      <security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
 		      <div class="dropdown">
 			      <a id="alta" class="nav-item nav-link dropdown-toggle" style="cursor:pointer;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			      	Dar de alta
+			      	<spring:message code="master.page.alta"/>
 			      </a>
 			      <div class="dropdown-menu" aria-labelledby="alta">
 			          <a class="dropdown-item" href="alumno/create.do"><spring:message code="master.page.alumno"/></a>
-			          <a class="dropdown-item" href="#">Another action</a>
+			          <a class="dropdown-item" href="tutor/create.do"><spring:message code="master.page.tutor"/></a>
 			          <a class="dropdown-item" href="#">Something else here</a>
 		          </div>
 		      </div>

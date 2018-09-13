@@ -64,7 +64,10 @@
 			<tiles:insertAttribute name="body" />	
 			<jstl:if test="${message != null}">
 				<br />
-				<span class="message"><spring:message code="${message}" /></span>
+				<div class="alert alert-danger medium" role="alert">
+					<spring:message code="${message}" />
+				</div>
+				
 			</jstl:if>	
 		</div>
 	</div>
@@ -80,6 +83,8 @@
 	$(document).ready(function() {		  
 		  $('nav .nav-link .active').removeClass('active');
 		  $('#'+path).addClass('active');
+		  
+		  
 		});
 </script>
 
