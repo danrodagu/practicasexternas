@@ -16,6 +16,11 @@
 		<put-attribute name="body" value="/views/alumno/display.jsp" />
 	</definition>
 	
+	<definition name="alumno/create" extends="master.page">	
+		<put-attribute name="title" value="Register Student" />
+		<put-attribute name="body" value="/views/alumno/create.jsp" />
+	</definition>
+	
 	<definition name="alumno/edit" extends="master.page">	
 		<put-attribute name="title" value="Edit Student" />
 		<put-attribute name="body" value="/views/alumno/edit.jsp" />

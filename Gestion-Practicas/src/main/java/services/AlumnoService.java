@@ -30,7 +30,13 @@ public class AlumnoService {
 
 	@Autowired
 	private UserAccountService userAccountService;
+	
+	@Autowired
+	private OfertaService ofertaService;
 
+	@Autowired
+	private TutorService tutorService;
+	
 	// Constructors -----------------------------------------------------------
 	public AlumnoService() {
 		super();
@@ -52,6 +58,7 @@ public class AlumnoService {
 
 		userAccount.addAuthority(authority);
 		result.setUserAccount(userAccount);
+		result.setExpedienteCerrado(false);
 
 		return result;
 
@@ -136,7 +143,7 @@ public class AlumnoService {
 		Alumno res;
 
 		if (alumnoForm.getId() == 0) {
-			res = this.create();
+			res = this.create();			
 		} else {
 			res = this.findByPrincipal();
 		}
@@ -148,16 +155,16 @@ public class AlumnoService {
 			Assert.isTrue(res.getId() == (alumnoForm.getId()));
 		}
 
+		
 		res.setNombre(alumnoForm.getNombre());
 		res.setApellidos(alumnoForm.getApellidos());
-		res.setExpedienteCerrado(false);
-		// res.setOfertaAsignada(new Oferta());
-		// res.setTutorAsignado(new Tutor());
+//		res.setOfertaAsignada(new Oferta());
+//		res.setTutorAsignado(new Tutor());
 
 		// res.setPicture(alumnoForm.getPicture());
 		//
-		res.getUserAccount().setUsername(alumnoForm.getUsername());
-		res.getUserAccount().setPassword(alumnoForm.getPassword());
+//		res.getUserAccount().setUsername(alumnoForm.getUsername());
+//		res.getUserAccount().setPassword(alumnoForm.getPassword());
 
 		return res;
 	}

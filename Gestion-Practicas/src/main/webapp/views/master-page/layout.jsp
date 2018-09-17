@@ -8,6 +8,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix ="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -64,9 +65,16 @@
 			<tiles:insertAttribute name="body" />	
 			<jstl:if test="${message != null}">
 				<br />
-				<div class="alert alert-danger medium" role="alert">
-					<spring:message code="${message}" />
-				</div>
+				<jstl:if test="${fn:contains(message, 'error')}">
+					<div class="alert alert-danger medium" role="alert">
+						<spring:message code="${message}" />
+					</div>
+				</jstl:if>
+				<jstl:if test="${fn:contains(message, 'success')}">
+					<div class="alert alert-success medium" role="alert">
+						<spring:message code="${message}" />
+					</div>
+				</jstl:if>
 				
 			</jstl:if>	
 		</div>

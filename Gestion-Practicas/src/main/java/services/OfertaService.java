@@ -88,26 +88,26 @@ public class OfertaService {
 	// Other business methods -------------------------------------------------
 
 
-//	public Collection<Oferta> ofertasByEmpresa(final String nombreEmpresa) {
-//		final Collection<Oferta> result;
-//
-////		Assert.isTrue(this.actorService.isCoordinador());
-//
-//		result = this.ofertaRepository.ofertasByEmpresa(nombreEmpresa);
-//
-//		return result;
-//
-//	}
-//
-//
-//	public Collection<String> ofertasByPais(final String pais) {
-//		final Collection<String> result;
-//
-//		result = this.ofertaRepository.ofertasByPais(pais);
-//
-//		return result;
-//
-//	}
+	public Collection<Oferta> ofertasByEmpresa(final String nombreEmpresa) {
+		final Collection<Oferta> result;
+
+//		Assert.isTrue(this.actorService.isCoordinador());
+
+		result = this.ofertaRepository.ofertasByEmpresa(nombreEmpresa);
+
+		return result;
+
+	}
+
+
+	public Collection<Oferta> ofertasByPais(final String pais) {
+		final Collection<Oferta> result;
+
+		result = this.ofertaRepository.ofertasByPais(pais);
+
+		return result;
+
+	}
 	
 
 }

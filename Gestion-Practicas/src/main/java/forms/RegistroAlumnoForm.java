@@ -4,15 +4,23 @@ package forms;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
-public class OfertaForm {
+public class RegistroAlumnoForm {
 
 	// Attributes -------------------------------------------------------------
 
-	private int id;
+	//ALUMNO
+	private String nombre;
+	private String apellidos;
+	private String password;
+	private String password2;
+	private String username;
+	
+	//OFERTA
 	private String titulo;
 	private String descripcion;
 	private boolean esCurricular; // True: curricular; False: extracurricular
@@ -22,20 +30,69 @@ public class OfertaForm {
 	private String localidad;
 	private String provincia;
 	private String empresa;
+	
+	//TUTOR
+	private int idTutor;
 
 	// Constructors -----------------------------------------------------------
 
-	public OfertaForm() {
+	public RegistroAlumnoForm() {
 		super();
-		this.id = 0;
 	}
 
-	public int getId() {
-		return this.id;
+	@NotNull
+	@NotBlank
+	@SafeHtml
+	public String getNombre() {
+		return this.nombre;
 	}
 
-	public void setId(final int id) {
-		this.id = id;
+	public void setNombre(final String nombre) {
+		this.nombre = nombre;
+	}
+
+	@NotNull
+	@NotBlank
+	@SafeHtml
+	public String getApellidos() {
+		return this.apellidos;
+	}
+
+	public void setApellidos(final String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	@NotNull
+	@NotBlank
+	@Size(min = 5, max = 32)
+	@SafeHtml
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	@Size(min = 5, max = 32)
+	@SafeHtml
+	public String getPassword2() {
+		return this.password2;
+	}
+
+	public void setPassword2(final String password2) {
+		this.password2 = password2;
+	}
+
+	@NotNull
+	@Size(min = 5, max = 32)
+	@SafeHtml
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(final String username) {
+		this.username = username;
 	}
 	
 	@NotNull
@@ -129,6 +186,16 @@ public class OfertaForm {
 
 	public void setEmpresa(final String empresa) {
 		this.empresa = empresa;
+	}
+
+	public int getIdTutor() {
+		return idTutor;
+	}
+
+	@NotNull
+	@NotBlank
+	public void setIdTutor(final int idTutor) {
+		this.idTutor = idTutor;
 	}
 
 }

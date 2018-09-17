@@ -42,7 +42,7 @@
 	
 	<jstl:if test="${showError == true}">
 		<div class="alert alert-danger col-sm-4" role="alert">
-	 		 <spring:message code="security.login.failed" />
+	 		 <spring:message code="security.login.error" />
 		</div>
 	</jstl:if>	
 		

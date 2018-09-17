@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import domain.Alumno;
 import forms.AlumnoForm;
+import forms.RegistroAlumnoForm;
 import services.ActorService;
 import services.AlumnoService;
 
@@ -63,16 +64,17 @@ public class AlumnoController extends AbstractController {
 	// Creation ---------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(HttpServletRequest request) {
+	public ModelAndView create(final HttpServletRequest request) {
 		ModelAndView result;
-		AlumnoForm alumnoForm;
+		RegistroAlumnoForm registroAlumnoForm;
 
 		HttpSession session = request.getSession();
 		session.setAttribute("active", "alta");
 
-		alumnoForm = new AlumnoForm();
-
-		result = this.createEditModelAndView(alumnoForm);
+		registroAlumnoForm = new RegistroAlumnoForm();
+		
+		result = new ModelAndView("alumno/create");
+		result.addObject("registroAlumnoForm", registroAlumnoForm);
 
 		return result;
 	}
