@@ -38,7 +38,7 @@
 <%-- Definition --%>
 <div>
 	<label for="${id}"><spring:message code="${code}" /></label>	
-	<form:input id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}"/>	
+	<form:input id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}" />	
 	<br />	
 	<form:errors cssClass="alert alert-danger medium" path="${path}" />	
 </div>

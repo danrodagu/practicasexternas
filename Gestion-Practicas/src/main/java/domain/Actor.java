@@ -6,6 +6,7 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -34,7 +35,7 @@ public abstract class Actor extends DomainEntity {
 		return this.nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
 
@@ -44,9 +45,16 @@ public abstract class Actor extends DomainEntity {
 		return this.apellidos;
 	}
 
-	public void setApellidos(String apellidos) {
+	public void setApellidos(final String apellidos) {
 		this.apellidos = apellidos;
 	}
+	
+	@Transient
+	public String getNombreCompleto() {		
+		return getApellidos() + ", " + getNombre();
+	}
+	
+	
 
 	// Relationships ----------------------------------------------------------
 
@@ -59,8 +67,10 @@ public abstract class Actor extends DomainEntity {
 		return this.userAccount;
 	}
 
-	public void setUserAccount(UserAccount userAccount) {
+	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
 	}
+
+	
 
 }

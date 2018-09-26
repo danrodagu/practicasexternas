@@ -1,5 +1,8 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -15,10 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import domain.Alumno;
+import domain.Tutor;
 import forms.AlumnoForm;
 import forms.RegistroAlumnoForm;
 import services.ActorService;
 import services.AlumnoService;
+import services.TutorService;
 
 @Controller
 @RequestMapping("/alumno")
@@ -31,6 +36,9 @@ public class AlumnoController extends AbstractController {
 
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private TutorService tutorService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -67,15 +75,17 @@ public class AlumnoController extends AbstractController {
 	public ModelAndView create(final HttpServletRequest request) {
 		ModelAndView result;
 		RegistroAlumnoForm registroAlumnoForm;
+		Collection<Tutor> tutores = new ArrayList<>();
 
 		HttpSession session = request.getSession();
 		session.setAttribute("active", "alta");
 
 		registroAlumnoForm = new RegistroAlumnoForm();
+		tutores = tutorService.findAll();
 		
 		result = new ModelAndView("alumno/create");
 		result.addObject("registroAlumnoForm", registroAlumnoForm);
-
+		result.addObject("tutores", tutores);
 		return result;
 	}
 

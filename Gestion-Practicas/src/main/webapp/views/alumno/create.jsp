@@ -15,6 +15,10 @@
 <fieldset>
 	<form:form action="alumno/edit.do" modelAttribute="registroAlumnoForm">
 
+	<div class="dropdown-divider"></div>
+		<h4><spring:message code="alumno.registro.datosAlumno" /></h4>
+		<br />
+
 		<div class="row">
 			<div class="form-group col-md-4">
 				<gp:textbox id="nombre" code="actor.nombre" path="nombre" cssClass="form-control" required="required" />
@@ -39,15 +43,19 @@
 			</div>
 		</div>
 		
+		
+		<div class="dropdown-divider"></div>
+		
+		<h4><spring:message code="alumno.registro.datosOferta" /></h4>
 		<br />
-		<br />
+		
 		
 		<div class="row">
 			<div class="form-group col-md-4">
 				<gp:textbox id="titulo" code="oferta.titulo" path="titulo" cssClass="form-control" required="required" />
 			</div>
 			<div class="form-group col-md-4">
-				<gp:textbox id="descripcion" code="oferta.descripcion" path="descripcion" cssClass="form-control" required="required"/>				
+				<gp:textarea id="descripcion" code="oferta.descripcion" path="descripcion" cssClass="form-control" required="required"/>				
 			</div>
 			<div class="form-group col-md-4">
 				<gp:textbox id="empresa" code="oferta.empresa" path="empresa" cssClass="form-control" required="required"/>				
@@ -61,18 +69,48 @@
 				<gp:textbox id="dotacion" code="oferta.dotacion" path="dotacion" cssClass="form-control" required="required"/>				
 			</div>
 		</div>
-		<%
-		  String[] opciones = {"Curricular", "Extracurricular"};
-		  session.setAttribute("opciones", opciones);
-		  int[] valores = {0, 1};
-		  session.setAttribute("valores", valores);
-		%>
+
 		<div class="row">
 			<div class="form-group col-md-4">
-				<gp:select id="esCurricular" code="oferta.esCurricular" path="esCurricular" items="valores" itemLabel="opciones" cssClass="form-control" />
+				<%-- <gp:select id="esCurricular" code="oferta.esCurricular" path="esCurricular" items="valores" itemLabel="opciones" cssClass="form-control" /> --%>
+				<div>
+					<form:label path="esCurricular">
+						<spring:message code="oferta.esCurricular" />
+					</form:label>	
+					<spring:message code="oferta.esCurricular.curricular" var="curricular"/>
+					<spring:message code="oferta.esCurricular.extracurricular" var="extracurricular"/>
+					<form:select id="esCurricular" path="esCurricular" cssClass="form-control" required="required">
+						<form:option value="true" label="${curricular}" />
+						<form:option value="false" label="${extracurricular}" />
+					</form:select>
+					<br />	
+					<form:errors cssClass="alert alert-danger medium" path="${path}" />	
+				</div>
 			</div>
 		</div>
 		
+		<div class="row">
+			<div class="form-group col-md-4">
+				<gp:textbox id="pais" code="oferta.pais" path="pais" cssClass="form-control" required="required" />
+			</div>
+			<div class="form-group col-md-4">
+				<gp:textbox id="provincia" code="oferta.provincia" path="provincia" cssClass="form-control" required="required" />			
+			</div>
+			<div class="form-group col-md-4">
+				<gp:textbox id="localidad" code="oferta.localidad" path="localidad" cssClass="form-control" required="required"/>				
+			</div>
+		</div>
+		
+		<div class="dropdown-divider"></div>
+		
+		<h4><spring:message code="alumno.registro.datosTutor" /></h4>
+		<br />
+		
+		<div class="row">
+			<div class="form-group col-md-4">
+				<gp:select id="tutor" code="oferta.tutor" path="idTutor" items="${tutores}" itemLabel="nombreCompleto" cssClass="form-control" />
+			</div>
+		</div>
 		
 		<button name="save" type="submit" class="btn btn-dark"><spring:message code="crear.submit" /></button>
 		&nbsp;&nbsp;

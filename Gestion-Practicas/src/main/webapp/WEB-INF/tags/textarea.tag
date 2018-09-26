@@ -21,9 +21,17 @@
 <%@ attribute name="code" required="true" %>
 <%@ attribute name="readonly" required="false" %>
 <%@ attribute name="placeholder" required="false" %>
+<%@ attribute name="cssClass" required="true" %>
+<%@ attribute name="id" required="true" %>
+
+<%@ attribute name="required" required="false" %>
 
 <jstl:if test="${readonly == null}">
 	<jstl:set var="readonly" value="false" />
+</jstl:if>
+
+<jstl:if test="${required == null}">
+	<jstl:set var="required" value="false" />
 </jstl:if>
 
 <%-- Definition --%>
@@ -32,7 +40,7 @@
 	<form:label path="${path}">
 		<spring:message code="${code}" />
 	</form:label>
-	<form:textarea path="${path}" readonly="${readonly}" placeholder="${placeholder}"/>
+	<form:textarea id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}"/>
 	<br />	
 	<form:errors cssClass="alert alert-danger medium" path="${path}" />	
 </div>
