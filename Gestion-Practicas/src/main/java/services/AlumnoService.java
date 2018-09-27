@@ -10,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Alumno;
+import domain.Oferta;
+import domain.Tutor;
 import forms.AlumnoForm;
+import forms.RegistroAlumnoForm;
 import repositories.AlumnoRepository;
 import security.Authority;
 import security.LoginService;
@@ -167,6 +170,43 @@ public class AlumnoService {
 //		res.getUserAccount().setPassword(alumnoForm.getPassword());
 
 		return res;
+	}
+	
+	public void registrarAlumno(final RegistroAlumnoForm registroAlumnoForm) {		
+		Alumno alumno;
+		Oferta oferta;
+		Tutor tutor;
+		
+//		// Comprobacion para que ambas contraseñas sean iguales
+//		Assert.isTrue(registroAlumnoForm.getPassword().equals(registroAlumnoForm.getPassword2()), "Las contraseñas no son iguales");
+
+		tutor = tutorService.findOne(registroAlumnoForm.getIdTutor());
+		
+		oferta = new Oferta();
+		oferta.setTitulo(registroAlumnoForm.getTitulo());
+		oferta.setDescripcion(registroAlumnoForm.getDescripcion());
+		oferta.setDotacion(registroAlumnoForm.getDotacion());
+		oferta.setDuracion(registroAlumnoForm.getDuracion());
+		oferta.setEmpresa(registroAlumnoForm.getEmpresa());
+		oferta.setEsCurricular(registroAlumnoForm.getEsCurricular());
+		oferta.setLocalidad(registroAlumnoForm.getLocalidad());
+		oferta.setProvincia(registroAlumnoForm.getProvincia());
+		oferta.setPais(registroAlumnoForm.getPais());
+		
+		alumno = create();		
+		alumno.setNombre(registroAlumnoForm.getNombre());
+		alumno.setApellidos(registroAlumnoForm.getApellidos());		
+		alumno.setOfertaAsignada(oferta);
+		alumno.setTutorAsignado(tutor);
+
+		// res.setPicture(alumnoForm.getPicture());
+		//
+		alumno.getUserAccount().setUsername(registroAlumnoForm.getUsername());
+		alumno.getUserAccount().setPassword(registroAlumnoForm.getPassword());
+		
+		oferta = ofertaService.save(oferta);
+		alumno = save(alumno);				
+
 	}
 
 }

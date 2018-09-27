@@ -1,13 +1,14 @@
 
 package forms;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.format.annotation.NumberFormat;
 
 public class RegistroAlumnoForm {
 
@@ -24,8 +25,8 @@ public class RegistroAlumnoForm {
 	private String titulo;
 	private String descripcion;
 	private boolean esCurricular; // True: curricular; False: extracurricular
-	private double duracion; // En meses
-	private double dotacion;
+	private BigDecimal duracion; // En meses
+	private BigDecimal dotacion;
 	private String pais;
 	private String localidad;
 	private String provincia;
@@ -125,26 +126,22 @@ public class RegistroAlumnoForm {
 		this.esCurricular = esCurricular;
 	}
 
-	@NotNull
-	@Min(1) // mínimo real 1.5
-	@Max(6)
-	@SafeHtml
-	public double getDuracion() {
+	// mínimo real 1.5, máximo 6.0	
+	@NumberFormat
+	public BigDecimal getDuracion() {
 		return this.duracion;
 	}
 
-	public void setDuracion(final double duracion) {
+	public void setDuracion(final BigDecimal duracion) {
 		this.duracion = duracion;
 	}
-
-	@NotNull
-	@Min(0)
-	@SafeHtml
-	public double getDotacion() {
+	
+	@NumberFormat
+	public BigDecimal getDotacion() {
 		return this.dotacion;
 	}
 
-	public void setDotacion(final double dotacion) {
+	public void setDotacion(final BigDecimal dotacion) {
 		this.dotacion = dotacion;
 	}
 

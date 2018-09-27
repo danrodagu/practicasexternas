@@ -108,6 +108,47 @@ public class AlumnoController extends AbstractController {
 
 	// Save -------------------------------------------------------------------
 
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final RegistroAlumnoForm registroAlumnoForm, final BindingResult bindingResult) {
+
+		ModelAndView result;
+
+		try {
+			Assert.isTrue(registroAlumnoForm.getPassword().equals(registroAlumnoForm.getPassword2()));
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(registroAlumnoForm, "actor.password.error");
+			return result;
+		}
+		
+		try {
+			Assert.isTrue(registroAlumnoForm.getDuracion().doubleValue() >= 1.5 && registroAlumnoForm.getDuracion().doubleValue() <= 6.0);
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(registroAlumnoForm, "oferta.duracion.error");
+			return result;
+		}
+		
+		try {
+			Assert.isTrue(registroAlumnoForm.getDotacion().doubleValue() >= 0.0);
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(registroAlumnoForm, "oferta.dotacion.error");
+			return result;
+		}
+
+		if (bindingResult.hasErrors()) {
+			result = this.createEditModelAndView(registroAlumnoForm, null);
+		} else {
+			try {
+				this.alumnoService.registrarAlumno(registroAlumnoForm);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(registroAlumnoForm, "actor.commit.error");
+			}
+		}
+
+		return result;
+
+	}
+	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final AlumnoForm alumnoForm, final BindingResult bindingResult) {
 
@@ -156,6 +197,20 @@ public class AlumnoController extends AbstractController {
 
 		result = new ModelAndView("alumno/edit");
 		result.addObject("alumnoForm", alumnoForm);
+		result.addObject("message", message);
+
+		return result;
+	}
+	
+	protected ModelAndView createEditModelAndView(final RegistroAlumnoForm registroAlumnoForm, final String message) {
+		ModelAndView result;
+		Collection<Tutor> tutores = new ArrayList<>();
+		
+		tutores = tutorService.findAll();
+
+		result = new ModelAndView("alumno/create");
+		result.addObject("registroAlumnoForm", registroAlumnoForm);
+		result.addObject("tutores", tutores);
 		result.addObject("message", message);
 
 		return result;

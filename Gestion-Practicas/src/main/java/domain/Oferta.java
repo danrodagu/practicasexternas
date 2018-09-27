@@ -1,11 +1,11 @@
 
 package domain;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -17,8 +17,8 @@ public class Oferta extends DomainEntity {
 	private String titulo;
 	private String descripcion;
 	private boolean esCurricular; // True: curricular; False: extracurricular
-	private double duracion; // En meses
-	private double dotacion;
+	private BigDecimal duracion; // En meses
+	private BigDecimal dotacion;
 	private String pais;
 	private String localidad;
 	private String provincia;
@@ -38,7 +38,7 @@ public class Oferta extends DomainEntity {
 		return this.titulo;
 	}
 
-	public void setTitulo(String titulo) {
+	public void setTitulo(final String titulo) {
 		this.titulo = titulo;
 	}
 
@@ -48,7 +48,7 @@ public class Oferta extends DomainEntity {
 		return this.descripcion;
 	}
 
-	public void setDescripcion(String descripcion) {
+	public void setDescripcion(final String descripcion) {
 		this.descripcion = descripcion;
 	}
 
@@ -56,28 +56,24 @@ public class Oferta extends DomainEntity {
 		return this.esCurricular;
 	}
 
-	public void setEsCurricular(boolean esCurricular) {
+	public void setEsCurricular(final boolean esCurricular) {
 		this.esCurricular = esCurricular;
 	}
 
-	@NotNull
-	@Min(1) // mínimo real 1.5
-	@Max(6)
-	public double getDuracion() {
+	// mínimo real 1.5, máximo 6	
+	public BigDecimal getDuracion() {
 		return this.duracion;
 	}
 
-	public void setDuracion(double duracion) {
+	public void setDuracion(final BigDecimal duracion) {
 		this.duracion = duracion;
 	}
-
-	@NotNull
-	@Min(0)
-	public double getDotacion() {
+		
+	public BigDecimal getDotacion() {
 		return this.dotacion;
 	}
 
-	public void setDotacion(double dotacion) {
+	public void setDotacion(final BigDecimal dotacion) {
 		this.dotacion = dotacion;
 	}
 
@@ -87,7 +83,7 @@ public class Oferta extends DomainEntity {
 		return this.pais;
 	}
 
-	public void setPais(String pais) {
+	public void setPais(final String pais) {
 		this.pais = pais;
 	}
 
@@ -95,7 +91,7 @@ public class Oferta extends DomainEntity {
 		return this.localidad;
 	}
 
-	public void setLocalidad(String localidad) {
+	public void setLocalidad(final String localidad) {
 		this.localidad = localidad;
 	}
 
@@ -103,7 +99,7 @@ public class Oferta extends DomainEntity {
 		return this.provincia;
 	}
 
-	public void setProvincia(String provincia) {
+	public void setProvincia(final String provincia) {
 		this.provincia = provincia;
 	}
 
@@ -113,7 +109,7 @@ public class Oferta extends DomainEntity {
 		return this.empresa;
 	}
 
-	public void setEmpresa(String empresa) {
+	public void setEmpresa(final String empresa) {
 		this.empresa = empresa;
 	}
 

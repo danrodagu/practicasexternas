@@ -13,7 +13,7 @@
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 <fieldset>
-	<form:form action="alumno/edit.do" modelAttribute="registroAlumnoForm">
+	<form:form action="alumno/create.do" modelAttribute="registroAlumnoForm">
 
 	<div class="dropdown-divider"></div>
 		<h4><spring:message code="alumno.registro.datosAlumno" /></h4>
