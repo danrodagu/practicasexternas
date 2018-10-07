@@ -38,15 +38,17 @@
 		<security:intercept-url pattern="/welcome/**" access="permitAll" />
 
 		
-		<security:intercept-url pattern="/administrativo/**" access="hasRole('ADMINISTRATIVO')" />
+		
 		
 		<security:intercept-url pattern="/coordinador/**" access="hasRole('COORDINADOR')" />
 			
+		<security:intercept-url pattern="/administrativo/create.do" access="hasRole('COORDINADOR')" />	
 		<security:intercept-url pattern="/alumno/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/tutor/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/tutor/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/alumno/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/administrativo/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/tutor/**" access="hasRole('TUTOR')" />		
 	

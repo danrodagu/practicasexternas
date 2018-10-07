@@ -196,7 +196,7 @@ public class AlumnoService {
 		alumno = create();		
 		alumno.setNombre(registroAlumnoForm.getNombre());
 		alumno.setApellidos(registroAlumnoForm.getApellidos());		
-		alumno.setOfertaAsignada(oferta);
+//		alumno.setOfertaAsignada(oferta);
 		alumno.setTutorAsignado(tutor);
 
 		// res.setPicture(alumnoForm.getPicture());
@@ -205,6 +205,8 @@ public class AlumnoService {
 		alumno.getUserAccount().setPassword(registroAlumnoForm.getPassword());
 		
 		oferta = ofertaService.save(oferta);
+		alumno.setOfertaAsignada(oferta);
+		
 		alumno = save(alumno);				
 
 	}

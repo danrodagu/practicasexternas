@@ -3,7 +3,6 @@ package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.ManyToOne;
@@ -45,7 +44,7 @@ public class Alumno extends Actor {
 
 	@Valid
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(optional = false)
 	public Oferta getOfertaAsignada() {
 		return this.ofertaAsignada;
 	}

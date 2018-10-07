@@ -16,4 +16,9 @@
 		<put-attribute name="body" value="/views/administrativo/display.jsp" />
 	</definition>
 	
+	<definition name="administrativo/edit" extends="master.page">	
+		<put-attribute name="title" value="Edit Administrative Assistant" />
+		<put-attribute name="body" value="/views/administrativo/edit.jsp" />
+	</definition>
+	
 </tiles-definitions>
