@@ -179,7 +179,7 @@ public class CarpetaService {
 		this.delete(carpeta);
 	}
 
-	public boolean checkNombreCarpeta(final String nombre) {
+	public boolean noExisteCarpeta(final String nombre) {
 		Actor actor;
 		Carpeta carpeta;
 		boolean result = false;

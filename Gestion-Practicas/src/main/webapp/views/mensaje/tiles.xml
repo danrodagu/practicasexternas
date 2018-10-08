@@ -11,14 +11,19 @@
        
 <tiles-definitions>
 
-	<definition name="administrator/action-1" extends="master.page">	
-		<put-attribute name="title" value="Administrator: Action 1" />
-		<put-attribute name="body" value="/views/administrator/action-1.jsp" />
+	<definition name="mensaje/create" extends="master.page">
+		<put-attribute name="title" value="New Message" />
+		<put-attribute name="body" value="/views/mensaje/create.jsp" />
 	</definition>
-	
-	<definition name="administrator/action-2" extends="master.page">	
-		<put-attribute name="title" value="Administrator: Action 2" />
-		<put-attribute name="body" value="/views/administrator/action-2.jsp" />
+
+	<definition name="mensaje/list" extends="master.page">
+		<put-attribute name="title" value="Messages" />
+		<put-attribute name="body" value="/views/mensaje/list.jsp" />
+	</definition>
+
+	<definition name="mensaje/display" extends="master.page">
+		<put-attribute name="title" value="Message" />
+		<put-attribute name="body" value="/views/mensaje/display.jsp" />
 	</definition>
 	
 </tiles-definitions>

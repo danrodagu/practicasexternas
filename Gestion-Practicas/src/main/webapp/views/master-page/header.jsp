@@ -101,6 +101,7 @@
 		          </div>
 		      </div>
 	      </security:authorize>
+	      <a id="mensajes" class="nav-item nav-link" href="carpeta/list.do"><spring:message code="master.page.mensajes"/></a>
 	    </div>
 	  </div>
 	</nav>	
