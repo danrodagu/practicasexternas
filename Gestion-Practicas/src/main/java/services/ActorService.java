@@ -34,14 +34,25 @@ public class ActorService {
 
 	// Simple CRUD methods ----------------------------------------------------
 
-	public Actor findOne(final int actorId) {
-		Assert.isTrue(actorId != 0);
-
+//	public Actor findOne(final int actorId) {
+//		Assert.isTrue(actorId != 0);
+//
+//		Actor result;
+//
+//		result = this.actorRepository.findOne(actorId);
+//
+//		return result;
+//	}
+	
+	public Actor findOne(final int userAccountId) {
 		Actor result;
+		
+		result = this.actorRepository.findByPrincipal(userAccountId);
 
-		result = this.actorRepository.findOne(actorId);
+		Assert.notNull(result);
 
 		return result;
+
 	}
 
 	public Collection<Actor> findAll() {
@@ -143,5 +154,7 @@ public class ActorService {
 		return result;
 
 	}
+	
+	
 
 }

@@ -185,12 +185,11 @@ public class RegistroAlumnoForm {
 		this.empresa = empresa;
 	}
 
+
 	public int getIdTutor() {
 		return idTutor;
 	}
-
-	@NotNull
-	@NotBlank
+	
 	public void setIdTutor(final int idTutor) {
 		this.idTutor = idTutor;
 	}

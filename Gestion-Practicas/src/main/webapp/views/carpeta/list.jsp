@@ -17,16 +17,20 @@
 <display:table name="carpetas" id="row" requestURI="carpeta/list.do"
 	pagesize="5" class="displaytag">
 
+	<display:footer>
+		<gp:buttonUrl url="mensaje/create.do" code="mensaje.create"/>
+	</display:footer>
+
 	<spring:message code="carpeta.nombre" var="nameHeader" />
 	<display:column property="nombre" title="${nameHeader}" />
 
 	<display:column>
 		<gp:buttonUrl url="mensaje/list.do?carpetaId=${row.id}" code="carpeta.mensajes"/>
 	</display:column>
+	
 	<display:column>
-
-	<jstl:if test="${row.noModificable == false }">
-		<gp:buttonUrl url="carpeta/edit.do?carpetaId=${row.id}" code="carpeta.editar"/>
+		<jstl:if test="${row.noModificable == false }">
+			<gp:buttonUrl url="carpeta/edit.do?carpetaId=${row.id}" code="carpeta.editar"/>
 		</jstl:if>
 	</display:column>
 

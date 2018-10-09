@@ -101,7 +101,9 @@
 		          </div>
 		      </div>
 	      </security:authorize>
-	      <a id="mensajes" class="nav-item nav-link" href="carpeta/list.do"><spring:message code="master.page.mensajes"/></a>
+	      <security:authorize access="isAuthenticated()">
+	      	<a id="mensajes" class="nav-item nav-link" href="carpeta/list.do"><spring:message code="master.page.mensajes"/></a>
+	      </security:authorize>
 	    </div>
 	  </div>
 	</nav>	

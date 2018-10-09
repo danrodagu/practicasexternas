@@ -134,8 +134,8 @@ public class MensajeService {
 		// Recupero el actor que está enviando el mensaje
 		emisor = this.actorService.findByPrincipal();
 
-		// Recupero el actor que recibe el mensaje
-		receptor = mensajeForm.getReceptor();
+		// Recupero el actor que recibe el mensaje		
+		receptor = actorService.findOne(mensajeForm.getIdReceptor());
 
 		// Guardo el outbox del actor que envía el mensaje
 		outbox = this.carpetaService.findCarpetaByNombreAndActor("Outbox", this.actorService.findByPrincipal().getId());
@@ -162,7 +162,7 @@ public class MensajeService {
 
 		result.setCuerpo(mensaje.getCuerpo());
 		result.setAsunto(mensaje.getAsunto());
-		result.setReceptor(mensaje.getReceptor());
+		result.setIdReceptor(mensaje.getReceptor().getId());
 //		result.setAttachments(mensaje.getAttachments());
 
 		return result;
@@ -185,7 +185,7 @@ public class MensajeService {
 		} else {
 			receptor = mensaje.getEmisor();
 		}
-		result.setReceptor(receptor);
+		result.setIdReceptor(receptor.getId());
 
 		return result;
 

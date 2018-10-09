@@ -1,18 +1,14 @@
 
 package forms;
 
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
-
-import domain.Actor;
 
 public class MensajeForm {
 
 	private String cuerpo;
 	private String asunto;
-	private Actor receptor;
+	private int idReceptor;
 //	private Collection<String> attachments;
 
 	// Constructors ................
@@ -42,13 +38,12 @@ public class MensajeForm {
 		this.asunto = asunto;
 	}
 
-	@NotNull
-	public Actor getReceptor() {
-		return this.receptor;
+	public int getIdReceptor() {
+		return idReceptor;
 	}
 
-	public void setReceptor(final Actor receptor) {
-		this.receptor = receptor;
+	public void setIdReceptor(final int idReceptor) {
+		this.idReceptor = idReceptor;
 	}
 
 //	@ElementCollection
