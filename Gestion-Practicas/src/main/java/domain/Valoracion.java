@@ -32,7 +32,7 @@ public class Valoracion extends DomainEntity {
 		return this.titulo;
 	}
 
-	public void setTitulo(String titulo) {
+	public void setTitulo(final String titulo) {
 		this.titulo = titulo;
 	}
 
@@ -42,7 +42,7 @@ public class Valoracion extends DomainEntity {
 		return this.cuerpo;
 	}
 
-	public void setCuerpo(String cuerpo) {
+	public void setCuerpo(final String cuerpo) {
 		this.cuerpo = cuerpo;
 	}
 
@@ -50,22 +50,22 @@ public class Valoracion extends DomainEntity {
 		return this.esFinal;
 	}
 
-	public void setEsFinal(boolean esFinal) {
+	public void setEsFinal(final boolean esFinal) {
 		this.esFinal = esFinal;
 	}
 
 	// Relationships ----------------------------------------------------------
 
-	private Alumno alumno;
+	private Actor alumno;
 
 	@Valid
 	@NotNull
 	@OneToOne(optional = false)
-	public Alumno getAlumno() {
+	public Actor getAlumno() {
 		return this.alumno;
 	}
 
-	public void setAlumno(Alumno alumno) {
+	public void setAlumno(final Actor alumno) {
 		this.alumno = alumno;
 	}
 

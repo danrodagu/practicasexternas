@@ -63,7 +63,7 @@
 
 	<!-- Administrativo -->
 
-	<bean id="administrativo1" class="domain.Administrativo">
+	<bean id="administrativo1" class="domain.Actor">
 		<property name="nombre" value="Olga" />
 		<property name="apellidos" value="Pérez Sánchez" />
 		<property name="userAccount" ref="userAccount1" />
@@ -71,7 +71,7 @@
 
 	<!-- Coordinador -->
 
-	<bean id="coordinador1" class="domain.Coordinador">
+	<bean id="coordinador1" class="domain.Actor">
 		<property name="nombre" value="María Teresa" />
 		<property name="apellidos" value="Gómez López" />
 		<property name="userAccount" ref="userAccount2" />
@@ -79,7 +79,7 @@
 	
 	<!-- Tutor -->
 
-	<bean id="tutor1" class="domain.Tutor">
+	<bean id="tutor1" class="domain.Actor">
 		<property name="nombre" value="Ángel" />
 		<property name="apellidos" value="Varela Vaca" />
 		<property name="userAccount" ref="userAccount4" />
@@ -101,7 +101,7 @@
 	
 	<!-- Alumno -->
 
-	<bean id="alumno1" class="domain.Alumno">
+	<bean id="alumno1" class="domain.Actor">
 		<property name="nombre" value="Daniel" />
 		<property name="apellidos" value="Rodríguez Aguilar" />
 		<property name="expedienteCerrado" value="false" />

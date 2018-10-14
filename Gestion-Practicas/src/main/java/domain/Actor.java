@@ -5,6 +5,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -16,10 +17,14 @@ import security.UserAccount;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public abstract class Actor extends DomainEntity {
+public class Actor extends DomainEntity {
 
+	//COMUNES
 	private String nombre;
 	private String apellidos;
+	
+	//ALUMNO
+	private Boolean expedienteCerrado;
 
 	// Constructors -----------------------------------------------------------
 
@@ -47,7 +52,7 @@ public abstract class Actor extends DomainEntity {
 
 	public void setApellidos(final String apellidos) {
 		this.apellidos = apellidos;
-	}
+	}	
 	
 	@Transient
 	public String getNombreCompleto() {		
@@ -55,6 +60,14 @@ public abstract class Actor extends DomainEntity {
 	}
 	
 	
+	//ALUMNO
+	public Boolean getExpedienteCerrado() {
+		return this.expedienteCerrado;
+	}
+
+	public void setExpedienteCerrado(final Boolean expedienteCerrado) {
+		this.expedienteCerrado = expedienteCerrado;
+	}
 
 	// Relationships ----------------------------------------------------------
 
@@ -71,6 +84,32 @@ public abstract class Actor extends DomainEntity {
 		this.userAccount = userAccount;
 	}
 
+	
+	//ALUMNO
+	private Oferta ofertaAsignada;
+	private Actor tutorAsignado;
+
+//	@NotNull
+	@Valid
+	@OneToOne(optional = true)
+	public Oferta getOfertaAsignada() {
+		return this.ofertaAsignada;
+	}
+
+	public void setOfertaAsignada(final Oferta ofertaAsignada) {
+		this.ofertaAsignada = ofertaAsignada;
+	}
+
+//	@NotNull
+	@Valid
+	@ManyToOne(optional = true)
+	public Actor getTutorAsignado() {
+		return this.tutorAsignado;
+	}
+
+	public void setTutorAsignado(final Actor tutorAsignado) {
+		this.tutorAsignado = tutorAsignado;
+	}
 	
 
 }
