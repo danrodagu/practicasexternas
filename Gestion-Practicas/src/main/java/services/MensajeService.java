@@ -216,10 +216,11 @@ public class MensajeService {
 	public Collection<Mensaje> findMensajesByCarpeta(final int carpetaId) {
 		Collection<Mensaje> result;
 		Carpeta carpeta;
+		Actor principal = this.actorService.findByPrincipal();
 
 		carpeta = this.carpetaService.findOne(carpetaId);
 
-		Assert.isTrue(carpeta.getActor().getId() == this.actorService.findByPrincipal().getId());
+		Assert.isTrue(carpeta.getActor().getId() == principal.getId());
 
 		result = this.mensajeRepository.findMensajesByCarpeta(carpetaId);
 

@@ -3,6 +3,8 @@ package controllers.actor;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +41,12 @@ public class MensajeController {
 
 	// Listing --------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int carpetaId) {
+	public ModelAndView list(@RequestParam final int carpetaId, final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Mensaje> mensajes;
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("active", "mensajes");
 
 		mensajes = this.mensajeService.findMensajesByCarpeta(carpetaId);
 		result = new ModelAndView("mensaje/list");

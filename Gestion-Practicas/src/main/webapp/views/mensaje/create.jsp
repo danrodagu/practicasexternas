@@ -17,13 +17,19 @@
 <form:form action="mensaje/edit.do" modelAttribute="mensajeForm">
 
 	<fieldset>
-		<gp:selectActor id="receptor" items="${actores}" itemLabel="userAccount.username" itemValue="userAccount.id" code="mensaje.receptor" path="idReceptor" cssClass="form-control" />
-		<br />
-
-		<gp:textbox id="asunto" code="mensaje.asunto" path="asunto" cssClass="form-control" />
-		<br />
-
-		<gp:textarea id="cuerpo" code="mensaje.cuerpo" path="cuerpo" cssClass="form-control" />
+		<div class="form-group col-md-4">
+			<gp:selectActor id="receptor" items="${actores}" itemLabel="userAccount.username" itemValue="userAccount.id" code="mensaje.receptor" path="idReceptor" cssClass="form-control" />
+		</div>
+		
+		<div class="form-group col-md-4">
+			<gp:textbox id="asunto" code="mensaje.asunto" path="asunto" cssClass="form-control" />			
+		</div>
+		
+		<div class="dropdown-divider"></div>
+		
+		<div class="form-group col-md-10">
+			<gp:textarea id="cuerpo" code="mensaje.cuerpo" path="cuerpo" cssClass="form-control" />
+		</div>
 		<br />
 		
 

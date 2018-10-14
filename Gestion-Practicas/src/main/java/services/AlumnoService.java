@@ -40,6 +40,9 @@ public class AlumnoService {
 	@Autowired
 	private TutorService tutorService;
 	
+	@Autowired
+	private CarpetaService carpetaService;
+	
 	// Constructors -----------------------------------------------------------
 	public AlumnoService() {
 		super();
@@ -207,7 +210,9 @@ public class AlumnoService {
 		oferta = ofertaService.save(oferta);
 		alumno.setOfertaAsignada(oferta);
 		
-		alumno = save(alumno);				
+		alumno = save(alumno);
+		
+		this.carpetaService.carpetasPorDefecto(alumno);		
 
 	}
 
