@@ -38,6 +38,7 @@ public class Authority implements GrantedAuthority {
 	// Attributes -------------------------------------------------------------
 
 	private String authority;
+	private UserAccount userAccount;
 
 	@NotBlank
 	@Pattern(regexp = "^" + ALUMNO + "|" + COORDINADOR + "|" + TUTOR + "|" + ADMINISTRATIVO + "$")
@@ -46,7 +47,7 @@ public class Authority implements GrantedAuthority {
 		return this.authority;
 	}
 
-	public void setAuthority(String authority) {
+	public void setAuthority(final String authority) {
 		this.authority = authority;
 	}
 
@@ -83,7 +84,7 @@ public class Authority implements GrantedAuthority {
 	}
 
 	@Override
-	public boolean equals(Object other) {
+	public boolean equals(final Object other) {
 		boolean result;
 
 		if (this == other) {

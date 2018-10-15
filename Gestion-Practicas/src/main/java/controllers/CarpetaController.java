@@ -18,6 +18,7 @@ import domain.Actor;
 import domain.Carpeta;
 import forms.CarpetaForm;
 import services.ActorService;
+import services.AlumnoService;
 import services.CarpetaService;
 
 @Controller
@@ -30,6 +31,9 @@ public class CarpetaController extends AbstractController {
 
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private AlumnoService alumnoService;
 
 	// Constructors ---------------------------------
 	public CarpetaController() {
@@ -41,6 +45,9 @@ public class CarpetaController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		Collection<Carpeta> carpetas;
+		Collection<Actor> actores;
+		
+		actores = alumnoService.findAll();
 
 		carpetas = this.carpetaService.findCarpetaByActor(this.actorService
 				.findByPrincipal().getId());
