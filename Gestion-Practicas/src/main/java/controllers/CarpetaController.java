@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +44,12 @@ public class CarpetaController extends AbstractController {
 
 	// Listing --------------------------------------
 	@RequestMapping(value = "/list")
-	public ModelAndView list() {
+	public ModelAndView list(final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Carpeta> carpetas;
-		Collection<Actor> actores;
 		
-		actores = alumnoService.findAll();
+		HttpSession session = request.getSession();
+		session.setAttribute("active", "mensajes");		
 
 		carpetas = this.carpetaService.findCarpetaByActor(this.actorService
 				.findByPrincipal().getId());

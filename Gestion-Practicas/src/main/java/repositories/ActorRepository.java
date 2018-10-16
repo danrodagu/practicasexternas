@@ -30,8 +30,20 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 	
 //	--- COORDINADOR ---
 	
+	// Obtiene todos los coordinadores
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'COORDINADOR'")
+	Collection<Actor> findAllCoordinadores();
+	
 //	--- TUTOR ---
 	
+	// Obtiene todos los tutores
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'TUTOR'")
+	Collection<Actor> findAllTutores();
+	
 //	--- ADMINISTRATIVO ---
+	
+	// Obtiene todos los administrativos
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ADMINISTRATIVO'")
+	Collection<Actor> findAllAdministrativos();
 
 }

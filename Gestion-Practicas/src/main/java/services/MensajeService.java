@@ -1,6 +1,9 @@
 
 package services;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -173,6 +176,14 @@ public class MensajeService {
 		Mensaje mensaje;
 		Actor principal;
 		Actor receptor;
+		String cuerpo;
+		LocalDate localDate;
+		String day;
+		String month;
+		String year;
+		String fecha;
+		Calendar calendar;
+		String hora;
 
 		result = new MensajeForm();
 		mensaje = this.findOne(mensajeId);
@@ -186,6 +197,32 @@ public class MensajeService {
 			receptor = mensaje.getEmisor();
 		}
 		result.setIdReceptor(receptor.getId());
+		
+		if(!mensaje.getAsunto().startsWith("RE:") && !mensaje.getAsunto().startsWith("FW:")) {
+			result.setAsunto("RE: " + mensaje.getAsunto());
+		}
+		
+		localDate = mensaje.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();		
+		day = String.valueOf(localDate.getDayOfMonth());
+		month = String.valueOf(localDate.getMonthValue());
+		year = String.valueOf(localDate.getYear());
+		
+		if(day.length() == 1) {
+			day = "0" + day;
+		}
+		if(month.length() == 1) {
+			month = "0" + month;
+		}
+		
+		fecha = day + "/" + month + "/" + year;
+		
+		calendar = Calendar.getInstance();
+		calendar.setTime(mensaje.getFecha());
+		
+		hora = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+		
+		cuerpo = " \r----Mensaje enviado----\r\r  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r" + mensaje.getCuerpo();
+		result.setCuerpo(cuerpo);
 
 		return result;
 
@@ -204,8 +241,11 @@ public class MensajeService {
 
 		Assert.isTrue(actor.getId() == mensaje.getEmisor().getId() || actor.getId() == mensaje.getReceptor().getId());
 
-		cuerpo = " \r ----Mensaje enviado----- \r De: " + mensaje.getEmisor().getUserAccount().getUsername() + "\r Fecha: " + mensaje.getFecha() + "\r Cuerpo: " + mensaje.getCuerpo() + "\r Asunto:" + mensaje.getAsunto();
+		cuerpo = " \r ----Mensaje enviado----- \r De: " + mensaje.getEmisor().getUserAccount().getUsername() + "\r Fecha: " + mensaje.getFecha() + "\r Asunto:" + mensaje.getAsunto() + "\r Cuerpo: " + mensaje.getCuerpo() ;
 
+		if(!mensaje.getAsunto().startsWith("FW:") && !mensaje.getAsunto().startsWith("RE:")) {
+			result.setAsunto("FW: " + mensaje.getAsunto());
+		}		
 		result.setCuerpo(cuerpo);
 
 		return result;

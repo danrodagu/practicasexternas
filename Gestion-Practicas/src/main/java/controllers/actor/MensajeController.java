@@ -1,10 +1,9 @@
 
 package controllers.actor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +40,9 @@ public class MensajeController {
 
 	// Listing --------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int carpetaId, final HttpServletRequest request) {
+	public ModelAndView list(@RequestParam final int carpetaId) {
 		ModelAndView result;
 		Collection<Mensaje> mensajes;
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("active", "mensajes");
 
 		mensajes = this.mensajeService.findMensajesByCarpeta(carpetaId);
 		result = new ModelAndView("mensaje/list");
@@ -88,14 +84,18 @@ public class MensajeController {
 	}
 
 	@RequestMapping(value = "/reply", method = RequestMethod.GET)
-	public ModelAndView reply(@RequestParam(required = true) final int mensajeId) {
+	public ModelAndView reply(@RequestParam(required = true) final int mensajeId, @RequestParam(required = true) final int actorId) {
 		ModelAndView result;
 		MensajeForm mensajeForm;
+		Collection<Actor> actores = new ArrayList<Actor>();
+		actores.add(this.actorService.findOne(actorId));
 
 		mensajeForm = new MensajeForm();
 		mensajeForm = this.mensajeService.responderMensaje(mensajeId);
 
 		result = this.createEditModelAndView(mensajeForm);
+		
+		result.addObject("actores", actores);
 
 		return result;
 	}

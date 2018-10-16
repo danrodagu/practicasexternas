@@ -38,7 +38,6 @@ public class Authority implements GrantedAuthority {
 	// Attributes -------------------------------------------------------------
 
 	private String authority;
-	private UserAccount userAccount;
 
 	@NotBlank
 	@Pattern(regexp = "^" + ALUMNO + "|" + COORDINADOR + "|" + TUTOR + "|" + ADMINISTRATIVO + "$")

@@ -16,28 +16,29 @@
 
 <jsp:useBean id="util" class="utilities.UtilMethods" scope="page"/>
 
-<spring:message code="mensaje.emisor" />
-&nbsp;&nbsp;:
-<jstl:out value="${util.checkEmailAndNumber(mensaje.emisor.name)}" />
+<spring:message code="mensaje.emisor" />:
+&nbsp;&nbsp;
+<jstl:out value="${mensaje.emisor.nombre}" />
 <br />
 
-<spring:message code="mensaje.receptor" />
-&nbsp;&nbsp;: ${util.checkEmailAndNumber(mensaje.receptor.name)}
+<spring:message code="mensaje.receptor" />:
+&nbsp;&nbsp;
+<jstl:out value="${mensaje.receptor.nombre}" />
 <br />
 
-<spring:message code="mensaje.fecha" />
-&nbsp;&nbsp;:
+<spring:message code="mensaje.fecha" />:
+&nbsp;&nbsp;
 <jstl:out value="${mensaje.fecha}" />
 <br />
 
-<spring:message code="mensaje.asunto" />
-&nbsp;&nbsp;:
-<jstl:out value="${util.checkEmailAndNumber(mensaje.asunto)}" />
+<spring:message code="mensaje.asunto" />:
+&nbsp;&nbsp;
+<jstl:out value="${mensaje.asunto}" />
 <br />
 
-<spring:message code="mensaje.cuerpo" />
-&nbsp;&nbsp;:
-<pre><jstl:out value="${util.checkEmailAndNumber(mensaje.cuerpo)}" /></pre>
+<spring:message code="mensaje.cuerpo" />:
+&nbsp;&nbsp;
+<pre><jstl:out value="${mensaje.cuerpo}" /></pre>
 <br /><br />
 
 

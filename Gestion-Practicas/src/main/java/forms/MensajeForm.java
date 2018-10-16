@@ -1,6 +1,8 @@
 
 package forms;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
@@ -8,7 +10,7 @@ public class MensajeForm {
 
 	private String cuerpo;
 	private String asunto;
-	private int idReceptor;
+	private Integer idReceptor;
 //	private Collection<String> attachments;
 
 	// Constructors ................
@@ -38,11 +40,12 @@ public class MensajeForm {
 		this.asunto = asunto;
 	}
 
-	public int getIdReceptor() {
+	@NotNull
+	public Integer getIdReceptor() {
 		return idReceptor;
 	}
 
-	public void setIdReceptor(final int idReceptor) {
+	public void setIdReceptor(final Integer idReceptor) {
 		this.idReceptor = idReceptor;
 	}
 

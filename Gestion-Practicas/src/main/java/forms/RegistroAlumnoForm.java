@@ -33,7 +33,7 @@ public class RegistroAlumnoForm {
 	private String empresa;
 	
 	//TUTOR
-	private int idTutor;
+	private Integer idTutor;
 
 	// Constructors -----------------------------------------------------------
 
@@ -180,17 +180,18 @@ public class RegistroAlumnoForm {
 	public String getEmpresa() {
 		return this.empresa;
 	}
-
+	
 	public void setEmpresa(final String empresa) {
 		this.empresa = empresa;
 	}
 
 
-	public int getIdTutor() {
+	@NotNull
+	public Integer getIdTutor() {
 		return idTutor;
 	}
 	
-	public void setIdTutor(final int idTutor) {
+	public void setIdTutor(final Integer idTutor) {
 		this.idTutor = idTutor;
 	}
 

@@ -30,7 +30,7 @@
 	<display:column property="asunto" title="${asuntoHeader}" />
 
 	<display:column>
-		<gp:buttonUrl url="mensaje/reply.do?mensajeId=${row.id}" code="mensaje.reply"/>
+		<gp:buttonUrl url="mensaje/reply.do?mensajeId=${row.id}&actorId=${row.emisor.id}" code="mensaje.reply"/>
 	</display:column>
 	
 	<display:column>
