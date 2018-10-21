@@ -233,6 +233,13 @@ public class MensajeService {
 		Mensaje mensaje;
 		String cuerpo;
 		Actor actor;
+		LocalDate localDate;
+		String day;
+		String month;
+		String year;
+		String fecha;
+		Calendar calendar;
+		String hora;
 
 		result = new MensajeForm();
 		mensaje = this.findOne(mensajeId);
@@ -241,8 +248,27 @@ public class MensajeService {
 
 		Assert.isTrue(actor.getId() == mensaje.getEmisor().getId() || actor.getId() == mensaje.getReceptor().getId());
 
-		cuerpo = " \r ----Mensaje enviado----- \r De: " + mensaje.getEmisor().getUserAccount().getUsername() + "\r Fecha: " + mensaje.getFecha() + "\r Asunto:" + mensaje.getAsunto() + "\r Cuerpo: " + mensaje.getCuerpo() ;
-
+		localDate = mensaje.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();		
+		day = String.valueOf(localDate.getDayOfMonth());
+		month = String.valueOf(localDate.getMonthValue());
+		year = String.valueOf(localDate.getYear());
+		
+		if(day.length() == 1) {
+			day = "0" + day;
+		}
+		if(month.length() == 1) {
+			month = "0" + month;
+		}
+		
+		fecha = day + "/" + month + "/" + year;
+		
+		calendar = Calendar.getInstance();
+		calendar.setTime(mensaje.getFecha());
+		
+		hora = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+		
+		cuerpo = " \r----Mensaje enviado----\r\r  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r" + mensaje.getCuerpo();
+		
 		if(!mensaje.getAsunto().startsWith("FW:") && !mensaje.getAsunto().startsWith("RE:")) {
 			result.setAsunto("FW: " + mensaje.getAsunto());
 		}		

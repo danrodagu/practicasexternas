@@ -37,11 +37,12 @@
 <%-- Definition --%>
 
 <div>
+	<spring:message code="master.page.select" var="optVacio" />
 	<form:label path="${path}">
 		<spring:message code="${code}" />
 	</form:label>	
 	<form:select id="${id}" path="${path}" onchange="${onchange}" cssClass="${cssClass}" >
-		<form:option value="" label="----" />		
+		<form:option value="" label="${optVacio}" />		
 		<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
 	</form:select>
 	<br />	

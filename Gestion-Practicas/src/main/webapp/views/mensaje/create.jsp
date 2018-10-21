@@ -21,11 +21,13 @@
 			<gp:selectActor id="receptor" items="${actores}" itemLabel="userAccount.username" itemValue="userAccount.id" code="mensaje.receptor" path="idReceptor" cssClass="form-control" />
 		</div>
 		
+		<div class="dropdown-divider"></div>
+		
 		<div class="form-group col-md-4">
 			<gp:textbox id="asunto" code="mensaje.asunto" path="asunto" cssClass="form-control" />			
 		</div>
 		
-		<div class="dropdown-divider"></div>
+		
 		
 		<div class="form-group col-md-10">
 			<gp:textarea id="cuerpo" code="mensaje.cuerpo" path="cuerpo" cssClass="form-control" />
@@ -44,4 +46,15 @@
 		</button>
 
 	</fieldset>
+	
 </form:form>
+
+<script type='text/javascript'>
+	$(document).ready(function() {
+		if (window.location.href.indexOf("mensaje/reply.do?") > -1) {
+		    $("#receptor").children('option[value=""]').remove();
+		}
+	});
+</script>
+
+

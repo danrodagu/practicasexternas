@@ -41,7 +41,7 @@
 
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$(document).ready(function() {
 		$("#jMenu").jMenu();
 	});
@@ -50,7 +50,7 @@
 		if (confirm(msg))
 			form.submit();
 	}
-</script>
+</script> -->
 
 
 
@@ -110,5 +110,7 @@
 		$( "form" ).find(".form-control").attr("oninput", "this.setCustomValidity('')");
 	}
 </script>
+
+
 
 </html>
