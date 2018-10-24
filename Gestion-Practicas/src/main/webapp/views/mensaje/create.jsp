@@ -18,7 +18,7 @@
 
 	<fieldset>
 		<div class="form-group col-md-4">
-			<gp:selectActor id="receptor" items="${actores}" itemLabel="userAccount.username" itemValue="userAccount.id" code="mensaje.receptor" path="idReceptor" cssClass="form-control" />
+			<gp:selectActor id="receptor" items="${actores}" itemLabel="userAccount.username" itemValue="id" code="mensaje.receptor" path="idReceptor" cssClass="form-control" />
 		</div>
 		
 		<div class="dropdown-divider"></div>

@@ -14,8 +14,10 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
+
+<div class="table-responsive">
 <display:table name="mensajes" id="row" requestURI="${requestURI}"
-	pagesize="10" class="displaytag">
+	pagesize="10" class="table table-hover">
 	
 	<spring:message code="mensaje.fecha" var="fechaHeader" />
 	<display:column property="fecha" title="${fechaHeader}" sortable="true" />
@@ -48,3 +50,9 @@
 	
 
 </display:table>
+</div>
+
+
+
+
+

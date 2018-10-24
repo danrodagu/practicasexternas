@@ -15,7 +15,7 @@
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 <display:table name="carpetas" id="row" requestURI="carpeta/list.do"
-	pagesize="5" class="displaytag">
+	pagesize="5" class="table table-hover">
 
 	<display:footer>
 		<gp:buttonUrl url="mensaje/create.do" code="mensaje.create"/>
