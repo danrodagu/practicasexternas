@@ -20,7 +20,7 @@ public class MensajeForm {
 
 	// Attributes .................
 
-	@NotBlank
+//	@NotBlank
 	@SafeHtml
 	public String getCuerpo() {
 		return this.cuerpo;

@@ -1,5 +1,5 @@
 <%--
- * textarea.tag
+ * quilljs.tag
 
  --%>
 
@@ -18,7 +18,6 @@
 <%-- Attributes --%> 
 
 <%@ attribute name="path" required="true" %>
-<%@ attribute name="code" required="true" %>
 <%@ attribute name="readonly" required="false" %>
 <%@ attribute name="placeholder" required="false" %>
 <%@ attribute name="cssClass" required="true" %>
@@ -36,11 +35,9 @@
 
 <%-- Definition --%>
 
-<div>
-	<form:label path="${path}">
-		<spring:message code="${code}" />
-	</form:label>
-	<form:textarea id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}"/>
-	<br />	
-	<form:errors cssClass="alert alert-danger medium" path="${path}" />	
-</div>
+
+<form:textarea id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}"/>
+<br />
+<form:errors cssClass="alert alert-danger medium" path="${path}" />
+
+

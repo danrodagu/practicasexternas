@@ -43,7 +43,7 @@ public class Mensaje extends DomainEntity {
 		return this.fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(final Date fecha) {
 		this.fecha = fecha;
 	}
 
@@ -53,7 +53,7 @@ public class Mensaje extends DomainEntity {
 		return this.asunto;
 	}
 
-	public void setAsunto(String asunto) {
+	public void setAsunto(final String asunto) {
 		this.asunto = asunto;
 	}
 
@@ -63,7 +63,7 @@ public class Mensaje extends DomainEntity {
 		return this.cuerpo;
 	}
 
-	public void setCuerpo(String cuerpo) {
+	public void setCuerpo(final String cuerpo) {
 		this.cuerpo = cuerpo;
 	}
 
@@ -88,7 +88,7 @@ public class Mensaje extends DomainEntity {
 		return this.emisor;
 	}
 
-	public void setEmisor(Actor emisor) {
+	public void setEmisor(final Actor emisor) {
 		this.emisor = emisor;
 	}
 
@@ -99,7 +99,7 @@ public class Mensaje extends DomainEntity {
 		return this.receptor;
 	}
 
-	public void setReceptor(Actor receptor) {
+	public void setReceptor(final Actor receptor) {
 		this.receptor = receptor;
 	}
 
@@ -110,7 +110,7 @@ public class Mensaje extends DomainEntity {
 		return this.carpeta;
 	}
 
-	public void setCarpeta(Carpeta carpeta) {
+	public void setCarpeta(final Carpeta carpeta) {
 		this.carpeta = carpeta;
 	}
 

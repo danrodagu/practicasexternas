@@ -130,6 +130,18 @@ public class MensajeController {
 
 		return result;
 	}
+	
+	
+	
+//	@ResponseBody
+	@RequestMapping(value = "/prueba", method = RequestMethod.POST)	
+	public String prueba() {
+		String b = "1";
+		
+		String a = null;
+
+		return b;
+	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam(required = true) final int mensajeId) {

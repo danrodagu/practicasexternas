@@ -48,6 +48,7 @@
 		<security:intercept-url pattern="/administrativo/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/mensaje/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/mensaje/edit?save" access="isAuthenticated()" />
 		<security:intercept-url pattern="/carpeta/**" access="isAuthenticated()" />		
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
