@@ -13,7 +13,7 @@
 
 	<definition name="mensaje/create" extends="master.page">
 		<put-attribute name="title" value="New Message" />
-		<put-attribute name="body" value="/views/mensaje/create.jsp" />
+		<put-attribute name="body" value="/views/mensaje/create2.jsp" />
 	</definition>
 
 	<definition name="mensaje/list" extends="master.page">

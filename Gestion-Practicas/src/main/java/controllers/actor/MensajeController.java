@@ -4,6 +4,7 @@ package controllers.actor;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ import forms.MensajeForm;
 import services.ActorService;
 import services.MensajeService;
 
-@Controller
 @RequestMapping("/mensaje")
+@Controller
 public class MensajeController {
 
 	// Services ---------------------------------------------------------------
@@ -114,7 +115,7 @@ public class MensajeController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final MensajeForm mensajeForm, final BindingResult binding) {
+	public ModelAndView save(@Valid final MensajeForm mensajeForm, @RequestParam (required = true) final String cuerpo, final BindingResult binding) {
 		ModelAndView result;
 		
 		if (binding.hasErrors()) {
@@ -132,15 +133,15 @@ public class MensajeController {
 	}
 	
 	
-	
-//	@ResponseBody
-	@RequestMapping(value = "/prueba", method = RequestMethod.POST)	
-	public String prueba() {
-		String b = "1";
-		
-		String a = null;
 
-		return b;
+	@RequestMapping(value = "/prueba", method = RequestMethod.POST, produces = "text/html")
+	public ModelAndView prueba(@RequestParam (required = true) final String cuerpo, final HttpServletRequest request) {
+		ModelAndView result;		
+		result = new ModelAndView("redirect:/mensaje/create.do");
+		
+		request.getSession().setAttribute("cuerpoMensaje", cuerpo);
+		
+		return result;
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
