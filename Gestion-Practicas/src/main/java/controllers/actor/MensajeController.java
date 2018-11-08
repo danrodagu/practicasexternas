@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -115,13 +118,29 @@ public class MensajeController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final MensajeForm mensajeForm, @RequestParam (required = true) final String cuerpo, final BindingResult binding) {
+	public ModelAndView save(@Valid final MensajeForm mensajeForm, final BindingResult binding, final HttpServletRequest request) {
 		ModelAndView result;
+//		String[] codes = {"NotNull.mensajeForm.cuerpo", "NotNull.cuerpo", "NotNull.java.lang.Integer"};
+//		String[] codes2 = {"mensajeForm.cuerpo", "cuerpo"};
+//		Object[] arguments = {new DefaultMessageSourceResolvable(codes2, null, "cuerpo")};
+//		
+//		binding.addError(new FieldError("mensajeForm", "cuerpo", null, false, codes, arguments, null));
+		boolean cuerpoVacio = false;		
+		String cuerpo = (String) request.getSession().getAttribute("cuerpoMensaje");
+		request.removeAttribute("cuerpoMensaje");
 		
-		if (binding.hasErrors()) {
+		if(cuerpo == null || cuerpo.isEmpty() || cuerpo.equals("<p><br></p>")) {
+			cuerpoVacio = true;
+		}
+		
+		if (binding.hasErrors() || cuerpoVacio) {
 			result = this.createEditModelAndView(mensajeForm);
+			if(cuerpoVacio) {
+				result.addObject("validaCuerpo", "mensaje.cuerpo.validacion");
+			}
 		} else {
 			try {
+				mensajeForm.setCuerpo(cuerpo);
 				this.mensajeService.createMensaje(mensajeForm);
 				result = new ModelAndView("redirect:/carpeta/list.do");
 			} catch (final Throwable oops) {
@@ -134,14 +153,18 @@ public class MensajeController {
 	
 	
 
-	@RequestMapping(value = "/prueba", method = RequestMethod.POST, produces = "text/html")
-	public ModelAndView prueba(@RequestParam (required = true) final String cuerpo, final HttpServletRequest request) {
-		ModelAndView result;		
-		result = new ModelAndView("redirect:/mensaje/create.do");
+	@RequestMapping(value = "/mensajeAjax", method = RequestMethod.GET)
+	public ResponseEntity<Object> mensajeAjax(@RequestParam (required = true) final String cuerpo, final HttpServletRequest request) {
+		HttpHeaders headers = new HttpHeaders();
+        String error = null;
+        
+        if(cuerpo == null) {
+        	error = "1";
+        }
 		
 		request.getSession().setAttribute("cuerpoMensaje", cuerpo);
 		
-		return result;
+		return new ResponseEntity<Object>(error, headers, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)

@@ -78,27 +78,30 @@
 		    <div id="editor">
 		    	<p></p>
 		    </div>
-			<%-- <form:textarea id="cuerpo" path="cuerpo" cssClass="form-control" required="true"/>
-			<form:errors cssClass="alert alert-danger medium" path="cuerpo" /> --%>
-		</div>
-		
-		
+		    
+			<br />
+			<jstl:if test="${not empty validaCuerpo}">
+				<div class="alert alert-danger medium" role="alert">
+					<spring:message code="${validaCuerpo}" />
+				</div>
+			</jstl:if>
 			
+			<br />
+			
+			<button id="save" name="save" type="submit" class="btn btn-dark"><spring:message code="mensaje.submit" /></button>
+			&nbsp;&nbsp;
+			<button type="button" class="btn btn-dark" onclick="javascript: window.location.replace('carpeta/list.do');">
+				<spring:message code="actor.cancel" />
+			</button>
+		</div>		
 		<br />
 		
 
 		<%-- <gp:submit name="save" code="mensaje.save" />
 		&nbsp;
-		<gp:cancel url="welcome/index.do" code="mensaje.cancel" /> --%>
-		
-		<button id="save" name="save" type="submit" class="btn btn-dark"><spring:message code="mensaje.submit" /></button>
-		&nbsp;&nbsp;
-		<button type="button" class="btn btn-dark" onclick="javascript: window.location.replace('welcome/index.do');">
-			<spring:message code="actor.cancel" />
-		</button>
+		<gp:cancel url="carpeta/list.do" code="mensaje.cancel" /> --%>
 
-	</fieldset>
-	
+	</fieldset>	
 </form:form>
 
 
@@ -116,30 +119,28 @@
 	    });
 		
 	    $("form").submit(function(e) {
-	    	e.preventDefault();
+	    	
 	    	var myEditor = document.querySelector('#editor');
 			var html = myEditor.children[0].innerHTML;
-			var validated = false;
 			
 			$.ajax({
-	    			type : "POST",
-	    			url : 'mensaje/edit.do',
+	    			type : "GET",
+	    			url : 'mensaje/mensajeAjax.do',
 	    			contentType: 'application/json; charset=utf-8',
-	    		    data: {'cuerpo': html, 'mensajeForm': mensajeForm},
+	    		    data: {'cuerpo': html},
 	    		    async: false,
 	    		    cache: false,
-	    			success: function(callback){
-	    				validated = true;    				
+	    			success: function(callback){	    				
+	    				if(callback.error != null){
+	    					e.preventDefault();
+	    					alert('Error interno');
+	    				}				
 	    			},
 	    			error: function (xhr) {
-	    		        alert('Error: ' + xhr.status);
+	    				e.preventDefault();
+	    		        alert('Error ' + xhr.status);
 	    		    }
 	    		});
-		
-			if(validated){
-				$(this).submit();	
-			}
-				
 			
 	    });
 	    
