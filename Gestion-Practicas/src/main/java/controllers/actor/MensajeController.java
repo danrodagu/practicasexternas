@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -153,16 +154,20 @@ public class MensajeController {
 	
 	
 
-	@RequestMapping(value = "/mensajeAjax", method = RequestMethod.GET)
-	public ResponseEntity<Object> mensajeAjax(@RequestParam (required = true) final String cuerpo, final HttpServletRequest request) {
+	@RequestMapping(value = "/mensajeAjax", method = RequestMethod.POST)
+	public ResponseEntity<Object> mensajeAjax(@RequestBody final String cuerpo, final HttpServletRequest request) {
 		HttpHeaders headers = new HttpHeaders();
-        String error = null;
+		String body = null;
+		String error = null;
+		
+		// se usa para obtener solo el cuerpo del mensaje
+		body = cuerpo.substring(11, cuerpo.length()-2);
         
-        if(cuerpo == null) {
+        if(body == null || !body.startsWith("<p>") || !body.endsWith("<p>")) {
         	error = "1";
         }
 		
-		request.getSession().setAttribute("cuerpoMensaje", cuerpo);
+		request.getSession().setAttribute("cuerpoMensaje", body);
 		
 		return new ResponseEntity<Object>(error, headers, HttpStatus.OK);
 	}

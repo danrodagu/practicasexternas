@@ -121,13 +121,13 @@
 	    $("form").submit(function(e) {
 	    	
 	    	var myEditor = document.querySelector('#editor');
-			var html = myEditor.children[0].innerHTML;
+			var html = myEditor.children[0].innerHTML;			
 			
 			$.ajax({
-	    			type : "GET",
+	    			type : "POST",
 	    			url : 'mensaje/mensajeAjax.do',
 	    			contentType: 'application/json; charset=utf-8',
-	    		    data: {'cuerpo': html},
+	    		    data: JSON.stringify({'cuerpo': html}),
 	    		    async: false,
 	    		    cache: false,
 	    			success: function(callback){	    				

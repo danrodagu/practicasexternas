@@ -38,7 +38,15 @@
 
 <spring:message code="mensaje.cuerpo" />:
 &nbsp;&nbsp;
-<pre><jstl:out value="${mensaje.cuerpo}" /></pre>
+<div id="cuerpo"><jstl:out value="${mensaje.cuerpo}" /></div>
 <br /><br />
 
+
+<script type='text/javascript'>
+	$(document).ready(function() {
+		var res = document.getElementById("cuerpo").textContent;
+	    $('#cuerpo').empty();
+	    $('#cuerpo').append(res);
+	});
+</script>
 
