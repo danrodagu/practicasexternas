@@ -185,7 +185,15 @@
 		<property name="noModificable" value="true" />
 		<property name="actor" ref="alumno1" />
 	</bean>
+	
 
-
+	<!-- Documentos -->	
+	
+<!-- 	<bean id="documento1" class="domain.Documento">
+		<property name="titulo" value="automatricula" />
+		<property name="formato" value="png" />
+		<property name="archivo" value="true" />
+		<property name="actor" ref="alumno1" />
+	</bean> -->
 
 </beans>

@@ -35,10 +35,14 @@
 &nbsp;&nbsp;
 <jstl:out value="${mensaje.asunto}" />
 <br />
-
-<spring:message code="mensaje.cuerpo" />:
+<br />
+<%-- <spring:message code="mensaje.cuerpo" />: --%>
 &nbsp;&nbsp;
-<div id="cuerpo"><jstl:out value="${mensaje.cuerpo}" /></div>
+<div class="card">
+	<div class="card-body" id="cuerpo">
+		<jstl:out value="${mensaje.cuerpo}" />
+	</div>
+</div>
 <br /><br />
 
 
@@ -46,7 +50,7 @@
 	$(document).ready(function() {
 		var res = document.getElementById("cuerpo").textContent;
 	    $('#cuerpo').empty();
-	    $('#cuerpo').append(res);
+	    $('#cuerpo').append("<pre>" + res + "</pre>");
 	});
 </script>
 

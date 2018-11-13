@@ -18,8 +18,9 @@
 		<value>/views/actor/tiles.xml</value>
 		<value>/views/administrativo/tiles.xml</value>
 		<value>/views/alumno/tiles.xml</value>
-		<value>/views/carpeta/tiles.xml</value>
+		<value>/views/carpeta/tiles.xml</value>		
 		<value>/views/coordinador/tiles.xml</value>
+		<value>/views/documento/tiles.xml</value>
 		<value>/views/mensaje/tiles.xml</value>
 		<value>/views/oferta/tiles.xml</value>
 		<value>/views/tutor/tiles.xml</value>

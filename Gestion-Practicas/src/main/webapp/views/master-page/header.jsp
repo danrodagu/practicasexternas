@@ -101,6 +101,12 @@
 		          </div>
 		      </div>
 	      </security:authorize>
+	      <security:authorize access="hasRole('COORDINADOR') || hasRole('TUTOR')">
+		      <a id="alumnos" class="nav-item nav-link" href="alumno/list.do"><spring:message code="master.page.mis.alumnos"/></a>
+	      </security:authorize>
+	      <security:authorize access="hasRole('ALUMNO')">
+		      <a id="documentos" class="nav-item nav-link" href="documento/list.do"><spring:message code="master.page.mis.documentos"/></a>
+	      </security:authorize>
 	      <security:authorize access="isAuthenticated()">
 	      	<a id="mensajes" class="nav-item nav-link" href="carpeta/list.do"><spring:message code="master.page.mensajes"/></a>
 	      </security:authorize>

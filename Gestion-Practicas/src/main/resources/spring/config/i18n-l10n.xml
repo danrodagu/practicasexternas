@@ -23,6 +23,7 @@
 		<value>/views/alumno/messages</value>
 		<value>/views/carpeta/messages</value>
 		<value>/views/coordinador/messages</value>
+		<value>/views/documento/messages</value>
 		<value>/views/mensaje/messages</value>
 		<value>/views/oferta/messages</value>
 		<value>/views/tutor/messages</value>

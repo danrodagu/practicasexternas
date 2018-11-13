@@ -17,7 +17,10 @@
 		<bean class="converters.StringToActorConverter" />		
 		
 		<bean class="converters.CarpetaToStringConverter" />
-		<bean class="converters.StringToCarpetaConverter" />			
+		<bean class="converters.StringToCarpetaConverter" />
+		
+		<bean class="converters.DocumentoToStringConverter" />		
+		<bean class="converters.StringToDocumentoConverter" />		
 		
 		<bean class="converters.MensajeToStringConverter" />
 		<bean class="converters.StringToMensajeConverter" />
