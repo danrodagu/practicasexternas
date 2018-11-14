@@ -11,19 +11,14 @@
        
 <tiles-definitions>
 
-	<definition name="alumno/display" extends="master.page">	
-		<put-attribute name="title" value="Personal Data" />
-		<put-attribute name="body" value="/views/alumno/display.jsp" />
+	<definition name="documento/list" extends="master.page">	
+		<put-attribute name="title" value="" />
+		<put-attribute name="body" value="/views/documento/list.jsp" />
 	</definition>
 	
-	<definition name="alumno/create" extends="master.page">	
-		<put-attribute name="title" value="Register Student" />
-		<put-attribute name="body" value="/views/alumno/create.jsp" />
-	</definition>
-	
-	<definition name="alumno/edit" extends="master.page">	
-		<put-attribute name="title" value="Edit Student" />
-		<put-attribute name="body" value="/views/alumno/edit.jsp" />
+	<definition name="documento/upload" extends="master.page">	
+		<put-attribute name="title" value="Upload file" />
+		<put-attribute name="body" value="/views/documento/upload.jsp" />
 	</definition>
 	
 </tiles-definitions>

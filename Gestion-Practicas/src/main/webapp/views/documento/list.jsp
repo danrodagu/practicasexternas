@@ -14,28 +14,50 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
-<display:table name="carpetas" id="row" requestURI="carpeta/list.do"
-	pagesize="5" class="table table-hover">
-
-	<display:footer>
-		<gp:buttonUrl url="mensaje/create.do" code="mensaje.create"/>
-	</display:footer>
-
-	<spring:message code="carpeta.nombre" var="nameHeader" />
-	<display:column property="nombre" title="${nameHeader}" />
-
-	<display:column>
-		<gp:buttonUrl url="mensaje/list.do?carpetaId=${row.id}" code="carpeta.mensajes"/>
-	</display:column>
+<%-- <div class="input-group mb-3">
+	  <div class="custom-file">	    
+	    <input type="file" class="custom-file-input" id="inputGroupFile02">
+	    <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02"><spring:message code="documento.chooseFile" /></label>
+	  </div>
+	  <div class="input-group-append">
+	    <span class="input-group-text" id="inputGroupFileAddon02"><spring:message code="documento.upload" /></span>
+	  </div>
+	</div> --%>
 	
-	<display:column>
-		<jstl:if test="${row.noModificable == false }">
-			<gp:buttonUrl url="carpeta/edit.do?carpetaId=${row.id}" code="carpeta.editar"/>
-		</jstl:if>
-	</display:column>
+<div class="input-group mb-3">                     
+	<div class="custom-file">	
+   		<input id="inputFile" class="form-control" type="text" onclick="document.getElementById('file').click();"/>
+       	<div class="input-group-append">
+    		<span class="input-group-text" onclick="document.getElementById('file').click();" style="cursor: pointer;"><spring:message code="documento.browse" /></span>
+  			<span class="input-group-text" onclick="document.getElementById('file').click();" style="cursor: pointer;"><spring:message code="documento.upload" /></span>
+  		</div>
+ 	</div>
+    <input id="file" type="file" class="btn btn-default" onchange="mostrarArchivo()" style="visibility:hidden;"/>           
+</div> 
+
+<display:table name="documentos" id="row" requestURI="documento/list.do"
+	pagesize="10" class="table table-hover">	
+
+	<spring:message code="documento.titulo" var="tituloHeader" />
+	<display:column property="titulo" title="${nameHeader}" />
+	
+	<spring:message code="documento.uploader" var="uploaderHeader" />
+	<display:column property="uploader" title="${uploaderHeader}" />
 
 </display:table>
 
-<%-- <a href="carpeta/create.do" class="btn btn-success"> <spring:message
-		code="carpeta.create" />
-</a> --%>
+<script type="text/javascript">
+	function mostrarArchivo(){
+		var fi = document.getElementById('file'); 
+		
+		if(fi.files.length > 0){
+			var nameFile = fi.files.item(0).name;
+			var sizeFile = fi.files.item(0).size;
+			/* fi.files.type */
+			
+			$('#inputFile').val(nameFile + " (" + Math.round((sizeFile / 1024)) + " KB)");
+		}else{
+			$('#inputFile').val('');
+		}
+	}
+</script>

@@ -28,15 +28,15 @@ public class Documento extends DomainEntity {
 
 	// Getters and setters ----------------------------------------------------	
 
-//	@NotNull
-//	@NotBlank
-//	public String getTitulo() {
-//		return titulo;
-//	}
-//
-//	public void setTitulo(final String titulo) {
-//		this.titulo = titulo;
-//	}
+	@NotNull
+	@NotBlank
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(final String titulo) {
+		this.titulo = titulo;
+	}
 
 	@NotNull
 	@NotBlank

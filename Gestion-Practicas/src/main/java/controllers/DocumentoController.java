@@ -59,10 +59,10 @@ public class DocumentoController extends AbstractController {
 			return result;
 		}	
 	
-	// Creation ---------------------------------------------------------------
+	// Upload ---------------------------------------------------------------
 
 		@RequestMapping(value = "/upload", method = RequestMethod.GET)
-		public ModelAndView create(final HttpServletRequest request) {
+		public ModelAndView upload(final HttpServletRequest request) {
 			ModelAndView result;
 			DocumentoForm documentoForm;
 
@@ -78,8 +78,8 @@ public class DocumentoController extends AbstractController {
 
 		// Save -------------------------------------------------------------------
 
-		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-		public ModelAndView save(@Valid final DocumentoForm documentoForm, final BindingResult bindingResult) {
+		@RequestMapping(value = "/upload", method = RequestMethod.POST, params = "save")
+		public ModelAndView upload(@Valid final DocumentoForm documentoForm, final BindingResult bindingResult) {
 			ModelAndView result;
 			Documento documento;
 
@@ -112,7 +112,7 @@ public class DocumentoController extends AbstractController {
 		protected ModelAndView createEditModelAndView(final DocumentoForm documentoForm, final String message) {
 			ModelAndView result;
 
-			result = new ModelAndView("documento/edit");
+			result = new ModelAndView("documento/upload");
 			result.addObject("documentoForm", documentoForm);
 			result.addObject("message", message);
 
