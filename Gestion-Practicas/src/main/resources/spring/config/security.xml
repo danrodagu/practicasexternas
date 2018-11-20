@@ -51,7 +51,9 @@
 		
 		<security:intercept-url pattern="/mensaje/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/mensaje/edit?save" access="isAuthenticated()" />
-		<security:intercept-url pattern="/carpeta/**" access="isAuthenticated()" />		
+		<security:intercept-url pattern="/carpeta/**" access="isAuthenticated()" />
+		
+		<security:intercept-url pattern="/uploadServlet" access="isAuthenticated()" />	
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

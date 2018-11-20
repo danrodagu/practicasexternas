@@ -7,8 +7,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,24 +82,42 @@ public class DocumentoController extends AbstractController {
 		// Save -------------------------------------------------------------------
 
 		@RequestMapping(value = "/upload", method = RequestMethod.POST, params = "save")
-		public ModelAndView upload(@Valid final DocumentoForm documentoForm, final BindingResult bindingResult) {
+		public ModelAndView upload(@Valid final DocumentoForm documentoForm) {
 			ModelAndView result;
 			Documento documento;
 
-			if (bindingResult.hasErrors()) {
-				result = this.createEditModelAndView(documentoForm);
-			} else {
-				try {
-					documento = this.documentoService.reconstruct(documentoForm);
-					this.documentoService.save(documento);
-					result = new ModelAndView("redirect:/welcome/index.do");
-				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(documentoForm, "actor.commit.error");
-				}
-			}
-
+//			if (bindingResult.hasErrors()) {
+//				result = this.createEditModelAndView(documentoForm);
+//			} else {
+//				try {
+//					documento = this.documentoService.reconstruct(documentoForm);
+//					this.documentoService.save(documento);
+//					result = new ModelAndView("redirect:/welcome/index.do");
+//				} catch (final Throwable oops) {
+//					result = this.createEditModelAndView(documentoForm, "actor.commit.error");
+//				}
+//			}
+			result = new ModelAndView("redirect:/welcome/index.do");
 			return result;
 
+		}
+		
+		@RequestMapping(value = "/documentoAjax", method = RequestMethod.POST)
+		public ResponseEntity<Object> mensajeAjax(@RequestBody final String documento, final HttpServletRequest request) {
+			HttpHeaders headers = new HttpHeaders();
+			String body = null;
+			String error = null;
+			
+			// se usa para obtener solo el cuerpo del mensaje
+			body = documento.substring(11, documento.length()-2);
+	        
+	        if(body == null || !body.startsWith("<p>") || !body.endsWith("<p>")) {
+	        	error = "1";
+	        }
+			
+			request.getSession().setAttribute("cuerpoMensaje", body);
+			
+			return new ResponseEntity<Object>(error, headers, HttpStatus.OK);
 		}
 
 		// Ancillary methods ------------------------------------------------------

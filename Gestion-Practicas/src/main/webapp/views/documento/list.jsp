@@ -14,35 +14,30 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
-<%-- <div class="input-group mb-3">
-	  <div class="custom-file">	    
-	    <input type="file" class="custom-file-input" id="inputGroupFile02">
-	    <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02"><spring:message code="documento.chooseFile" /></label>
-	  </div>
-	  <div class="input-group-append">
-	    <span class="input-group-text" id="inputGroupFileAddon02"><spring:message code="documento.upload" /></span>
-	  </div>
-	</div> --%>
-	
-<div class="input-group mb-3">                     
-	<div class="custom-file">	
-   		<input id="inputFile" class="form-control" type="text" onclick="document.getElementById('file').click();"/>
-       	<div class="input-group-append">
-    		<span class="input-group-text" onclick="document.getElementById('file').click();" style="cursor: pointer;"><spring:message code="documento.browse" /></span>
-  			<span class="input-group-text" onclick="document.getElementById('file').click();" style="cursor: pointer;"><spring:message code="documento.upload" /></span>
-  		</div>
- 	</div>
-    <input id="file" type="file" class="btn btn-default" onchange="mostrarArchivo()" style="visibility:hidden;"/>           
-</div> 
 
+<br />
+<form:form id="form" action="uploadServlet" enctype="multipart/form-data">
+	<div class="input-group mb-3">                     
+		<div class="custom-file">	
+	   		<input id="inputFile" class="form-control" type="text" onclick="document.getElementById('file').click();"/>
+	       	<div class="input-group-append">
+	    		<span class="input-group-text" onclick="document.getElementById('file').click();" style="cursor: pointer;"><spring:message code="documento.browse" /></span>
+	  			<span id="uploadBtn" class="input-group-text" style="cursor: pointer;"><spring:message code="documento.upload" /></span>
+	  		</div>
+	 	</div>
+	 	<input id="titulo" type="text" name="titulo" style="visibility:hidden;"/>
+	    <input id="file" type="file" name="file" class="btn btn-default" onchange="mostrarArchivo()" style="visibility:hidden;"/>           
+	</div> 
+</form:form>
+<br />
 <display:table name="documentos" id="row" requestURI="documento/list.do"
 	pagesize="10" class="table table-hover">	
 
 	<spring:message code="documento.titulo" var="tituloHeader" />
-	<display:column property="titulo" title="${nameHeader}" />
+	<display:column property="titulo" title="${tituloHeader}" />
 	
 	<spring:message code="documento.uploader" var="uploaderHeader" />
-	<display:column property="uploader" title="${uploaderHeader}" />
+	<display:column property="uploader.userAccount.username" title="${uploaderHeader}" />
 
 </display:table>
 
@@ -60,4 +55,12 @@
 			$('#inputFile').val('');
 		}
 	}
+	
+	$('#uploadBtn').click(function(){
+		var file = document.getElementById('file'); 
+		
+		$('#titulo').val(file.files.item(0).name);
+		$('#form').submit();
+	});	
+	
 </script>
