@@ -1,5 +1,5 @@
 <%--
- * buttonUrl.tag
+ * iconUrl.tag
 
  --%>
  
@@ -16,21 +16,17 @@
 <%@ taglib prefix="gp" tagdir="/WEB-INF/tags" %>
 
 <%-- Attributes --%> 
- 
-<%@ attribute name="code" required="false" %>
 <%@ attribute name="url" required="true" %>
-<%@ attribute name="value" required="false" %>
+<%@ attribute name="name" required="true" %>
+<%@ attribute name="icon" required="true" %>
+<%@ attribute name="color" required="false" %>
 <%@ attribute name="target" required="false" %>
 
 
 <%-- Definition --%>
-<a href="${url}" target="${target}">
-<button>
-<jstl:if test="${code != null}">
-	<spring:message code="${code}" />
-</jstl:if>
-<jstl:if test="${value != null}">
-	<jstl:out value="${value}"></jstl:out>
-</jstl:if>
-</button>
+<spring:message code="${name}" var="nameHeader" />
+<a href="${url}" target="${target}" title="${nameHeader}">
+<span style="font-size: 20px; color: ${color};">
+	<i class="${icon}"></i>
+</span>
 </a>

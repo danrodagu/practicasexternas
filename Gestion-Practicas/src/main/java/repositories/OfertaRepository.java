@@ -20,4 +20,8 @@ public interface OfertaRepository extends JpaRepository<Oferta, Integer> {
 	@Query("select o from Oferta o where o.pais = ?1")
 	Collection<Oferta> ofertasByPais(String pais);
 	
+	// Obtiene maximo id de las ofertas
+	@Query("SELECT MAX(a.id) FROM Oferta a")
+	Integer maxOfertaId();
+	
 }

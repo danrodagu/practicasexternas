@@ -71,6 +71,4 @@ public class Documento extends DomainEntity {
 		this.uploader = uploader;
 	}
 
-	
-
 }

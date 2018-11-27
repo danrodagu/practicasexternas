@@ -20,4 +20,8 @@ public interface DocumentoRepository extends JpaRepository<Documento, Integer> {
 	@Query("select d from Documento d where d.uploader.id=?1")
 	Collection<Documento> findDocumentosByActor(int actorId);
 	
+	// Obtiene maximo id de los documentos
+	@Query("SELECT MAX(a.id) FROM Documento a")
+	Integer maxDocumentoId();
+	
 }

@@ -20,6 +20,10 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 	@Query("select a from Actor a where a.userAccount.username = ?1")
 	Actor findByUsername(String username);
 	
+	// Obtiene maximo id de los actores
+	@Query("SELECT MAX(a.id) FROM Actor a")
+	Integer maxActorId();
+	
 //	--- ALUMNO ---
 	
 	// Obtiene todos los alumnos

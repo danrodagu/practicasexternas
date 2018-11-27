@@ -20,4 +20,8 @@ public interface CarpetaRepository extends JpaRepository<Carpeta, Integer> {
 	@Query("select c from Carpeta c where c.nombre = ?1 AND c.actor.id = ?2")
 	Carpeta findCarpetaByNombreAndActor(String nombre, int actorId);
 	
+	// Obtiene maximo id de las carpetas
+	@Query("SELECT MAX(a.id) FROM Carpeta a")
+	Integer maxCarpetaId();
+	
 }

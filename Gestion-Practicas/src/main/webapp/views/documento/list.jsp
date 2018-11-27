@@ -30,16 +30,21 @@
 	</div> 
 </form:form>
 <br />
-<display:table name="documentos" id="row" requestURI="documento/list.do"
-	pagesize="10" class="table table-hover">	
-
-	<spring:message code="documento.titulo" var="tituloHeader" />
-	<display:column property="titulo" title="${tituloHeader}" />
+<div class="table-responsive">
+	<display:table name="documentos" id="row" requestURI="documento/list.do"
+		pagesize="10" class="table table-hover">	
 	
-	<spring:message code="documento.uploader" var="uploaderHeader" />
-	<display:column property="uploader.userAccount.username" title="${uploaderHeader}" />
-
-</display:table>
+		<spring:message code="documento.titulo" var="tituloHeader" />
+		<display:column property="titulo" title="${tituloHeader}" />
+		
+		<spring:message code="documento.uploader" var="uploaderHeader" />
+		<display:column property="uploader.userAccount.username" title="${uploaderHeader}" />
+		
+		<display:column>
+			<gp:iconUrl url="/Gestion-Practicas/downloadServlet?id=${row.id}" icon="fas fa-file-download" name="documento.download" color="Crimson"/>
+		</display:column>
+	</display:table>
+</div>
 
 <script type="text/javascript">
 	function mostrarArchivo(){

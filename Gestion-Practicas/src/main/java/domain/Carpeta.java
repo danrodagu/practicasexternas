@@ -30,7 +30,7 @@ public class Carpeta extends DomainEntity {
 		return this.nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
 
@@ -38,7 +38,7 @@ public class Carpeta extends DomainEntity {
 		return this.noModificable;
 	}
 
-	public void setNoModificable(boolean noModificable) {
+	public void setNoModificable(final boolean noModificable) {
 		this.noModificable = noModificable;
 	}
 
@@ -52,7 +52,7 @@ public class Carpeta extends DomainEntity {
 		return this.actor;
 	}
 
-	public void setActor(Actor actor) {
+	public void setActor(final Actor actor) {
 		this.actor = actor;
 	}
 

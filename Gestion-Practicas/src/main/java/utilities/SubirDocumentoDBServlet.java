@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import services.ActorService;
+import services.UtilService;
  
 @WebServlet("/uploadServlet")
 @MultipartConfig(maxFileSize = 16177215)    // tamaño máximo de 16MB
@@ -28,6 +29,11 @@ public class SubirDocumentoDBServlet extends HttpServlet{
     private String dbURL = "jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false";
     private String dbUser = "root";
     private String dbPass = "Lagarto665-";
+    
+   
+    
+    @Autowired
+    private UtilService utilService;
     
     @Autowired
     private ActorService actorService;
@@ -69,17 +75,30 @@ public class SubirDocumentoDBServlet extends HttpServlet{
             conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
  
             // se construye la query de inserción del documento
-            String sql = "INSERT INTO documento (version, titulo, formato, archivo, uploader_id) values (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id) values (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, 0);
-            statement.setString(2, titulo);
-            statement.setString(3, formato);
+            statement.setInt(1, utilService.maximoIdDB()+1);
+            statement.setInt(2, 0);
+            statement.setString(3, titulo);
+            statement.setString(4, formato);
              
             if (inputStream != null) {                
-                statement.setBlob(4, inputStream);
+                statement.setBlob(5, inputStream);
             }
             
-            statement.setInt(5, uploader); 
+            statement.setInt(6, uploader);
+            
+//            String sql = "INSERT INTO documento (version, titulo, formato, archivo, uploader_id) values (?, ?, ?, ?, ?)";
+//            PreparedStatement statement = conn.prepareStatement(sql);
+//            statement.setInt(1, 0);
+//            statement.setString(2, titulo);
+//            statement.setString(3, formato);
+//             
+//            if (inputStream != null) {                
+//                statement.setBlob(4, inputStream);
+//            }
+//            
+//            statement.setInt(5, uploader); 
             
             int row = statement.executeUpdate();
             if (row > 0) {

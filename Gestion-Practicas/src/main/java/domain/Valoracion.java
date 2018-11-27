@@ -68,5 +68,5 @@ public class Valoracion extends DomainEntity {
 	public void setAlumno(final Actor alumno) {
 		this.alumno = alumno;
 	}
-
+	
 }

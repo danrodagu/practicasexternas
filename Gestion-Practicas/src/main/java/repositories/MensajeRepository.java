@@ -16,4 +16,8 @@ public interface MensajeRepository extends JpaRepository<Mensaje, Integer> {
 	@Query("select m from Mensaje m where m.carpeta.id=?1")
 	Collection<Mensaje> findMensajesByCarpeta(int carpetaId);
 	
+	// Obtiene maximo id de los mensajes
+	@Query("SELECT MAX(a.id) FROM Mensaje a")
+	Integer maxMensajeId();
+	
 }
