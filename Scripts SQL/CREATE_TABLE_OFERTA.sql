@@ -6,7 +6,7 @@ CREATE TABLE `oferta` (
   `dotacion` decimal(19,2) NOT NULL,
   `duracion` decimal(19,2) NOT NULL,
   `empresa` varchar(255) NOT NULL,
-  `esCurricular` bit(1) NOT NULL,
+  `esCurricular` tinyint(1) NOT NULL,
   `pais` varchar(255) NOT NULL,
   `provincia` varchar(255),
   `localidad` varchar(255),  

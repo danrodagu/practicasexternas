@@ -3,7 +3,7 @@ CREATE TABLE `actor` (
   `version` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `apellidos` varchar(255) NOT NULL,
-  `expedienteCerrado` bit(1) NOT NULL,
+  `expedienteCerrado` tinyint(1) UNSIGNED NULL,
   `ofertaAsignada_id` int(11),
   `tutorAsignado_id` int(11),
   `userAccount_id` int(11) NOT NULL,
