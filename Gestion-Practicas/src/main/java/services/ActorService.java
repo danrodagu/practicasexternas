@@ -155,16 +155,5 @@ public class ActorService {
 
 	}
 	
-	public int maxActorId() {
-
-		int result;
-		result = this.actorRepository.maxActorId();
-
-		Assert.notNull(result);
-
-		return result;
-
-	}
-	
 
 }

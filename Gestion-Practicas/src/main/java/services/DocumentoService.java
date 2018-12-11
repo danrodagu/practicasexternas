@@ -122,15 +122,5 @@ public class DocumentoService {
 
 		return res;
 	}
-	
-	public int maxDocumentoId() {
-		int result;
-		result = this.documentoRepository.maxDocumentoId();
-
-		Assert.notNull(result);
-
-		return result;
-
-	}
 
 }
