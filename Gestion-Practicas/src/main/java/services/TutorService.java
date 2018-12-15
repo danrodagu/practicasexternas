@@ -30,6 +30,9 @@ public class TutorService {
 
 	@Autowired
 	private UserAccountService userAccountService;
+	
+	@Autowired
+	private ActorService actorService;
 
 	// Constructors -----------------------------------------------------------
 	public TutorService() {
@@ -155,6 +158,14 @@ public class TutorService {
 		
 		res.getUserAccount().setUsername(tutorForm.getUsername());
 		res.getUserAccount().setPassword(tutorForm.getPassword());
+
+		return res;
+	}
+	
+	public Collection<Actor> findMyStudents(){
+		Collection<Actor> res;
+
+		res = this.actorRepository.findMyStudents(actorService.findByPrincipal().getId());
 
 		return res;
 	}

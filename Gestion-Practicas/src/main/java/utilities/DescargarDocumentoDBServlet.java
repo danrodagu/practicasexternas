@@ -25,7 +25,7 @@ public class DescargarDocumentoDBServlet extends HttpServlet{
 	// propiedades de la conexión a la bd
     private String dbURL = "jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false";
     private String dbUser = "root";
-    private String dbPass = "Lagarto665-"; 
+    private String dbPass = "USpracticas18"; 
      
 //    @Override
 //	public void init(final ServletConfig config) throws ServletException {

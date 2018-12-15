@@ -23,16 +23,16 @@
 
 	<spring:message code="carpeta.nombre" var="nameHeader" />
 	<display:column property="nombre" title="${nameHeader}" />
-
-	<display:column>
-		<gp:buttonUrl url="mensaje/list.do?carpetaId=${row.id}" code="carpeta.mensajes"/>
-	</display:column>
 	
 	<display:column>
+		<gp:iconUrl url="mensaje/list.do?carpetaId=${row.id}" icon="fas fa-envelope" name="carpeta.mensajes" color="Crimson"/>
+	</display:column>
+	
+<%-- 	<display:column>
 		<jstl:if test="${row.noModificable == false }">
 			<gp:buttonUrl url="carpeta/edit.do?carpetaId=${row.id}" code="carpeta.editar"/>
 		</jstl:if>
-	</display:column>
+	</display:column> --%>
 
 </display:table>
 

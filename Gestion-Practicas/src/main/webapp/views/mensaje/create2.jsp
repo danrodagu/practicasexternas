@@ -75,8 +75,8 @@
 		    </div>
 		    
 		    <input id="cuerpo" name="cuerpo" type="hidden">
-		    <div id="editor">
-		    	<p></p>
+		    <div id="editor">	    		
+		    	<p></p>		    		
 		    </div>
 		    
 			<br />
@@ -117,6 +117,8 @@
 		    },
 			theme: 'snow'
 	    });
+	    
+	    
 		
 	    $("form").submit(function(e) {
 	    	

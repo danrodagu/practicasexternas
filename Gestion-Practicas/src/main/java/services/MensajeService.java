@@ -200,6 +200,8 @@ public class MensajeService {
 		
 		if(!mensaje.getAsunto().startsWith("RE:") && !mensaje.getAsunto().startsWith("FW:")) {
 			result.setAsunto("RE: " + mensaje.getAsunto());
+		}else {
+			result.setAsunto(mensaje.getAsunto());
 		}
 		
 		localDate = mensaje.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();		
@@ -221,7 +223,14 @@ public class MensajeService {
 		
 		hora = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
 		
-		cuerpo = " \r----Mensaje enviado----\r\r  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r" + mensaje.getCuerpo();
+		if(mensaje.getCuerpo().contains("--------------------------------------------------------")) {
+			String[] jaja = mensaje.getCuerpo().split("--------------------------------------------------------");
+			cuerpo = " El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r\r" + jaja[1] + "\r--------------------------------------------------------";
+		}else {
+			cuerpo = " El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r\r" + mensaje.getCuerpo() + "\r--------------------------------------------------------";
+		}
+		
+		
 		result.setCuerpo(cuerpo);
 
 		return result;
@@ -271,7 +280,9 @@ public class MensajeService {
 		
 		if(!mensaje.getAsunto().startsWith("FW:") && !mensaje.getAsunto().startsWith("RE:")) {
 			result.setAsunto("FW: " + mensaje.getAsunto());
-		}		
+		}else {
+			result.setAsunto(mensaje.getAsunto());
+		}
 		result.setCuerpo(cuerpo);
 
 		return result;

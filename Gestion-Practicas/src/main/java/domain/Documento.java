@@ -59,6 +59,7 @@ public class Documento extends DomainEntity {
 
 	// Relationships ------------------------------------------------------------
 	private Actor uploader;
+	private Actor alumno;
 
 	@Valid
 	@NotNull
@@ -69,6 +70,17 @@ public class Documento extends DomainEntity {
 
 	public void setUploader(final Actor uploader) {
 		this.uploader = uploader;
+	}
+	
+
+	@Valid
+	@ManyToOne(optional = true)
+	public Actor getAlumno() {
+		return this.alumno;
+	}
+
+	public void setAlumno(final Actor alumno) {
+		this.alumno = alumno;
 	}
 
 }

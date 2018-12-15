@@ -31,21 +31,24 @@
 	<spring:message code="mensaje.asunto" var="asuntoHeader" />
 	<display:column property="asunto" title="${asuntoHeader}" />
 
-	<display:column>
-		<gp:buttonUrl url="mensaje/reply.do?mensajeId=${row.id}&actorId=${row.emisor.id}" code="mensaje.reply"/>
-	</display:column>
 	
 	<display:column>
-		<gp:buttonUrl url="mensaje/forward.do?mensajeId=${row.id}" code="mensaje.forward"/>
+		<gp:iconUrl url="mensaje/reply.do?mensajeId=${row.id}&actorId=${row.emisor.id}" icon="fas fa-reply" name="mensaje.reply" color="Crimson"/>
 	</display:column>
+
 	
 	<display:column>
-		<gp:buttonUrl url="mensaje/display.do?mensajeId=${row.id}" code="mensaje.display"/>
+		<gp:iconUrl url="mensaje/forward.do?mensajeId=${row.id}" icon="fas fa-reply-all" name="mensaje.forward" color="Crimson"/>
 	</display:column>
+
 	
 	<display:column>
-		<a  onclick="return confirm('<spring:message code="mensaje.delete.confirm" />')" href="mensaje/delete.do?mensajeId=${row.id}"> <spring:message code="mensaje.delete" />
-		</a>
+		<gp:iconUrl url="mensaje/display.do?mensajeId=${row.id}" icon="fas fa-eye" name="mensaje.display" color="Crimson"/>
+	</display:column>
+	
+	
+	<display:column>
+		<gp:iconUrl url="mensaje/delete.do?mensajeId=${row.id}" deleteConfirmMsg="mensaje.delete.confirm" icon="fas fa-trash-alt" name="mensaje.delete" color="Crimson"/>
 	</display:column>
 	
 

@@ -18,6 +18,7 @@
 <%-- Attributes --%> 
 <%@ attribute name="url" required="true" %>
 <%@ attribute name="name" required="true" %>
+<%@ attribute name="deleteConfirmMsg" required="false" %>
 <%@ attribute name="icon" required="true" %>
 <%@ attribute name="color" required="false" %>
 <%@ attribute name="target" required="false" %>
@@ -25,8 +26,21 @@
 
 <%-- Definition --%>
 <spring:message code="${name}" var="nameHeader" />
-<a href="${url}" target="${target}" title="${nameHeader}">
-<span style="font-size: 20px; color: ${color};">
-	<i class="${icon}"></i>
-</span>
-</a>
+
+<jstl:if test="${deleteConfirmMsg != null}">
+	<spring:message code="${deleteConfirmMsg}" var="onclickHeader" />
+	<a href="${url}" onclick="return confirm('${onclickHeader}')" target="${target}" title="${nameHeader}">
+		<span style="font-size: 20px; color: ${color};">
+			<i class="${icon}"></i>
+		</span>
+	</a>
+</jstl:if>
+
+<jstl:if test="${deleteConfirmMsg == null}">
+	<a href="${url}" target="${target}" title="${nameHeader}">
+		<span style="font-size: 20px; color: ${color};">
+			<i class="${icon}"></i>
+		</span>
+	</a>
+</jstl:if>
+

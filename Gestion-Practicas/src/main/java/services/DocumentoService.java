@@ -77,10 +77,10 @@ public class DocumentoService {
 		return res;
 	}
 	
-	public Collection<Documento> findDocumentosByActor(final int actorId) {
+	public Collection<Documento> findDocumentosByAlumno(final int actorId) {
 		Collection<Documento> res;
 
-		res = this.documentoRepository.findDocumentosByActor(actorId);
+		res = this.documentoRepository.findDocumentosByAlumno(actorId);
 
 		return res;
 	}	
@@ -114,6 +114,10 @@ public class DocumentoService {
 			res = new Documento();
 			uploader = actorService.findByPrincipal();
 			res.setUploader(uploader);
+			
+			if(actorService.isAlumno()) {
+				res.setAlumno(uploader);
+			}
 		} else {
 			res = this.findOne(documentoForm.getId());
 		}

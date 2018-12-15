@@ -97,7 +97,9 @@
 			      <div class="dropdown-menu" aria-labelledby="alta">
 			          <a class="dropdown-item" href="alumno/create.do"><spring:message code="master.page.alumno"/></a>
 			          <a class="dropdown-item" href="tutor/create.do"><spring:message code="master.page.tutor"/></a>
-			          <a class="dropdown-item" href="administrativo/create.do"><spring:message code="master.page.administrativo"/></a>
+			          <security:authorize access="hasRole('COORDINADOR')">
+			          	<a class="dropdown-item" href="administrativo/create.do"><spring:message code="master.page.administrativo"/></a>
+		          	  </security:authorize>
 		          </div>
 		      </div>
 	      </security:authorize>

@@ -24,10 +24,11 @@
 	    		<span class="input-group-text" onclick="document.getElementById('file').click();" style="cursor: pointer;"><spring:message code="documento.browse" /></span>
 	  			<span id="uploadBtn" class="input-group-text" style="cursor: pointer;"><spring:message code="documento.upload" /></span>
 	  		</div>
-	 	</div>
-	 	<input id="titulo" type="text" name="titulo" style="visibility:hidden;"/>
+	 	</div>	 	
 	    <input id="file" type="file" name="file" class="btn btn-default" onchange="mostrarArchivo()" style="visibility:hidden;"/>           
 	</div> 
+	<input id="titulo" type="text" name="titulo" style="visibility:hidden;"/>
+	<input id="alumno" type="text" name="alumno" style="visibility:hidden;"/>
 </form:form>
 <br />
 <div class="table-responsive">
@@ -65,6 +66,7 @@
 		var file = document.getElementById('file'); 
 		
 		$('#titulo').val(file.files.item(0).name);
+		$('#alumno').val('${alumnoId}');
 		$('#form').submit();
 	});	
 	

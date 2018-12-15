@@ -6,12 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,13 +48,20 @@ public class DocumentoController extends AbstractController {
 			HttpSession session = request.getSession();
 			session.setAttribute("active", "documentos");	
 			
-			alumno = actorService.findByPrincipal();
+			if(!StringUtil.isBlank(alumnoId)) {
+				alumno = actorService.findOne(Integer.parseInt(alumnoId));				
+			}else {
+				alumno = actorService.findByPrincipal();
+			}
 			
-			documentos = documentoService.findDocumentosByActor(alumno.getId());				
+			request.setAttribute("alumnoId", alumno.getId());
+			
+			documentos = documentoService.findDocumentosByAlumno(alumno.getId());				
 			
 			result = new ModelAndView("documento/list");
 
 			result.addObject("documentos", documentos);
+			result.addObject("alumnoId", alumnoId);
 
 			return result;
 		}	
@@ -100,24 +104,6 @@ public class DocumentoController extends AbstractController {
 			result = new ModelAndView("redirect:/welcome/index.do");
 			return result;
 
-		}
-		
-		@RequestMapping(value = "/documentoAjax", method = RequestMethod.POST)
-		public ResponseEntity<Object> mensajeAjax(@RequestBody final String documento, final HttpServletRequest request) {
-			HttpHeaders headers = new HttpHeaders();
-			String body = null;
-			String error = null;
-			
-			// se usa para obtener solo el cuerpo del mensaje
-			body = documento.substring(11, documento.length()-2);
-	        
-	        if(body == null || !body.startsWith("<p>") || !body.endsWith("<p>")) {
-	        	error = "1";
-	        }
-			
-			request.getSession().setAttribute("cuerpoMensaje", body);
-			
-			return new ResponseEntity<Object>(error, headers, HttpStatus.OK);
 		}
 
 		// Ancillary methods ------------------------------------------------------

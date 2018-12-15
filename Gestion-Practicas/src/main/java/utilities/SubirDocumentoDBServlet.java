@@ -28,7 +28,7 @@ public class SubirDocumentoDBServlet extends HttpServlet{
 	// propiedades de la conexión a la bd
     private String dbURL = "jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false";
     private String dbUser = "root";
-    private String dbPass = "Lagarto665-";
+    private String dbPass = "USpracticas18";
     
    
     
@@ -52,6 +52,8 @@ public class SubirDocumentoDBServlet extends HttpServlet{
     	String titulo = request.getParameter("titulo");
     	String formato = titulo.split("\\.")[1].toLowerCase();
     	int uploader = actorService.findByPrincipal().getId();
+    	
+    	
          
         InputStream inputStream = null;
          
@@ -75,7 +77,7 @@ public class SubirDocumentoDBServlet extends HttpServlet{
             conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
  
             // se construye la query de inserción del documento
-            String sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id) values (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, alumno_id) values (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, utilService.maximoIdDB()+1);
             statement.setInt(2, 0);
@@ -87,6 +89,14 @@ public class SubirDocumentoDBServlet extends HttpServlet{
             }
             
             statement.setInt(6, uploader);
+            
+            String alumno = request.getParameter("alumno");
+            
+            if(alumno.isEmpty() ||  alumno == null) {
+            	statement.setInt(7, uploader);
+            }else {            	
+            	statement.setInt(7, Integer.parseInt(alumno));
+            }
             
 //            String sql = "INSERT INTO documento (version, titulo, formato, archivo, uploader_id) values (?, ?, ?, ?, ?)";
 //            PreparedStatement statement = conn.prepareStatement(sql);
@@ -120,7 +130,15 @@ public class SubirDocumentoDBServlet extends HttpServlet{
             request.setAttribute("Message", message);
              
             // se redirecciona al listado tras la subida
-            getServletContext().getRequestDispatcher("/documento/list.do").forward(request, response);
+            String alumno = request.getParameter("alumno");
+            
+            if(alumno.isEmpty() ||  alumno == null) {
+            	getServletContext().getRequestDispatcher("/documento/list.do").forward(request, response);
+            }else {            	
+            	getServletContext().getRequestDispatcher("/documento/list.do?alumnoId=" + alumno).forward(request, response);
+            }
+            
+            
         }
     }
 }

@@ -17,8 +17,8 @@ public interface DocumentoRepository extends JpaRepository<Documento, Integer> {
 	Collection<Documento> findDocumentosByFormato(String formato);
 	
 	// Find documento by alumno principal
-	@Query("select d from Documento d where d.uploader.id=?1")
-	Collection<Documento> findDocumentosByActor(int actorId);
+	@Query("select d from Documento d where d.alumno.id=?1")
+	Collection<Documento> findDocumentosByAlumno(int actorId);
 	
 	// Obtiene maximo id de los documentos
 	@Query("SELECT MAX(a.id) FROM Documento a")

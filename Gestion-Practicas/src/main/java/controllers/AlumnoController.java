@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import forms.AlumnoForm;
 import forms.RegistroAlumnoForm;
+import services.ActorService;
 import services.AlumnoService;
 import services.TutorService;
 
@@ -33,11 +34,38 @@ public class AlumnoController extends AbstractController {
 	
 	@Autowired
 	private TutorService tutorService;
+	
+	@Autowired
+	private ActorService actorService;
 
 	// Constructors -----------------------------------------------------------
 
 	public AlumnoController() {
 		super();
+	}
+	
+	
+	// Listing --------------------------------------
+	@RequestMapping(value = "/list")
+	public ModelAndView list(final HttpServletRequest request) {
+		ModelAndView result;
+		Collection<Actor> alumnos;
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("active", "alumnos");	
+		
+		if(actorService.isTutor()) {
+			alumnos = this.tutorService.findMyStudents();
+		} else {
+			alumnos = alumnoService.findAll();
+		}
+
+		
+		result = new ModelAndView("alumno/list");
+
+		result.addObject("alumnos", alumnos);
+
+		return result;
 	}
 
 	// Display ----------------------------------------------------------------
