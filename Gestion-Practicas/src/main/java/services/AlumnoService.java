@@ -190,7 +190,14 @@ public class AlumnoService {
 		oferta.setDescripcion(registroAlumnoForm.getDescripcion());
 		oferta.setDotacion(registroAlumnoForm.getDotacion());
 		oferta.setDuracion(registroAlumnoForm.getDuracion());
+		oferta.setHoras(registroAlumnoForm.getHoras());
+		oferta.setFechaInicio(registroAlumnoForm.getFechaInicio());
+		oferta.setFechaFin(registroAlumnoForm.getFechaFin());
 		oferta.setEmpresa(registroAlumnoForm.getEmpresa());
+		oferta.setCifEmp(registroAlumnoForm.getCifEmp());
+		oferta.setEmailEmp(registroAlumnoForm.getEmailEmp());
+		oferta.setTelefonoEmp(registroAlumnoForm.getTelefonoEmp());
+		oferta.setTutorEmp(registroAlumnoForm.getTutorEmp());
 		oferta.setEsCurricular(registroAlumnoForm.getEsCurricular());
 		oferta.setLocalidad(registroAlumnoForm.getLocalidad());
 		oferta.setProvincia(registroAlumnoForm.getProvincia());

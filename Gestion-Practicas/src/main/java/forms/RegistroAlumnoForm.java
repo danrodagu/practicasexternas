@@ -2,12 +2,17 @@
 package forms;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 public class RegistroAlumnoForm {
@@ -26,11 +31,18 @@ public class RegistroAlumnoForm {
 	private String descripcion;
 	private boolean esCurricular; // True: curricular; False: extracurricular
 	private BigDecimal duracion; // En meses
+	private Integer horas;
+	private Date fechaInicio;
+	private Date fechaFin;
 	private BigDecimal dotacion;
 	private String pais;
 	private String localidad;
 	private String provincia;
 	private String empresa;
+	private String cifEmp;
+	private String telefonoEmp;
+	private String emailEmp;
+	private String tutorEmp;
 	
 	//TUTOR
 	private Integer idTutor;
@@ -185,6 +197,81 @@ public class RegistroAlumnoForm {
 		this.empresa = empresa;
 	}
 
+	@NumberFormat
+	public Integer getHoras() {
+		return horas;
+	}
+
+	public void setHoras(final Integer horas) {
+		this.horas = horas;
+	}
+
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(final Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(final Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	@NotNull
+	@NotBlank
+	@SafeHtml
+	public String getCifEmp() {
+		return cifEmp;
+	}
+
+	public void setCifEmp(final String cifEmp) {
+		this.cifEmp = cifEmp;
+	}
+
+	@NotNull
+	@NotBlank
+	@SafeHtml
+	public String getTelefonoEmp() {
+		return telefonoEmp;
+	}
+
+	public void setTelefonoEmp(final String telefonoEmp) {
+		this.telefonoEmp = telefonoEmp;
+	}
+
+	@NotNull
+	@NotBlank
+	@Email
+	@SafeHtml
+	public String getEmailEmp() {
+		return emailEmp;
+	}
+
+	public void setEmailEmp(final String emailEmp) {
+		this.emailEmp = emailEmp;
+	}
+
+	@NotNull
+	@NotBlank
+	@SafeHtml
+	public String getTutorEmp() {
+		return tutorEmp;
+	}
+
+	public void setTutorEmp(final String tutorEmp) {
+		this.tutorEmp = tutorEmp;
+	}
 
 	@NotNull
 	public Integer getIdTutor() {

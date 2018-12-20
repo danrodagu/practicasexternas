@@ -12,6 +12,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
+
 <fieldset>
 	<form:form action="alumno/create.do" modelAttribute="registroAlumnoForm">
 
@@ -57,8 +58,23 @@
 			<div class="form-group col-md-4">
 				<gp:textarea id="descripcion" code="oferta.descripcion" path="descripcion" cssClass="form-control" required="required"/>				
 			</div>
+			
+		</div>
+		<div class="row">
 			<div class="form-group col-md-4">
 				<gp:textbox id="empresa" code="oferta.empresa" path="empresa" cssClass="form-control" required="required"/>				
+			</div>
+			<div class="form-group col-md-4">
+				<gp:textbox id="cifEmp" code="oferta.cifEmp" path="cifEmp" cssClass="form-control" required="required" />			
+			</div>
+			<div class="form-group col-md-4">
+				<gp:textbox id="telefonoEmp" code="oferta.telefonoEmp" path="telefonoEmp" cssClass="form-control" required="required"/>				
+			</div>
+			<div class="form-group col-md-4">
+				<gp:textbox id="emailEmp" code="oferta.emailEmp" path="emailEmp" cssClass="form-control" required="required"/>				
+			</div>
+			<div class="form-group col-md-4">
+				<gp:textbox id="tutorEmp" code="oferta.tutorEmp" path="tutorEmp" cssClass="form-control" required="required"/>				
 			</div>
 		</div>
 		<div class="row">
@@ -66,11 +82,20 @@
 				<gp:textbox id="duracion" code="oferta.duracion" path="duracion" cssClass="form-control" required="required" />
 			</div>
 			<div class="form-group col-md-4">
-				<gp:textbox id="dotacion" code="oferta.dotacion" path="dotacion" cssClass="form-control" required="required"/>				
+				<gp:textbox id="horas" code="oferta.horas" path="horas" cssClass="form-control" required="required" />
+			</div>
+			<div class="form-group col-md-4">
+				<gp:textbox id="fechaInicio" code="oferta.fechaInicio" path="fechaInicio" cssClass="form-control" required="required" />
+			</div>			
+			<div class="form-group col-md-4">
+				<gp:textbox id="fechaFin" code="oferta.fechaFin" path="fechaFin" cssClass="form-control" required="required" />
 			</div>
 		</div>
 
 		<div class="row">
+			<div class="form-group col-md-4">
+				<gp:textbox id="dotacion" code="oferta.dotacion" path="dotacion" cssClass="form-control" required="required"/>				
+			</div>
 			<div class="form-group col-md-4">
 				<%-- <gp:select id="esCurricular" code="oferta.esCurricular" path="esCurricular" items="valores" itemLabel="opciones" cssClass="form-control" /> --%>
 				<div>
@@ -117,13 +142,47 @@
 		<button type="button" class="btn btn-dark" onclick="javascript: window.location.replace('welcome/index.do');"  >
 			<spring:message code="actor.cancel" />
 		</button>
-
-		
-		<%-- <gp:textbox code="actor.picture" path="picture" />
-		<br /> --%>
-		
-				
 		
 	</form:form>
 
 </fieldset>
+
+
+<script type="text/javascript">
+	if(localStorage.getItem("language") == "es"){	
+		jQuery(function($){
+			$.datepicker.regional['es'] = {
+				closeText: 'Cerrar',
+				prevText: '&#x3c;Ant',
+				nextText: 'Sig&#x3e;',
+				currentText: 'Hoy',
+				monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+				'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+				monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+				'Jul','Ago','Sep','Oct','Nov','Dic'],
+				dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+				dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Juv','Vie','S&aacute;b'],
+				dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+				weekHeader: 'Sm',
+				dateFormat: 'dd/mm/yy',
+				firstDay: 1,
+				isRTL: false,
+				showMonthAfterYear: false,
+				yearSuffix: ''};
+			$.datepicker.setDefaults($.datepicker.regional['es']);
+		});
+	};
+	if(localStorage.getItem("language") == "en"){
+		jQuery(function($){
+			$.datepicker.regional['en'] = {				
+				dateFormat: 'dd/mm/yy'
+			};
+			$.datepicker.setDefaults($.datepicker.regional['en']);
+		});
+	}
+	
+	$(document).ready(function() {
+	    $("#fechaInicio").datepicker();
+	    $("#fechaFin").datepicker();
+	 });
+</script>
