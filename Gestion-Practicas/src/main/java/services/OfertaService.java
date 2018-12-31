@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Actor;
 import domain.Oferta;
+import forms.RegistroOfertaForm;
 import repositories.OfertaRepository;
 
 @Service
@@ -22,7 +24,12 @@ public class OfertaService {
 
 	// Supporting Services ----------------------------------------------------
 
-
+	@Autowired
+	private TutorService tutorService;
+	
+	@Autowired
+	private AlumnoService alumnoService;
+	
 	// Constructors -----------------------------------------------------------
 
 	public OfertaService() {
@@ -107,6 +114,40 @@ public class OfertaService {
 
 		return result;
 
+	}
+	
+	public void registrarOferta(final RegistroOfertaForm registroOfertaForm) {		
+		Actor alumno;
+		Oferta oferta;
+		Actor tutor;
+
+		tutor = tutorService.findOne(registroOfertaForm.getIdTutor());		
+		
+		alumno = alumnoService.findOne(registroOfertaForm.getIdAlumno());
+		
+		oferta = new Oferta();
+		oferta.setTitulo(registroOfertaForm.getTitulo());
+		oferta.setDescripcion(registroOfertaForm.getDescripcion());
+		oferta.setDotacion(registroOfertaForm.getDotacion());
+		oferta.setDuracion(registroOfertaForm.getDuracion());
+		oferta.setHoras(registroOfertaForm.getHoras());
+		oferta.setFechaInicio(registroOfertaForm.getFechaInicio());
+		oferta.setFechaFin(registroOfertaForm.getFechaFin());
+		oferta.setEmpresa(registroOfertaForm.getEmpresa());
+		oferta.setCifEmp(registroOfertaForm.getCifEmp());
+		oferta.setEmailEmp(registroOfertaForm.getEmailEmp());
+		oferta.setTelefonoEmp(registroOfertaForm.getTelefonoEmp());
+		oferta.setTutorEmp(registroOfertaForm.getTutorEmp());
+		oferta.setEsCurricular(registroOfertaForm.getEsCurricular());
+		oferta.setLocalidad(registroOfertaForm.getLocalidad());
+		oferta.setProvincia(registroOfertaForm.getProvincia());
+		oferta.setPais(registroOfertaForm.getPais());
+		oferta.setExpedienteCerrado(false);
+		oferta.setAlumnoAsignado(alumno);
+		oferta.setTutorAsignado(tutor);
+		
+		oferta = save(oferta);
+		
 	}
 	
 

@@ -42,12 +42,13 @@
 		<security:intercept-url pattern="/administrativo/create.do" access="hasRole('COORDINADOR')" />	
 		<security:intercept-url pattern="/alumno/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/tutor/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/oferta/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
-		<security:intercept-url pattern="/tutor/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
-		<security:intercept-url pattern="/alumno/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/tutor/edit.do" access="hasRole('TUTOR') || hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/alumno/edit.do" access="hasRole('ALUMNO') || hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/administrativo/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
-		<security:intercept-url pattern="/alumno/list.do" access="hasRole('COORDINADOR') || hasRole('TUTOR')" />
+		<security:intercept-url pattern="/alumno/list.do" access="hasRole('COORDINADOR') || hasRole('TUTOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/documento/**" access="isAuthenticated()" />
 		

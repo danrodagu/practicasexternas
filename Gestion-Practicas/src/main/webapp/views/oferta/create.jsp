@@ -14,39 +14,8 @@
 
 
 <fieldset>
-	<form:form action="alumno/create.do" modelAttribute="registroAlumnoForm">
-
-	<div class="dropdown-divider"></div>
-		<h4><spring:message code="alumno.registro.datosAlumno" /></h4>
-		<br />
-
-		<div class="row">
-			<div class="form-group col-md-4">
-				<gp:textbox id="nombre" code="actor.nombre" path="nombre" cssClass="form-control" required="required" />
-			</div>
-			<div class="form-group col-md-4">
-				<gp:textbox id="apellidos" code="actor.apellidos" path="apellidos" cssClass="form-control" required="required"/>				
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="form-group col-md-4">
-				<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" />
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="form-group col-md-4">
-				<gp:password id="password" code="actor.password" path="password" cssClass="form-control" required="required" />
-			</div>
-			<div class="form-group col-md-4">
-				<gp:password id="password2" code="actor.password2" path="password2" cssClass="form-control" required="required"/>				
-			</div>
-		</div>
-		
-		
-		<div class="dropdown-divider"></div>
-		
+	<form:form action="oferta/create.do" modelAttribute="registroOfertaForm">
+			
 		<h4><spring:message code="alumno.registro.datosOferta" /></h4>
 		<br />
 		
@@ -123,6 +92,16 @@
 			</div>
 			<div class="form-group col-md-4">
 				<gp:textbox id="localidad" code="oferta.localidad" path="localidad" cssClass="form-control" required="required"/>				
+			</div>
+		</div>
+		
+		<div class="dropdown-divider"></div>
+		<h4><spring:message code="alumno.registro.datosAlumno" /></h4>
+		<br />
+		
+		<div class="row">
+			<div class="form-group col-md-4">
+				<gp:select id="alumno" code="oferta.alumno" path="idAlumno" items="${alumnos}" itemLabel="nombreCompleto" cssClass="form-control" />
 			</div>
 		</div>
 		

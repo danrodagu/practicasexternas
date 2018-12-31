@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import forms.TutorForm;
+import services.CarpetaService;
 import services.TutorService;
 
 @Controller
@@ -25,6 +26,9 @@ public class TutorController extends AbstractController {
 
 	@Autowired
 	private TutorService tutorService;
+	
+	@Autowired
+	private CarpetaService carpetaService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -113,7 +117,10 @@ public class TutorController extends AbstractController {
 			} else {
 				try {
 					tutor = this.tutorService.reconstruct(tutorForm);
-					this.tutorService.save(tutor);
+					tutor = this.tutorService.save(tutor);
+					if (tutorForm.getId() == 0) {
+						this.carpetaService.carpetasPorDefecto(tutor);
+					}
 					result = new ModelAndView("redirect:/welcome/index.do");
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(tutorForm, "actor.commit.error");

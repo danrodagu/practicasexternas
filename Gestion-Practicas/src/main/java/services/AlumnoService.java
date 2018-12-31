@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actor;
-import domain.Oferta;
 import forms.AlumnoForm;
-import forms.RegistroAlumnoForm;
 import repositories.ActorRepository;
 import security.Authority;
 import security.LoginService;
@@ -64,7 +62,6 @@ public class AlumnoService {
 
 		userAccount.addAuthority(authority);
 		result.setUserAccount(userAccount);
-		result.setExpedienteCerrado(false);
 
 		return result;
 
@@ -128,6 +125,7 @@ public class AlumnoService {
 		return result;
 
 	}
+	
 
 	public AlumnoForm takeForm(final Actor alumno) {
 		AlumnoForm alumnoForm;
@@ -169,58 +167,13 @@ public class AlumnoService {
 
 		// res.setPicture(alumnoForm.getPicture());
 		//
-//		res.getUserAccount().setUsername(alumnoForm.getUsername());
-//		res.getUserAccount().setPassword(alumnoForm.getPassword());
+		res.getUserAccount().setUsername(alumnoForm.getUsername());
+		res.getUserAccount().setPassword(alumnoForm.getPassword());
+		
+		
 
 		return res;
-	}
+	}	
 	
-	public void registrarAlumno(final RegistroAlumnoForm registroAlumnoForm) {		
-		Actor alumno;
-		Oferta oferta;
-		Actor tutor;
-		
-//		// Comprobacion para que ambas contraseñas sean iguales
-//		Assert.isTrue(registroAlumnoForm.getPassword().equals(registroAlumnoForm.getPassword2()), "Las contraseñas no son iguales");
-
-		tutor = tutorService.findOne(registroAlumnoForm.getIdTutor());
-		
-		oferta = new Oferta();
-		oferta.setTitulo(registroAlumnoForm.getTitulo());
-		oferta.setDescripcion(registroAlumnoForm.getDescripcion());
-		oferta.setDotacion(registroAlumnoForm.getDotacion());
-		oferta.setDuracion(registroAlumnoForm.getDuracion());
-		oferta.setHoras(registroAlumnoForm.getHoras());
-		oferta.setFechaInicio(registroAlumnoForm.getFechaInicio());
-		oferta.setFechaFin(registroAlumnoForm.getFechaFin());
-		oferta.setEmpresa(registroAlumnoForm.getEmpresa());
-		oferta.setCifEmp(registroAlumnoForm.getCifEmp());
-		oferta.setEmailEmp(registroAlumnoForm.getEmailEmp());
-		oferta.setTelefonoEmp(registroAlumnoForm.getTelefonoEmp());
-		oferta.setTutorEmp(registroAlumnoForm.getTutorEmp());
-		oferta.setEsCurricular(registroAlumnoForm.getEsCurricular());
-		oferta.setLocalidad(registroAlumnoForm.getLocalidad());
-		oferta.setProvincia(registroAlumnoForm.getProvincia());
-		oferta.setPais(registroAlumnoForm.getPais());
-		
-		alumno = create();		
-		alumno.setNombre(registroAlumnoForm.getNombre());
-		alumno.setApellidos(registroAlumnoForm.getApellidos());		
-//		alumno.setOfertaAsignada(oferta);
-		alumno.setTutorAsignado(tutor);
-
-		// res.setPicture(alumnoForm.getPicture());
-		//
-		alumno.getUserAccount().setUsername(registroAlumnoForm.getUsername());
-		alumno.getUserAccount().setPassword(registroAlumnoForm.getPassword());
-		
-		oferta = ofertaService.save(oferta);
-		alumno.setOfertaAsignada(oferta);
-		
-		alumno = save(alumno);
-		
-		this.carpetaService.carpetasPorDefecto(alumno);		
-
-	}
 
 }

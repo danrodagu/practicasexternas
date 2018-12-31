@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import forms.AdministrativoForm;
 import services.AdministrativoService;
+import services.CarpetaService;
 
 @Controller
 @RequestMapping("/administrativo")
@@ -25,6 +26,9 @@ public class AdministrativoController extends AbstractController {
 
 	@Autowired
 	private AdministrativoService administrativoService;
+	
+	@Autowired
+	private CarpetaService carpetaService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -113,7 +117,10 @@ public class AdministrativoController extends AbstractController {
 				} else {
 					try {
 						administrativo = this.administrativoService.reconstruct(administrativoForm);
-						this.administrativoService.save(administrativo);
+						administrativo = this.administrativoService.save(administrativo);
+						if (administrativoForm.getId() == 0) {
+							this.carpetaService.carpetasPorDefecto(administrativo);
+						}
 						result = new ModelAndView("redirect:/welcome/index.do");
 					} catch (final Throwable oops) {
 						result = this.createEditModelAndView(administrativoForm, "actor.commit.error");

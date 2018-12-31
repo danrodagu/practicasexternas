@@ -93,6 +93,7 @@
 			          <security:authorize access="hasRole('COORDINADOR')">
 			          	<a class="dropdown-item" href="administrativo/create.do"><spring:message code="master.page.administrativo"/></a>
 		          	  </security:authorize>
+		          	  <a class="dropdown-item" href="oferta/create.do"><spring:message code="master.page.oferta"/></a>
 		          </div>
 		      </div>
 	      </security:authorize>

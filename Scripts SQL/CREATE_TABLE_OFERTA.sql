@@ -17,5 +17,10 @@ CREATE TABLE `oferta` (
   `telefonoEmp` varchar(255) NOT NULL,
   `emailEmp` varchar(255) NOT NULL,
   `tutorEmp` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `expedienteCerrado` tinyint(1) NOT NULL,
+  `alumnoAsignado_id` int(11) NOT NULL,
+  `tutorAsignado_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`alumnoAsignado_id`) REFERENCES `actor` (`id`),
+  FOREIGN KEY (`tutorAsignado_id`) REFERENCES `actor` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

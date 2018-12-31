@@ -41,11 +41,11 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 //	--- TUTOR ---
 	
 	// Obtiene todos los tutores
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'TUTOR'")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'TUTOR' OR auth.authority = 'COORDINADOR'")
 	Collection<Actor> findAllTutores();
 	
 	// Obtiene los alumnos del tutor logueado
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ALUMNO' AND a.tutorAsignado.id = ?1")
+	@Query("select o.alumnoAsignado from Oferta o WHERE o.tutorAsignado.id = ?1")
 	Collection<Actor> findMyStudents(int tutorId);
 	
 //	--- ADMINISTRATIVO ---

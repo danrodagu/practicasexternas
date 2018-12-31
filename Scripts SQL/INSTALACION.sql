@@ -24,6 +24,16 @@ CREATE TABLE `useraccount_authorities` (
   FOREIGN KEY (`UserAccount_id`) REFERENCES `useraccount` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `actor` (
+  `id` int(11) NOT NULL,
+  `version` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `apellidos` varchar(255) NOT NULL,  
+  `userAccount_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`userAccount_id`) REFERENCES `useraccount` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 CREATE TABLE `oferta` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
@@ -31,27 +41,24 @@ CREATE TABLE `oferta` (
   `descripcion` varchar(255) NOT NULL,
   `dotacion` decimal(19,2) NOT NULL,
   `duracion` decimal(19,2) NOT NULL,
-  `empresa` varchar(255) NOT NULL,
+  `horas` int(3) NOT NULL,
+  `fechaInicio` date NOT NULL,
+  `fechaFin` date NOT NULL,
   `esCurricular` tinyint(1) NOT NULL,
   `pais` varchar(255) NOT NULL,
   `provincia` varchar(255),
-  `localidad` varchar(255),  
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `actor` (
-  `id` int(11) NOT NULL,
-  `version` int(11) NOT NULL,
-  `nombre` varchar(255) NOT NULL,
-  `apellidos` varchar(255) NOT NULL,
-  `expedienteCerrado` tinyint(1) UNSIGNED NULL,
-  `ofertaAsignada_id` int(11),
-  `tutorAsignado_id` int(11),
-  `userAccount_id` int(11) NOT NULL,
+  `localidad` varchar(255),
+  `empresa` varchar(255) NOT NULL,
+  `cifEmp` varchar(255) NOT NULL,
+  `telefonoEmp` varchar(255) NOT NULL,
+  `emailEmp` varchar(255) NOT NULL,
+  `tutorEmp` varchar(255) NOT NULL,
+  `expedienteCerrado` tinyint(1) NOT NULL,
+  `alumnoAsignado_id` int(11) NOT NULL,
+  `tutorAsignado_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`ofertaAsignada_id`) REFERENCES `oferta` (`id`),
-  FOREIGN KEY (`tutorAsignado_id`) REFERENCES `actor` (`id`),
-  FOREIGN KEY (`userAccount_id`) REFERENCES `useraccount` (`id`)
+  FOREIGN KEY (`alumnoAsignado_id`) REFERENCES `actor` (`id`),
+  FOREIGN KEY (`tutorAsignado_id`) REFERENCES `actor` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `carpeta` (

@@ -7,13 +7,16 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -35,6 +38,8 @@ public class Oferta extends DomainEntity {
 	private String telefonoEmp;
 	private String emailEmp;
 	private String tutorEmp;
+	
+	private boolean expedienteCerrado;
 	
 
 	// Constructors -----------------------------------------------------------
@@ -126,6 +131,8 @@ public class Oferta extends DomainEntity {
 		this.empresa = empresa;
 	}
 
+	@NotNull
+	@NumberFormat
 	public Integer getHoras() {
 		return horas;
 	}
@@ -196,7 +203,43 @@ public class Oferta extends DomainEntity {
 	public void setTutorEmp(final String tutorEmp) {
 		this.tutorEmp = tutorEmp;
 	}
+	
+	public Boolean getExpedienteCerrado() {
+		return this.expedienteCerrado;
+	}
+
+	public void setExpedienteCerrado(final Boolean expedienteCerrado) {
+		this.expedienteCerrado = expedienteCerrado;
+	}
+
+	
 
 	// Relationships ----------------------------------------------------------
+	private Actor alumnoAsignado;
+	private Actor tutorAsignado;
 
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Actor getAlumnoAsignado() {
+		return alumnoAsignado;
+	}
+
+	public void setAlumnoAsignado(final Actor alumnoAsignado) {
+		this.alumnoAsignado = alumnoAsignado;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Actor getTutorAsignado() {
+		return this.tutorAsignado;
+	}
+
+	public void setTutorAsignado(final Actor tutorAsignado) {
+		this.tutorAsignado = tutorAsignado;
+	}
+	
+	
 }

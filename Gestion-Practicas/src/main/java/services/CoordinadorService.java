@@ -29,6 +29,9 @@ public class CoordinadorService {
 
 	@Autowired
 	private UserAccountService userAccountService;
+	
+	@Autowired
+	private CarpetaService carpetaService;
 
 	// Constructors -----------------------------------------------------------
 	public CoordinadorService() {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
+import services.CarpetaService;
 import services.CoordinadorService;
 
 @Controller
@@ -19,6 +20,9 @@ public class CoordinadorController extends AbstractController {
 
 	@Autowired
 	private CoordinadorService coordinadorService;
+	
+	@Autowired
+	private CarpetaService carpetaService;
 
 	// Constructors -----------------------------------------------------------
 

@@ -30,6 +30,9 @@ public class AdministrativoService {
 
 	@Autowired
 	private UserAccountService userAccountService;
+	
+	@Autowired
+	private CarpetaService carpetaService;
 
 	// Constructors -----------------------------------------------------------
 	public AdministrativoService() {
@@ -155,6 +158,7 @@ public class AdministrativoService {
 		
 		res.getUserAccount().setUsername(administrativoForm.getUsername());
 		res.getUserAccount().setPassword(administrativoForm.getPassword());
+
 
 		return res;
 	}
