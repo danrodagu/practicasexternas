@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
+import domain.Oferta;
 import forms.AlumnoForm;
 import services.ActorService;
 import services.AlumnoService;
 import services.CarpetaService;
+import services.OfertaService;
 import services.TutorService;
 
 @Controller
@@ -39,6 +41,9 @@ public class AlumnoController extends AbstractController {
 	
 	@Autowired
 	private CarpetaService carpetaService;
+	
+	@Autowired
+	private OfertaService ofertaService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -66,6 +71,30 @@ public class AlumnoController extends AbstractController {
 		result = new ModelAndView("alumno/list");
 
 		result.addObject("alumnos", alumnos);
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/practicas")
+	public ModelAndView practicas(@RequestParam(required = true, defaultValue = "0") int alumnoId, final HttpServletRequest request) {
+		ModelAndView result;
+		Collection<Oferta> ofertas;
+		Actor alumno;
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("active", "practicas");
+		
+		if (alumnoId == 0) {
+			alumno = this.alumnoService.findByPrincipal();			
+		} else {
+			alumno = this.alumnoService.findOne(alumnoId);
+		}
+
+		ofertas = ofertaService.ofertasByAlumno(alumno.getId());
+		
+		result = new ModelAndView("oferta/list");
+
+		result.addObject("ofertas", ofertas);
 
 		return result;
 	}

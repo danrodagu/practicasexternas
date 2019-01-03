@@ -41,6 +41,7 @@
 			
 		<security:intercept-url pattern="/administrativo/create.do" access="hasRole('COORDINADOR')" />	
 		<security:intercept-url pattern="/alumno/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/alumno/practicas.do" access="hasRole('ALUMNO') || hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/tutor/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/oferta/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		

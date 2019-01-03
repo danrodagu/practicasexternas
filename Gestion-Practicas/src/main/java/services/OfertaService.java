@@ -116,6 +116,33 @@ public class OfertaService {
 
 	}
 	
+	public Collection<Oferta> ofertasByAlumno(final int idAlumno) {
+		final Collection<Oferta> result;
+
+		result = this.ofertaRepository.ofertasByAlumno(idAlumno);
+
+		return result;
+
+	}
+	
+	public Collection<Oferta> ofertasCurricByAlumno(final int idAlumno) {
+		final Collection<Oferta> result;
+
+		result = this.ofertaRepository.ofertasCurricByAlumno(idAlumno);
+
+		return result;
+
+	}
+	
+	public Collection<Oferta> ofertasExtraByAlumno(final int idAlumno) {
+		final Collection<Oferta> result;
+
+		result = this.ofertaRepository.ofertasExtraByAlumno(idAlumno);
+
+		return result;
+
+	}
+	
 	public void registrarOferta(final RegistroOfertaForm registroOfertaForm) {		
 		Actor alumno;
 		Oferta oferta;

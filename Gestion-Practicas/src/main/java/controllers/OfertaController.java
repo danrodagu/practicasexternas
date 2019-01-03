@@ -135,7 +135,35 @@ public class OfertaController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final RegistroOfertaForm registroOfertaForm, final BindingResult bindingResult) {
 
-		ModelAndView result;		
+		ModelAndView result;
+		
+		try {			
+			Integer ofertasAsignadas = ofertaService.ofertasByAlumno(registroOfertaForm.getIdAlumno()).size();
+			Assert.isTrue(ofertasAsignadas < 2);
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(registroOfertaForm, "oferta.numOfertas.error");
+			return result;
+		}
+		
+		try {
+			if(registroOfertaForm.getEsCurricular()) {
+				Integer ofertasCurricAsignadas = ofertaService.ofertasCurricByAlumno(registroOfertaForm.getIdAlumno()).size();
+				Assert.isTrue(ofertasCurricAsignadas == 0);
+			}			
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(registroOfertaForm, "oferta.numCurric.error");
+			return result;
+		}
+		
+		try {
+			if(!registroOfertaForm.getEsCurricular()) {
+				Integer ofertasExtraAsignadas = ofertaService.ofertasExtraByAlumno(registroOfertaForm.getIdAlumno()).size();
+				Assert.isTrue(ofertasExtraAsignadas == 0);
+			}			
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(registroOfertaForm, "oferta.numExtra.error");
+			return result;
+		}
 		
 		try {
 			Assert.isTrue(registroOfertaForm.getDuracion().doubleValue() >= 1.5 && registroOfertaForm.getDuracion().doubleValue() <= 6.0);

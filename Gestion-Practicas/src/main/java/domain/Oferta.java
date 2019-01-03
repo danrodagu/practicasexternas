@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -40,6 +41,12 @@ public class Oferta extends DomainEntity {
 	private String tutorEmp;
 	
 	private boolean expedienteCerrado;
+	
+	@Transient
+    private String esCurricularStr;
+	
+	@Transient
+    private String expedienteCerradoStr;
 	
 
 	// Constructors -----------------------------------------------------------
@@ -77,6 +84,8 @@ public class Oferta extends DomainEntity {
 	public void setEsCurricular(final boolean esCurricular) {
 		this.esCurricular = esCurricular;
 	}
+	
+	
 
 	// mínimo real 1.5, máximo 6	
 	public BigDecimal getDuracion() {
@@ -211,8 +220,41 @@ public class Oferta extends DomainEntity {
 	public void setExpedienteCerrado(final Boolean expedienteCerrado) {
 		this.expedienteCerrado = expedienteCerrado;
 	}
-
 	
+	@Transient
+	public String getEsCurricularStr() {
+		esCurricularStr = "";
+		
+		if(esCurricular) {
+			esCurricularStr = "Curricular";
+		}else {
+			esCurricularStr = "Extracurricular";
+		}
+		
+		return esCurricularStr;
+	}
+	
+	public void setEsCurricularStr(String esCurricularStr) {
+		this.esCurricularStr = esCurricularStr;
+	}
+	
+	@Transient
+	public String getExpedienteCerradoStr() {		
+		expedienteCerradoStr = "";
+		
+		if(expedienteCerrado) {
+			expedienteCerradoStr = "Cerrado";
+		}else {
+			expedienteCerradoStr = "Abierto";
+		}
+		return expedienteCerradoStr;
+	}
+
+	public void setExpedienteCerradoStr(String expedienteCerradoStr) {
+		this.expedienteCerradoStr = expedienteCerradoStr;
+	}
+
+
 
 	// Relationships ----------------------------------------------------------
 	private Actor alumnoAsignado;
