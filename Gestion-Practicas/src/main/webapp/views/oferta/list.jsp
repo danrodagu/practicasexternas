@@ -32,9 +32,13 @@
 		<spring:message code="oferta.expedienteCerrado" var="expedienteCerradoHeader" />
 		<display:column property="expedienteCerradoStr" title="${expedienteCerradoHeader}"/>
 		
-		<%-- <display:column>
-			<gp:iconUrl url="/Gestion-Practicas/downloadServlet?id=${row.id}" icon="fas fa-file-download" name="documento.download" color="Crimson"/>
-		</display:column> --%>
+		<display:column>
+			<gp:iconUrl url="oferta/display.do?ofertaId=${row.id}" icon="fas fa-eye" name="mensaje.display" color="Crimson"/>
+		</display:column>
+		
+		<display:column>
+			<gp:iconUrl url="documento/list.do?ofertaId=${row.id}" icon="fas fa-folder-open" name="alumno.documentos" color="Crimson"/>
+		</display:column>
 	</display:table>
 </div>
 

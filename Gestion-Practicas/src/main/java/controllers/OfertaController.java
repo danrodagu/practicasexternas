@@ -13,9 +13,11 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
+import domain.Oferta;
 import forms.OfertaForm;
 import forms.RegistroOfertaForm;
 import services.AlumnoService;
@@ -69,26 +71,21 @@ public class OfertaController extends AbstractController {
 
 	// Display ----------------------------------------------------------------
 
-//	@RequestMapping(value = "/display", method = RequestMethod.GET)
-//	public ModelAndView display(@RequestParam(required = true, defaultValue = "0") int alumnoId) {
-//		ModelAndView result;
-//		Actor alumno;
-//
-//		if (alumnoId == 0) {
-//			alumnoId = this.alumnoService.findByPrincipal().getId();
-//			alumno = this.alumnoService.findOne(alumnoId);
-//		} else {
-//			alumno = this.alumnoService.findOne(alumnoId);
-//		}
-//
-//		Assert.notNull(alumno);
-//
-//		result = new ModelAndView("alumno/display");
-//
-//		result.addObject("alumno", alumno);
-//
-//		return result;
-//	}
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam(required = true) int ofertaId) {
+		ModelAndView result;
+		Oferta oferta;
+		
+		oferta = this.ofertaService.findOne(ofertaId);		
+
+		Assert.notNull(oferta);
+
+		result = new ModelAndView("oferta/display");
+
+		result.addObject("oferta", oferta);
+
+		return result;
+	}
 
 	// Creation ---------------------------------------------------------------
 

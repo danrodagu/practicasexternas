@@ -77,10 +77,10 @@ public class DocumentoService {
 		return res;
 	}
 	
-	public Collection<Documento> findDocumentosByAlumno(final int actorId) {
+	public Collection<Documento> findDocumentosByOferta(final int ofertaId) {
 		Collection<Documento> res;
 
-		res = this.documentoRepository.findDocumentosByAlumno(actorId);
+		res = this.documentoRepository.findDocumentosByOferta(ofertaId);
 
 		return res;
 	}	
@@ -106,25 +106,25 @@ public class DocumentoService {
 //		return documentoForm;
 //	}
 
-	public Documento reconstruct(final DocumentoForm documentoForm) {
-		Documento res;
-		Actor uploader;
-
-		if (documentoForm.getId() == 0) {
-			res = new Documento();
-			uploader = actorService.findByPrincipal();
-			res.setUploader(uploader);
-			
-			if(actorService.isAlumno()) {
-				res.setAlumno(uploader);
-			}
-		} else {
-			res = this.findOne(documentoForm.getId());
-		}
-
-		res.setArchivo(documentoForm.getArchivo());		
-
-		return res;
-	}
+//	public Documento reconstruct(final DocumentoForm documentoForm) {
+//		Documento res;
+//		Actor uploader;
+//
+//		if (documentoForm.getId() == 0) {
+//			res = new Documento();
+//			uploader = actorService.findByPrincipal();
+//			res.setUploader(uploader);
+//			
+//			if(actorService.isAlumno()) {
+//				res.setAlumno(uploader);
+//			}
+//		} else {
+//			res = this.findOne(documentoForm.getId());
+//		}
+//
+//		res.setArchivo(documentoForm.getArchivo());		
+//
+//		return res;
+//	}
 
 }

@@ -59,7 +59,7 @@ public class Documento extends DomainEntity {
 
 	// Relationships ------------------------------------------------------------
 	private Actor uploader;
-	private Actor alumno;
+	private Oferta oferta;
 
 	@Valid
 	@NotNull
@@ -74,13 +74,13 @@ public class Documento extends DomainEntity {
 	
 
 	@Valid
-	@ManyToOne(optional = true)
-	public Actor getAlumno() {
-		return this.alumno;
+	@ManyToOne(optional = false)
+	public Oferta getOferta() {
+		return this.oferta;
 	}
 
-	public void setAlumno(final Actor alumno) {
-		this.alumno = alumno;
+	public void setOferta(final Oferta oferta) {
+		this.oferta = oferta;
 	}
 
 }

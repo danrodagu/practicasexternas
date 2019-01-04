@@ -77,7 +77,7 @@ public class SubirDocumentoDBServlet extends HttpServlet{
             conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
  
             // se construye la query de inserción del documento
-            String sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, alumno_id) values (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, utilService.maximoIdDB()+1);
             statement.setInt(2, 0);
@@ -90,13 +90,9 @@ public class SubirDocumentoDBServlet extends HttpServlet{
             
             statement.setInt(6, uploader);
             
-            String alumno = request.getParameter("alumno");
-            
-            if(alumno.isEmpty() ||  alumno == null) {
-            	statement.setInt(7, uploader);
-            }else {            	
-            	statement.setInt(7, Integer.parseInt(alumno));
-            }
+            String ofertaId = request.getParameter("ofertaId");
+            statement.setInt(7, Integer.parseInt(ofertaId));
+
             
 //            String sql = "INSERT INTO documento (version, titulo, formato, archivo, uploader_id) values (?, ?, ?, ?, ?)";
 //            PreparedStatement statement = conn.prepareStatement(sql);
@@ -130,14 +126,8 @@ public class SubirDocumentoDBServlet extends HttpServlet{
             request.setAttribute("Message", message);
              
             // se redirecciona al listado tras la subida
-            String alumno = request.getParameter("alumno");
-            
-            if(alumno.isEmpty() ||  alumno == null) {
-            	getServletContext().getRequestDispatcher("/documento/list.do").forward(request, response);
-            }else {            	
-            	getServletContext().getRequestDispatcher("/documento/list.do?alumnoId=" + alumno).forward(request, response);
-            }
-            
+            String ofertaId = request.getParameter("ofertaId");
+            getServletContext().getRequestDispatcher("/documento/list.do?ofertaId=" + ofertaId).forward(request, response);
             
         }
     }

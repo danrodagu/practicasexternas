@@ -28,7 +28,8 @@
 	    <input id="file" type="file" name="file" class="btn btn-default" onchange="mostrarArchivo()" style="visibility:hidden;"/>           
 	</div> 
 	<input id="titulo" type="text" name="titulo" style="visibility:hidden;"/>
-	<input id="alumno" type="text" name="alumno" style="visibility:hidden;"/>
+	<input id="ofertaId" type="text" name="ofertaId" style="visibility:hidden;"/>
+	<!-- <input id="alumno" type="text" name="alumno" style="visibility:hidden;"/> -->
 </form:form>
 <br />
 <div class="table-responsive">
@@ -66,7 +67,8 @@
 		var file = document.getElementById('file'); 
 		
 		$('#titulo').val(file.files.item(0).name);
-		$('#alumno').val('${alumnoId}');
+		$('#ofertaId').val('${ofertaId}');
+		/* $('#alumno').val('${alumnoId}'); */
 		$('#form').submit();
 	});	
 	
