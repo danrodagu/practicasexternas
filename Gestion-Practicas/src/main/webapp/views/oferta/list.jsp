@@ -36,6 +36,12 @@
 			<gp:iconUrl url="oferta/display.do?ofertaId=${row.id}" icon="fas fa-eye" name="mensaje.display" color="Crimson"/>
 		</display:column>
 		
+		<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
+			<display:column>
+				<gp:iconUrl url="oferta/edit.do?ofertaId=${row.id}" icon="fas fa-pencil-alt" name="oferta.edit" color="Crimson"/>
+			</display:column>
+		</security:authorize>
+		
 		<display:column>
 			<gp:iconUrl url="documento/list.do?ofertaId=${row.id}" icon="fas fa-folder-open" name="alumno.documentos" color="Crimson"/>
 		</display:column>

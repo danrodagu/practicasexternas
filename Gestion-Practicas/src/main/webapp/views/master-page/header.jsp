@@ -96,6 +96,7 @@
 		          	  <a class="dropdown-item" href="oferta/create.do"><spring:message code="master.page.oferta"/></a>
 		          </div>
 		      </div>
+		      <a id="todosAlum" class="nav-item nav-link" href="alumno/list.do?listAll=1"><spring:message code="master.page.alumnos"/></a>
 	      </security:authorize>
 	      <security:authorize access="hasRole('COORDINADOR') || hasRole('TUTOR')">
 		      <a id="alumnos" class="nav-item nav-link" href="alumno/list.do"><spring:message code="master.page.mis.alumnos"/></a>

@@ -1,5 +1,5 @@
 <%--
- * create.jsp
+ * edit.jsp
 
  --%>
 
@@ -14,8 +14,8 @@
 
 
 <fieldset>
-	<form:form action="oferta/create.do" modelAttribute="registroOfertaForm">
-			
+	<form:form action="${action}" modelAttribute="ofertaForm">
+		<form:hidden path="id"/>
 		<h4><spring:message code="alumno.registro.datosOferta" /></h4>
 		<br />
 		

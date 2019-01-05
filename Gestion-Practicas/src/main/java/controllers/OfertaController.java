@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import domain.Oferta;
 import forms.OfertaForm;
-import forms.RegistroOfertaForm;
+import services.ActorService;
 import services.AlumnoService;
 import services.OfertaService;
 import services.TutorService;
@@ -38,6 +38,9 @@ public class OfertaController extends AbstractController {
 	
 	@Autowired
 	private TutorService tutorService;
+	
+	@Autowired
+	private ActorService actorService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -92,19 +95,19 @@ public class OfertaController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(final HttpServletRequest request) {
 		ModelAndView result;
-		RegistroOfertaForm registroOfertaForm;
+		OfertaForm ofertaForm;
 		Collection<Actor> tutores = new ArrayList<>();
 		Collection<Actor> alumnos = new ArrayList<>();
 
 		HttpSession session = request.getSession();
 		session.setAttribute("active", "alta");
 
-		registroOfertaForm = new RegistroOfertaForm();
+		ofertaForm = new OfertaForm();
 		tutores = tutorService.findAll();
 		alumnos = alumnoService.findAll();
 		
 		result = new ModelAndView("oferta/create");
-		result.addObject("registroOfertaForm", registroOfertaForm);
+		result.addObject("ofertaForm", ofertaForm);
 		result.addObject("tutores", tutores);
 		result.addObject("alumnos", alumnos);
 		return result;
@@ -112,80 +115,81 @@ public class OfertaController extends AbstractController {
 
 	// Edition ----------------------------------------------------------------
 
-//	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-//	public ModelAndView edit() {
-//		ModelAndView result;
-//		Actor alumno;
-//		OfertaForm ofertaForm;
-//
-//		alumno = this.alumnoService.findByPrincipal();
-//		Assert.notNull(alumno);
-//
-//		ofertaForm = this.alumnoService.takeForm(alumno);
-//		result = this.createEditModelAndView(ofertaForm);
-//
-//		return result;
-//	}
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam(required = true) int ofertaId) {
+		ModelAndView result;
+		Oferta oferta;
+		OfertaForm ofertaForm;
+		
+		Assert.isTrue(actorService.isAdministrativo() || actorService.isCoordinador());		
+		
+
+		oferta = this.ofertaService.findOne(ofertaId);
+		Assert.notNull(oferta);
+
+		ofertaForm = this.ofertaService.takeForm(oferta);
+		result = this.createEditModelAndView(ofertaForm, null);
+
+		return result;
+	}
 
 	// Save -------------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final RegistroOfertaForm registroOfertaForm, final BindingResult bindingResult) {
+	public ModelAndView create(@Valid final OfertaForm ofertaForm, final BindingResult bindingResult) {
 
 		ModelAndView result;
 		
 		try {			
-			Integer ofertasAsignadas = ofertaService.ofertasByAlumno(registroOfertaForm.getIdAlumno()).size();
+			Integer ofertasAsignadas = ofertaService.ofertasByAlumno(ofertaForm.getIdAlumno()).size();
 			Assert.isTrue(ofertasAsignadas < 2);
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(registroOfertaForm, "oferta.numOfertas.error");
+			result = this.createEditModelAndView(ofertaForm, "oferta.numOfertas.error");
 			return result;
 		}
 		
 		try {
-			if(registroOfertaForm.getEsCurricular()) {
-				Integer ofertasCurricAsignadas = ofertaService.ofertasCurricByAlumno(registroOfertaForm.getIdAlumno()).size();
+			if(ofertaForm.getEsCurricular()) {
+				Integer ofertasCurricAsignadas = ofertaService.ofertasCurricByAlumno(ofertaForm.getIdAlumno()).size();
 				Assert.isTrue(ofertasCurricAsignadas == 0);
 			}			
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(registroOfertaForm, "oferta.numCurric.error");
+			result = this.createEditModelAndView(ofertaForm, "oferta.numCurric.error");
 			return result;
 		}
 		
 		try {
-			if(!registroOfertaForm.getEsCurricular()) {
-				Integer ofertasExtraAsignadas = ofertaService.ofertasExtraByAlumno(registroOfertaForm.getIdAlumno()).size();
+			if(!ofertaForm.getEsCurricular()) {
+				Integer ofertasExtraAsignadas = ofertaService.ofertasExtraByAlumno(ofertaForm.getIdAlumno()).size();
 				Assert.isTrue(ofertasExtraAsignadas == 0);
 			}			
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(registroOfertaForm, "oferta.numExtra.error");
+			result = this.createEditModelAndView(ofertaForm, "oferta.numExtra.error");
 			return result;
 		}
 		
 		try {
-			Assert.isTrue(registroOfertaForm.getDuracion().doubleValue() >= 1.5 && registroOfertaForm.getDuracion().doubleValue() <= 6.0);
+			Assert.isTrue(ofertaForm.getDuracion().doubleValue() >= 1.5 && ofertaForm.getDuracion().doubleValue() <= 6.0);
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(registroOfertaForm, "oferta.duracion.error");
+			result = this.createEditModelAndView(ofertaForm, "oferta.duracion.error");
 			return result;
 		}
 		
 		try {
-			Assert.isTrue(registroOfertaForm.getDotacion().doubleValue() >= 0.0);
+			Assert.isTrue(ofertaForm.getDotacion().doubleValue() >= 0.0);
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(registroOfertaForm, "oferta.dotacion.error");
+			result = this.createEditModelAndView(ofertaForm, "oferta.dotacion.error");
 			return result;
 		}
-		
-		// Añadir comprobacion de que la practica no sea la 3ra del alumno y que sea de tipo diferente a la 1ra que hizo
 
 		if (bindingResult.hasErrors()) {
-			result = this.createEditModelAndView(registroOfertaForm, null);
+			result = this.createEditModelAndView(ofertaForm, null);
 		} else {
 			try {
-				this.ofertaService.registrarOferta(registroOfertaForm);
+				this.ofertaService.registrarOferta(ofertaForm);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(registroOfertaForm, "actor.commit.error");
+				result = this.createEditModelAndView(ofertaForm, "actor.commit.error");
 			}
 		}
 
@@ -193,69 +197,81 @@ public class OfertaController extends AbstractController {
 
 	}
 	
-//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-//	public ModelAndView save(@Valid final OfertaForm ofertaForm, final BindingResult bindingResult) {
-//
-//		ModelAndView result;
-//		Actor alumno;
-//
-//		if (ofertaForm.getId() != 0) {
-//			Assert.isTrue(ofertaForm.getId() == this.alumnoService.findByPrincipal().getId());
-//		}
-//
-//		try {
-//			Assert.isTrue(ofertaForm.getPassword().equals(ofertaForm.getPassword2()));
-//		} catch (final Throwable oops) {
-//			result = this.createEditModelAndView(ofertaForm, "actor.password.error");
-//			return result;
-//		}
-//
-//		if (bindingResult.hasErrors()) {
-//			result = this.createEditModelAndView(ofertaForm);
-//		} else {
-//			try {
-//				alumno = this.alumnoService.reconstruct(ofertaForm);
-//				this.alumnoService.save(alumno);
-//				result = new ModelAndView("redirect:/welcome/index.do");
-//			} catch (final Throwable oops) {
-//				result = this.createEditModelAndView(ofertaForm, "actor.commit.error");
-//			}
-//		}
-//
-//		return result;
-//
-//	}
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView edit(@Valid final OfertaForm ofertaForm, final BindingResult bindingResult) {
+
+		ModelAndView result;
+		Oferta oferta;
+				
+		try {
+			if(ofertaForm.getEsCurricular()) {
+				Integer ofertasCurricAsignadas = ofertaService.ofertasCurricByAlumnoEdit(ofertaForm.getIdAlumno(), ofertaForm.getId()).size();
+				Assert.isTrue(ofertasCurricAsignadas == 0);
+			}			
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(ofertaForm, "oferta.numCurric.error");
+			return result;
+		}
+		
+		try {
+			if(!ofertaForm.getEsCurricular()) {
+				Integer ofertasExtraAsignadas = ofertaService.ofertasExtraByAlumnoEdit(ofertaForm.getIdAlumno(), ofertaForm.getId()).size();
+				Assert.isTrue(ofertasExtraAsignadas == 0);
+			}			
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(ofertaForm, "oferta.numExtra.error");
+			return result;
+		}
+		
+		try {
+			Assert.isTrue(ofertaForm.getDuracion().doubleValue() >= 1.5 && ofertaForm.getDuracion().doubleValue() <= 6.0);
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(ofertaForm, "oferta.duracion.error");
+			return result;
+		}
+		
+		try {
+			Assert.isTrue(ofertaForm.getDotacion().doubleValue() >= 0.0);
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(ofertaForm, "oferta.dotacion.error");
+			return result;
+		}
+
+		if (bindingResult.hasErrors()) {
+			result = this.createEditModelAndView(ofertaForm, null);
+		} else {
+			try {
+				oferta = this.ofertaService.reconstructEdit(ofertaForm);
+				this.ofertaService.save(oferta);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(ofertaForm, "actor.commit.error");
+			}
+		}
+
+		return result;
+
+	}
 
 	// Ancillary methods ------------------------------------------------------
-
-	protected ModelAndView createEditModelAndView(final OfertaForm ofertaForm) {
-		ModelAndView result;
-
-		result = this.createEditModelAndView(ofertaForm, null);
-
-		return result;
-	}
-
-	protected ModelAndView createEditModelAndView(final OfertaForm ofertaForm, final String message) {
-		ModelAndView result;
-
-		result = new ModelAndView("alumno/edit");
-		result.addObject("ofertaForm", ofertaForm);
-		result.addObject("message", message);
-
-		return result;
-	}
 	
-	protected ModelAndView createEditModelAndView(final RegistroOfertaForm registroOfertaForm, final String message) {
+	protected ModelAndView createEditModelAndView(final OfertaForm ofertaForm, final String message) {
 		ModelAndView result;
 		Collection<Actor> tutores = new ArrayList<>();
 		Collection<Actor> alumnos = new ArrayList<>();
 		
 		tutores = tutorService.findAll();
 		alumnos = alumnoService.findAll();
-
-		result = new ModelAndView("oferta/create");
-		result.addObject("registroOfertaForm", registroOfertaForm);
+		
+		result = new ModelAndView("oferta/edit");
+		
+		if(ofertaForm.getId() == 0) {
+			result.addObject("action", "oferta/create.do");
+		}else {			
+			result.addObject("action", "oferta/edit.do");
+		}
+		
+		result.addObject("ofertaForm", ofertaForm);
 		result.addObject("tutores", tutores);
 		result.addObject("alumnos", alumnos);
 		result.addObject("message", message);

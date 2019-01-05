@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 
 import domain.Actor;
 import domain.Oferta;
-import forms.RegistroOfertaForm;
+import forms.OfertaForm;
 import repositories.OfertaRepository;
 
 @Service
@@ -125,6 +125,15 @@ public class OfertaService {
 
 	}
 	
+	public Collection<Oferta> ofertasByAlumnoTutor(final int idAlumno, int idTutor) {
+		final Collection<Oferta> result;
+
+		result = this.ofertaRepository.ofertasByAlumnoTutor(idAlumno, idTutor);
+
+		return result;
+
+	}
+	
 	public Collection<Oferta> ofertasCurricByAlumno(final int idAlumno) {
 		final Collection<Oferta> result;
 
@@ -143,32 +152,50 @@ public class OfertaService {
 
 	}
 	
-	public void registrarOferta(final RegistroOfertaForm registroOfertaForm) {		
+	public Collection<Oferta> ofertasCurricByAlumnoEdit(final int idAlumno, int idOferta) {
+		final Collection<Oferta> result;
+
+		result = this.ofertaRepository.ofertasCurricByAlumnoEdit(idAlumno, idOferta);
+
+		return result;
+
+	}
+	
+	public Collection<Oferta> ofertasExtraByAlumnoEdit(final int idAlumno, int idOferta) {
+		final Collection<Oferta> result;
+
+		result = this.ofertaRepository.ofertasExtraByAlumnoEdit(idAlumno, idOferta);
+
+		return result;
+
+	}
+	
+	public void registrarOferta(final OfertaForm ofertaForm) {		
 		Actor alumno;
 		Oferta oferta;
 		Actor tutor;
 
-		tutor = tutorService.findOne(registroOfertaForm.getIdTutor());		
+		tutor = tutorService.findOne(ofertaForm.getIdTutor());		
 		
-		alumno = alumnoService.findOne(registroOfertaForm.getIdAlumno());
+		alumno = alumnoService.findOne(ofertaForm.getIdAlumno());
 		
 		oferta = new Oferta();
-		oferta.setTitulo(registroOfertaForm.getTitulo());
-		oferta.setDescripcion(registroOfertaForm.getDescripcion());
-		oferta.setDotacion(registroOfertaForm.getDotacion());
-		oferta.setDuracion(registroOfertaForm.getDuracion());
-		oferta.setHoras(registroOfertaForm.getHoras());
-		oferta.setFechaInicio(registroOfertaForm.getFechaInicio());
-		oferta.setFechaFin(registroOfertaForm.getFechaFin());
-		oferta.setEmpresa(registroOfertaForm.getEmpresa());
-		oferta.setCifEmp(registroOfertaForm.getCifEmp());
-		oferta.setEmailEmp(registroOfertaForm.getEmailEmp());
-		oferta.setTelefonoEmp(registroOfertaForm.getTelefonoEmp());
-		oferta.setTutorEmp(registroOfertaForm.getTutorEmp());
-		oferta.setEsCurricular(registroOfertaForm.getEsCurricular());
-		oferta.setLocalidad(registroOfertaForm.getLocalidad());
-		oferta.setProvincia(registroOfertaForm.getProvincia());
-		oferta.setPais(registroOfertaForm.getPais());
+		oferta.setTitulo(ofertaForm.getTitulo());
+		oferta.setDescripcion(ofertaForm.getDescripcion());
+		oferta.setDotacion(ofertaForm.getDotacion());
+		oferta.setDuracion(ofertaForm.getDuracion());
+		oferta.setHoras(ofertaForm.getHoras());
+		oferta.setFechaInicio(ofertaForm.getFechaInicio());
+		oferta.setFechaFin(ofertaForm.getFechaFin());
+		oferta.setEmpresa(ofertaForm.getEmpresa());
+		oferta.setCifEmp(ofertaForm.getCifEmp());
+		oferta.setEmailEmp(ofertaForm.getEmailEmp());
+		oferta.setTelefonoEmp(ofertaForm.getTelefonoEmp());
+		oferta.setTutorEmp(ofertaForm.getTutorEmp());
+		oferta.setEsCurricular(ofertaForm.getEsCurricular());
+		oferta.setLocalidad(ofertaForm.getLocalidad());
+		oferta.setProvincia(ofertaForm.getProvincia());
+		oferta.setPais(ofertaForm.getPais());
 		oferta.setExpedienteCerrado(false);
 		oferta.setAlumnoAsignado(alumno);
 		oferta.setTutorAsignado(tutor);
@@ -176,6 +203,69 @@ public class OfertaService {
 		oferta = save(oferta);
 		
 	}
+	
+	public OfertaForm takeForm(final Oferta oferta) {
+		OfertaForm ofertaForm;
+
+		ofertaForm = new OfertaForm();
+
+		ofertaForm.setId(oferta.getId());
+		ofertaForm.setTitulo(oferta.getTitulo());
+		ofertaForm.setDescripcion(oferta.getDescripcion());
+		ofertaForm.setDotacion(oferta.getDotacion());
+		ofertaForm.setDuracion(oferta.getDuracion());
+		ofertaForm.setHoras(oferta.getHoras());
+		ofertaForm.setFechaInicio(oferta.getFechaInicio());
+		ofertaForm.setFechaFin(oferta.getFechaFin());
+		ofertaForm.setEmpresa(oferta.getEmpresa());
+		ofertaForm.setCifEmp(oferta.getCifEmp());
+		ofertaForm.setEmailEmp(oferta.getEmailEmp());
+		ofertaForm.setTelefonoEmp(oferta.getTelefonoEmp());
+		ofertaForm.setTutorEmp(oferta.getTutorEmp());
+		ofertaForm.setEsCurricular(oferta.getEsCurricular());
+		ofertaForm.setLocalidad(oferta.getLocalidad());
+		ofertaForm.setProvincia(oferta.getProvincia());
+		ofertaForm.setPais(oferta.getPais());
+		ofertaForm.setIdAlumno(oferta.getAlumnoAsignado().getId());
+		ofertaForm.setIdTutor(oferta.getTutorAsignado().getId());
+
+		return ofertaForm;
+	}
+	
+	public Oferta reconstructEdit(final OfertaForm ofertaForm) {
+		Oferta res;
+		Actor alumno;
+		Actor tutor;
+		
+		Assert.isTrue(ofertaForm.getId() != 0);
+		
+		res = findOne(ofertaForm.getId());
+
+		tutor = tutorService.findOne(ofertaForm.getIdTutor());		
+		alumno = alumnoService.findOne(ofertaForm.getIdAlumno());	
+		
+		res.setTitulo(ofertaForm.getTitulo());
+		res.setDescripcion(ofertaForm.getDescripcion());
+		res.setDotacion(ofertaForm.getDotacion());
+		res.setDuracion(ofertaForm.getDuracion());
+		res.setHoras(ofertaForm.getHoras());
+		res.setFechaInicio(ofertaForm.getFechaInicio());
+		res.setFechaFin(ofertaForm.getFechaFin());
+		res.setEmpresa(ofertaForm.getEmpresa());
+		res.setCifEmp(ofertaForm.getCifEmp());
+		res.setEmailEmp(ofertaForm.getEmailEmp());
+		res.setTelefonoEmp(ofertaForm.getTelefonoEmp());
+		res.setTutorEmp(ofertaForm.getTutorEmp());
+		res.setEsCurricular(ofertaForm.getEsCurricular());
+		res.setLocalidad(ofertaForm.getLocalidad());
+		res.setProvincia(ofertaForm.getProvincia());
+		res.setPais(ofertaForm.getPais());
+		res.setAlumnoAsignado(alumno);
+		res.setTutorAsignado(tutor);
+		
+
+		return res;
+	}	
 	
 
 }

@@ -24,7 +24,7 @@
 		<display:column property="nombreCompleto" title="${alumnoHeader}" />
 		
 		<display:column>
-			<gp:iconUrl url="alumno/practicas.do?alumnoId=${row.id}" icon="fas fa-graduation-cap" name="alumno.practicas" color="Crimson"/>
+			<gp:iconUrl url="alumno/practicas.do?listAllAlum=${listAllAlum}&alumnoId=${row.id}" icon="fas fa-graduation-cap" name="alumno.practicas" color="Crimson"/>
 		</display:column>
 	</display:table>
 </div>

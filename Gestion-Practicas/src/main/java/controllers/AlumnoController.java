@@ -54,16 +54,21 @@ public class AlumnoController extends AbstractController {
 	
 	// Listing --------------------------------------
 	@RequestMapping(value = "/list")
-	public ModelAndView list(final HttpServletRequest request) {
+	public ModelAndView list(@RequestParam(required = true,  defaultValue = "0") int listAll, final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Actor> alumnos;
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("active", "alumnos");	
 		
-		if(actorService.isTutor()) {
+		if(listAll == 0) {
+			session.setAttribute("active", "alumnos");
+			
+			Assert.isTrue(actorService.isTutor() || actorService.isCoordinador());			
 			alumnos = this.tutorService.findMyStudents();
-		} else {
+		}else {
+			session.setAttribute("active", "todosAlum");
+			
+			Assert.isTrue(actorService.isAdministrativo() || actorService.isCoordinador());
 			alumnos = alumnoService.findAll();
 		}
 
@@ -71,12 +76,13 @@ public class AlumnoController extends AbstractController {
 		result = new ModelAndView("alumno/list");
 
 		result.addObject("alumnos", alumnos);
+		result.addObject("listAllAlum", listAll);
 
 		return result;
 	}
 	
 	@RequestMapping(value = "/practicas")
-	public ModelAndView practicas(@RequestParam(required = true, defaultValue = "0") int alumnoId, final HttpServletRequest request) {
+	public ModelAndView practicas(@RequestParam(required = true, defaultValue = "0") int listAllAlum, @RequestParam(required = true, defaultValue = "0") int alumnoId, final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Oferta> ofertas;
 		Actor alumno;
@@ -85,12 +91,19 @@ public class AlumnoController extends AbstractController {
 		session.setAttribute("active", "practicas");
 		
 		if (alumnoId == 0) {
-			alumno = this.alumnoService.findByPrincipal();			
+			alumno = this.alumnoService.findByPrincipal();
+			ofertas = ofertaService.ofertasByAlumno(alumno.getId());
 		} else {
 			alumno = this.alumnoService.findOne(alumnoId);
+			
+			if(listAllAlum == 0) { //solo accederan coordinador y tutores a este punto (lista de mis alumnos tutorados)
+				ofertas = ofertaService.ofertasByAlumnoTutor(alumno.getId(), actorService.findByPrincipal().getId());
+			}else { //solo accederan coordinador y administrativo a este punto (lista de todos los alumnos)
+				ofertas = ofertaService.ofertasByAlumno(alumno.getId());
+			}
 		}
 
-		ofertas = ofertaService.ofertasByAlumno(alumno.getId());
+		
 		
 		result = new ModelAndView("oferta/list");
 
