@@ -4,6 +4,7 @@ CREATE TABLE `mensaje` (
   `asunto` varchar(255) NOT NULL,
   `cuerpo` longtext,
   `fecha` datetime NOT NULL,
+  `leido` tinyint(1) NOT NULL,
   `carpeta_id` int(11) NOT NULL,
   `emisor_id` int(11) NOT NULL,
   `receptor_id` int(11) NOT NULL,

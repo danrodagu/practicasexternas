@@ -72,8 +72,7 @@
 				  <button class="ql-image"></button>
 				  <button class="ql-code-block"></button>
 			  </span>
-		    </div>
-		    
+		    </div>		    
 		    <input id="cuerpo" name="cuerpo" type="hidden">
 		    <div id="editor">	    		
 		    	<p></p>		    		
@@ -116,11 +115,10 @@
 		    	toolbar: '#toolbar'
 		    },
 			theme: 'snow'
-	    });
-	    
+	    });  
 	    
 		
-	    $("form").submit(function(e) {
+	    $("form").submit(function(e) {	    
 	    	
 	    	var myEditor = document.querySelector('#editor');
 			var html = myEditor.children[0].innerHTML;			

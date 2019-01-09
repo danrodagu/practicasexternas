@@ -111,6 +111,7 @@
 		$( "form" ).find(".form-control").attr("oninvalid", "this.setCustomValidity('Completa este campo')");
 		$( "form" ).find(".form-control").attr("oninput", "this.setCustomValidity('')");
 	}
+	
 </script>
 
 

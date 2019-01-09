@@ -39,3 +39,21 @@
 <%-- <a href="carpeta/create.do" class="btn btn-success"> <spring:message
 		code="carpeta.create" />
 </a> --%>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		if(localStorage.getItem("language") == "en"){
+			$('tr').find('td').contents().each(function(){				
+				if(this.textContent == 'Recibido'){
+					this.textContent = 'Inbox';
+				}
+				if(this.textContent == 'Enviado'){
+					this.textContent = 'Outbox';
+				}
+				if(this.textContent == 'Papelera'){
+					this.textContent = 'Trashbox';
+				}
+			});
+		}		
+	});
+</script>

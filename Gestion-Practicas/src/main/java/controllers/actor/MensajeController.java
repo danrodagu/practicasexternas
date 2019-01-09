@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import domain.Mensaje;
 import forms.MensajeForm;
+import repositories.MensajeRepository;
 import services.ActorService;
 import services.MensajeService;
 
@@ -30,6 +31,10 @@ import services.MensajeService;
 @Controller
 public class MensajeController {
 
+	// Repositories ---------------------------------------------------------------
+	@Autowired
+	private MensajeRepository	mensajeRepository;
+	
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private MensajeService	mensajeService;
@@ -66,7 +71,9 @@ public class MensajeController {
 
 		mensaje = this.mensajeService.findOne(mensajeId);
 		Assert.isTrue((mensaje.getReceptor().getId() == this.actorService.findByPrincipal().getId()) || (mensaje.getEmisor().getId() == this.actorService.findByPrincipal().getId()));
-
+		mensaje.setLeido(true);
+		this.mensajeRepository.save(mensaje);
+		
 		result = new ModelAndView("mensaje/display");
 
 		result.addObject("mensaje", mensaje);
@@ -121,11 +128,7 @@ public class MensajeController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final MensajeForm mensajeForm, final BindingResult binding, final HttpServletRequest request) {
 		ModelAndView result;
-//		String[] codes = {"NotNull.mensajeForm.cuerpo", "NotNull.cuerpo", "NotNull.java.lang.Integer"};
-//		String[] codes2 = {"mensajeForm.cuerpo", "cuerpo"};
-//		Object[] arguments = {new DefaultMessageSourceResolvable(codes2, null, "cuerpo")};
-//		
-//		binding.addError(new FieldError("mensajeForm", "cuerpo", null, false, codes, arguments, null));
+
 		boolean cuerpoVacio = false;		
 		String cuerpo = (String) request.getSession().getAttribute("cuerpoMensaje");
 		request.removeAttribute("cuerpoMensaje");
@@ -170,6 +173,19 @@ public class MensajeController {
 		request.getSession().setAttribute("cuerpoMensaje", body);
 		
 		return new ResponseEntity<Object>(error, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/contadorMsg", method = RequestMethod.POST)
+	public ResponseEntity<Object> contadorMsg() {
+		HttpHeaders headers = new HttpHeaders();
+		String body = null;
+		Actor actor;		
+		
+		actor = actorService.findByPrincipal();
+        
+		body = mensajeService.numMsgNoLeidos(actor.getId()).toString();        
+		
+		return new ResponseEntity<Object>(body, headers, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)

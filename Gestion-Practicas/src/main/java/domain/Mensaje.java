@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -25,7 +26,11 @@ public class Mensaje extends DomainEntity {
 	private Date fecha;
 	private String asunto;
 	private String cuerpo;
+	private boolean leido;
 	// private Collection<String> attachments;
+	
+	@Transient
+    private String leidoStr;
 
 	// Constructors -----------------------------------------------------------
 
@@ -75,6 +80,31 @@ public class Mensaje extends DomainEntity {
 	// public void setAttachments(final Collection<String> attachments) {
 	// this.attachments = attachments;
 	// }
+
+	public boolean isLeido() {
+		return leido;
+	}
+
+	public void setLeido(boolean leido) {
+		this.leido = leido;
+	}
+
+	@Transient
+	public String getLeidoStr() {
+		leidoStr = "";
+		
+		if(leido) {
+			leidoStr = "Sí";
+		}else {
+			leidoStr = "No";
+		}
+		
+		return leidoStr;
+	}
+
+	public void setLeidoStr(String leidoStr) {
+		this.leidoStr = leidoStr;
+	}
 
 	// Relationships ------------------------------------------------------------
 	private Actor emisor;

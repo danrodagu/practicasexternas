@@ -96,15 +96,15 @@ public class CarpetaService {
 
 		// Se les asigna el actor
 		inbox.setActor(actor);
-		inbox.setNombre("Inbox");
+		inbox.setNombre("Recibido");
 		inbox.setNoModificable(true);
 
 		outbox.setActor(actor);
-		outbox.setNombre("Outbox");
+		outbox.setNombre("Enviado");
 		outbox.setNoModificable(true);
 
 		trashbox.setActor(actor);
-		trashbox.setNombre("Trashbox");
+		trashbox.setNombre("Papelera");
 		trashbox.setNoModificable(true);
 
 		// Por último se hacen persistentes los objetos en la bd

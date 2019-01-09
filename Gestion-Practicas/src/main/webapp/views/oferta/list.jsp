@@ -59,17 +59,6 @@
 					this.textContent = 'Open';
 				}
 			});
-		}
-		/* if(localStorage.getItem("language") == "es"){
-			$('tr').find('td').contents().each(function(){				
-				if(this.textContent == 'true'){
-					this.textContent = 'Curricular';
-				}
-				if(this.textContent == 'false'){
-					this.textContent = 'Extracurricular';
-				}
-			});
-		} */	
-		
+		}		
 	});
 </script>

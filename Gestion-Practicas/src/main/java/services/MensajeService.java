@@ -81,7 +81,7 @@ public class MensajeService {
 			mensaje.setFecha(Fecha);
 
 			Carpeta inbox = null;
-			inbox = this.carpetaService.findCarpetaByNombreAndActor("Inbox", mensaje.getReceptor().getId());
+			inbox = this.carpetaService.findCarpetaByNombreAndActor("Recibido", mensaje.getReceptor().getId());
 			Assert.notNull(inbox);
 
 			m = new Mensaje();
@@ -90,6 +90,7 @@ public class MensajeService {
 			m.setFecha(Fecha);
 			m.setCuerpo(mensaje.getCuerpo());
 			m.setAsunto(mensaje.getAsunto());
+			m.setLeido(false);
 			m.setReceptor(mensaje.getReceptor());
 			m.setEmisor(mensaje.getEmisor());
 //			m.setAttachments(mensaje.getAttachments());
@@ -114,10 +115,10 @@ public class MensajeService {
 		Assert.isTrue(mensaje.getCarpeta().getActor().getId() == a.getId());
 		container = mensaje.getCarpeta();
 
-		if (container.getNombre().equals("Trashbox")) {
+		if (container.getNombre().equals("Papelera")) {
 			this.mensajeRepository.delete(mensaje);
 		} else {
-			trashbox = this.carpetaService.findCarpetaByNombreAndActor("Trashbox", a.getId());
+			trashbox = this.carpetaService.findCarpetaByNombreAndActor("Papelera", a.getId());
 			Assert.notNull(trashbox);
 
 			mensaje.setCarpeta(trashbox);
@@ -141,12 +142,13 @@ public class MensajeService {
 		receptor = actorService.findOne(mensajeForm.getIdReceptor());
 
 		// Guardo el outbox del actor que envía el mensaje
-		outbox = this.carpetaService.findCarpetaByNombreAndActor("Outbox", this.actorService.findByPrincipal().getId());
+		outbox = this.carpetaService.findCarpetaByNombreAndActor("Enviado", this.actorService.findByPrincipal().getId());
 
 		mensaje = this.create();
 
 		mensaje.setCuerpo(mensajeForm.getCuerpo());
 		mensaje.setAsunto(mensajeForm.getAsunto());
+		mensaje.setLeido(true);
 		mensaje.setEmisor(emisor);
 		mensaje.setReceptor(receptor);
 //		mensaje.setAttachments(mensajeForm.getAttachments());
@@ -187,6 +189,7 @@ public class MensajeService {
 
 		result = new MensajeForm();
 		mensaje = this.findOne(mensajeId);
+		mensaje.setLeido(true);
 		principal = this.actorService.findByPrincipal();
 
 		Assert.isTrue(principal.getId() == mensaje.getReceptor().getId() || principal.getId() == mensaje.getEmisor().getId());
@@ -252,6 +255,7 @@ public class MensajeService {
 
 		result = new MensajeForm();
 		mensaje = this.findOne(mensajeId);
+		mensaje.setLeido(true);
 		Assert.notNull(mensaje);
 		actor = this.actorService.findByPrincipal();
 
@@ -300,6 +304,18 @@ public class MensajeService {
 		Assert.isTrue(carpeta.getActor().getId() == principal.getId());
 
 		result = this.mensajeRepository.findMensajesByCarpeta(carpetaId);
+
+		return result;
+
+	}	
+	
+	public Integer numMsgNoLeidos(final int actorId) {
+		Integer result;
+		Carpeta carpeta;
+
+		carpeta = this.carpetaService.findCarpetaByNombreAndActor("Recibido", actorId);
+
+		result = this.mensajeRepository.numMsgNoLeidos(carpeta.getId());
 
 		return result;
 

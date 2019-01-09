@@ -106,7 +106,10 @@
 		      <%-- <a id="documentos" class="nav-item nav-link" href="documento/list.do"><spring:message code="master.page.mis.documentos"/></a> --%>
 	      </security:authorize>
 	      <security:authorize access="isAuthenticated()">
-	      	<a id="mensajes" class="nav-item nav-link" href="carpeta/list.do"><spring:message code="master.page.mensajes"/></a>
+	      	<a id="mensajes" class="nav-item nav-link" href="carpeta/list.do">
+	      		<spring:message code="master.page.mensajes"/>
+	      		<b id="contadorMsg" style="color:red;" ></b>
+	      	</a>
 	      </security:authorize>
 	    </div>
 	  </div>
@@ -128,6 +131,35 @@
 		</div>
 	</div> --%>		
 	
+	<script type="text/javascript">	
+	$(document).ready(function() {
+		var msgBar = undefined;
+		msgBar = $("#mensajes").attr("href");
+		
+		if(msgBar != undefined){
+			$.ajax({
+				type : "POST",
+				url : 'mensaje/contadorMsg.do',
+				contentType: 'application/json; charset=utf-8',
+			    async: false,
+			    cache: false,
+				success: function(callback){
+					if(callback != null && callback != "0"){
+						$("#contadorMsg").html("(+" + callback + ")");					
+					}
+					if(window.location.href.indexOf("mensaje/contadorMsg.do") > -1){
+						window.location.href = "welcome/index.do";
+					}
+				},
+				error: function (xhr) {
+			        alert('Error ' + xhr.status);
+			    }
+			});	
+		}
+			
+	});
+	
+</script>
 		
 </html>
 
