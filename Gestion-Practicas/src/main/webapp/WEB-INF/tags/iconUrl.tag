@@ -16,12 +16,14 @@
 <%@ taglib prefix="gp" tagdir="/WEB-INF/tags" %>
 
 <%-- Attributes --%> 
-<%@ attribute name="url" required="true" %>
+<%@ attribute name="id" required="false" %>
+<%@ attribute name="url" required="false" %>
 <%@ attribute name="name" required="true" %>
 <%@ attribute name="deleteConfirmMsg" required="false" %>
 <%@ attribute name="icon" required="true" %>
 <%@ attribute name="color" required="false" %>
 <%@ attribute name="target" required="false" %>
+<%@ attribute name="onclick" required="false" %>
 
 
 <%-- Definition --%>
@@ -29,7 +31,7 @@
 
 <jstl:if test="${deleteConfirmMsg != null}">
 	<spring:message code="${deleteConfirmMsg}" var="onclickHeader" />
-	<a href="${url}" onclick="return confirm('${onclickHeader}')" target="${target}" title="${nameHeader}">
+	<a id="${id}" href="${url}" onclick="return confirm('${onclickHeader}')" target="${target}" title="${nameHeader}">
 		<span style="font-size: 20px; color: ${color};">
 			<i class="${icon}"></i>
 		</span>
@@ -37,7 +39,7 @@
 </jstl:if>
 
 <jstl:if test="${deleteConfirmMsg == null}">
-	<a href="${url}" target="${target}" title="${nameHeader}">
+	<a id="${id}" href="${url}" onclick="${onclick}" target="${target}" title="${nameHeader}">
 		<span style="font-size: 20px; color: ${color};">
 			<i class="${icon}"></i>
 		</span>

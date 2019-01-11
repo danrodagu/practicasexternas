@@ -45,10 +45,40 @@
 		<display:column>
 			<gp:iconUrl url="documento/list.do?ofertaId=${row.id}" icon="fas fa-folder-open" name="alumno.documentos" color="Crimson"/>
 		</display:column>
+		
+		<security:authorize access="hasRole('ALUMNO')">
+			<display:column>
+				<gp:iconUrl onclick="feedback(${row.id})" icon="fas fa-marker" name="oferta.feedback" color="Crimson"/>
+			</display:column>
+		</security:authorize>
 	</display:table>
 </div>
 
+
 <script type="text/javascript">
+	function feedback(ofertaId){			
+		$.ajax({
+			type : "GET",
+			url : 'mensaje/mensajeFeedback.do',
+			contentType: 'application/json; charset=utf-8',
+		    data: {'ofertaId': ofertaId},
+		    async: false,
+		    cache: false,
+			success: function(callback){			
+				if(localStorage.getItem("language") == "en"){
+					alert("Your mentor has been notified successfully");
+				}else{
+					alert("Su tutor ha sido notificado correctamente");
+				}
+				window.location.href = "alumno/practicas.do";
+				
+			},
+			error: function (xhr) {
+		        alert('Error ' + xhr.status);
+		    }
+		});
+	};	
+	
 	$(document).ready(function() {
 		if(localStorage.getItem("language") == "en"){
 			$('tr').find('td').contents().each(function(){				

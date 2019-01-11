@@ -3,14 +3,20 @@ package controllers.actor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.embedded.DataSourceFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -22,14 +28,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import domain.Mensaje;
+import domain.Oferta;
 import forms.MensajeForm;
 import repositories.MensajeRepository;
 import services.ActorService;
 import services.MensajeService;
+import services.OfertaService;
 
 @RequestMapping("/mensaje")
 @Controller
 public class MensajeController {
+	
+	@PersistenceContext( unitName="Gestion-Practicas" )
+	private EntityManager em;
 
 	// Repositories ---------------------------------------------------------------
 	@Autowired
@@ -41,6 +52,9 @@ public class MensajeController {
 
 	@Autowired
 	private ActorService	actorService;
+	
+	@Autowired
+	private OfertaService	ofertaService;
 
 
 	// Constructors -------------------------------------------------------
@@ -173,6 +187,35 @@ public class MensajeController {
 		request.getSession().setAttribute("cuerpoMensaje", body);
 		
 		return new ResponseEntity<Object>(error, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/mensajeFeedback", method = RequestMethod.GET)
+	public ResponseEntity<Object> mensajeFeedback(@RequestParam(value = "ofertaId", required = true) final int ofertaId, final HttpServletRequest request) {
+		HttpHeaders headers = new HttpHeaders();
+		String body = null;
+		Oferta oferta;
+		MensajeForm mensajeForm;
+		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+		String dominio = "";
+		
+		for (Entry<String, Object> entry : propiedades.entrySet()) {
+			if(entry.getKey().equals("javax.persistence.jdbc.url")) {
+				dominio = entry.getValue().toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+				dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+				break;
+			}			
+		}
+		
+		oferta = ofertaService.findOne(ofertaId);
+		
+		mensajeForm = new MensajeForm();
+		mensajeForm.setAsunto("PETICIÓN DE FEEDBACK");
+		mensajeForm.setCuerpo("Se requiere feedback para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + " \r\r - Este mensaje ha sido generado automáticamente -");
+		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());
+		
+		this.mensajeService.createMensaje(mensajeForm);	
+			
+		return new ResponseEntity<Object>(body, headers, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/contadorMsg", method = RequestMethod.POST)
