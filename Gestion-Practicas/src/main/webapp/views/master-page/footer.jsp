@@ -12,7 +12,7 @@
 <jsp:useBean id="date" class="java.util.Date" />
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<!-- <link rel="stylesheet" href="styles/displaytag.css" type="text/css">
 	<script type="text/javascript" src="scripts/jmenu.js"></script>
 	<link rel="stylesheet" href="styles/jmenu.css" media="screen" type="text/css" /> -->

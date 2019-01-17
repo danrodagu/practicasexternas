@@ -2,12 +2,18 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -18,9 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import domain.Oferta;
+import forms.MensajeForm;
 import forms.OfertaForm;
 import services.ActorService;
+import services.AdministrativoService;
 import services.AlumnoService;
+import services.MensajeService;
 import services.OfertaService;
 import services.TutorService;
 
@@ -28,6 +37,9 @@ import services.TutorService;
 @RequestMapping("/oferta")
 public class OfertaController extends AbstractController {
 
+	@PersistenceContext( unitName="Gestion-Practicas" )
+	private EntityManager em;
+	
 	// Services ---------------------------------------------------------------
 
 	@Autowired
@@ -37,10 +49,16 @@ public class OfertaController extends AbstractController {
 	private AlumnoService alumnoService;
 	
 	@Autowired
+	private AdministrativoService administrativoService;
+	
+	@Autowired
 	private TutorService tutorService;
 	
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private MensajeService	mensajeService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -75,7 +93,7 @@ public class OfertaController extends AbstractController {
 	// Display ----------------------------------------------------------------
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam(required = true) int ofertaId) {
+	public ModelAndView display(@RequestParam(required = true) final int ofertaId) {
 		ModelAndView result;
 		Oferta oferta;
 		
@@ -116,7 +134,7 @@ public class OfertaController extends AbstractController {
 	// Edition ----------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam(required = true) int ofertaId) {
+	public ModelAndView edit(@RequestParam(required = true) final int ofertaId) {
 		ModelAndView result;
 		Oferta oferta;
 		OfertaForm ofertaForm;
@@ -254,6 +272,33 @@ public class OfertaController extends AbstractController {
 	}
 
 	// Ancillary methods ------------------------------------------------------
+	
+	@RequestMapping(value = "/evaluar", method = RequestMethod.GET)
+	public ResponseEntity<Object> mensajeFeedback(@RequestParam(value = "ofertaId", required = true) final int ofertaId, final HttpServletRequest request) {
+		HttpHeaders headers = new HttpHeaders();
+		String body = null;
+		Oferta oferta;
+		MensajeForm mensajeForm;
+		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+		String dominio = "";
+		
+		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+				
+		oferta = ofertaService.findOne(ofertaId);
+		oferta.setEnEvaluacion(true);
+		
+		mensajeForm = new MensajeForm();
+		mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
+		mensajeForm.setCuerpo("Se requiere subir la evaluación de la empresa para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
+				" \r\r No olvide pulsar el botón 'Cerrar documentación' tras la subida correspondiente."
+				+ "\r\r - Este mensaje ha sido generado automáticamente -");
+		mensajeForm.setIdReceptor(administrativoService.findAll().iterator().next().getId());
+		
+		this.mensajeService.createMensaje(mensajeForm);	
+			
+		return new ResponseEntity<Object>(body, headers, HttpStatus.OK);
+	}
 	
 	protected ModelAndView createEditModelAndView(final OfertaForm ofertaForm, final String message) {
 		ModelAndView result;

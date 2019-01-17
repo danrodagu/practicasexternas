@@ -4,19 +4,16 @@ package controllers.actor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.datasource.embedded.DataSourceFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -198,14 +195,9 @@ public class MensajeController {
 		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
 		
-		for (Entry<String, Object> entry : propiedades.entrySet()) {
-			if(entry.getKey().equals("javax.persistence.jdbc.url")) {
-				dominio = entry.getValue().toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-				dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
-				break;
-			}			
-		}
-		
+		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+				
 		oferta = ofertaService.findOne(ofertaId);
 		
 		mensajeForm = new MensajeForm();

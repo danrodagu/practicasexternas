@@ -6,4 +6,4 @@ CREATE TABLE `actor` (
   `userAccount_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`userAccount_id`) REFERENCES `useraccount` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

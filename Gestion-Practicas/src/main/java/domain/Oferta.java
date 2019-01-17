@@ -40,6 +40,7 @@ public class Oferta extends DomainEntity {
 	private String emailEmp;
 	private String tutorEmp;
 	
+	private boolean enEvaluacion;
 	private boolean expedienteCerrado;
 	
 	@Transient
@@ -213,6 +214,14 @@ public class Oferta extends DomainEntity {
 		this.tutorEmp = tutorEmp;
 	}
 	
+	public boolean isEnEvaluacion() {
+		return enEvaluacion;
+	}
+
+	public void setEnEvaluacion(final boolean enEvaluacion) {
+		this.enEvaluacion = enEvaluacion;
+	}
+
 	public Boolean getExpedienteCerrado() {
 		return this.expedienteCerrado;
 	}
@@ -234,7 +243,7 @@ public class Oferta extends DomainEntity {
 		return esCurricularStr;
 	}
 	
-	public void setEsCurricularStr(String esCurricularStr) {
+	public void setEsCurricularStr(final String esCurricularStr) {
 		this.esCurricularStr = esCurricularStr;
 	}
 	
@@ -250,7 +259,7 @@ public class Oferta extends DomainEntity {
 		return expedienteCerradoStr;
 	}
 
-	public void setExpedienteCerradoStr(String expedienteCerradoStr) {
+	public void setExpedienteCerradoStr(final String expedienteCerradoStr) {
 		this.expedienteCerradoStr = expedienteCerradoStr;
 	}
 

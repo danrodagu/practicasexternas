@@ -17,7 +17,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	
 	
 	<br/>

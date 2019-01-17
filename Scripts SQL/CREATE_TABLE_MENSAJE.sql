@@ -12,4 +12,4 @@ CREATE TABLE `mensaje` (
   FOREIGN KEY (`emisor_id`) REFERENCES `actor` (`id`),
   FOREIGN KEY (`receptor_id`) REFERENCES `actor` (`id`),
   FOREIGN KEY (`carpeta_id`) REFERENCES `carpeta` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

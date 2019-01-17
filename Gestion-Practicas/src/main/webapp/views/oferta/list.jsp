@@ -46,10 +46,26 @@
 			<gp:iconUrl url="documento/list.do?ofertaId=${row.id}" icon="fas fa-folder-open" name="alumno.documentos" color="Crimson"/>
 		</display:column>
 		
-		<security:authorize access="hasRole('ALUMNO')">
-			<display:column>
-				<gp:iconUrl onclick="feedback(${row.id})" icon="fas fa-marker" name="oferta.feedback" color="Crimson"/>
-			</display:column>
+		<security:authorize access="hasRole('ALUMNO')">			
+			<jstl:choose>
+				<jstl:when test="${row.enEvaluacion eq false}">
+					<display:column>
+						<gp:iconUrl url="/Gestion-Practicas/alumno/practicas.do" onclick="feedback(${row.id})" icon="fas fa-marker" name="oferta.feedback" color="Crimson"/>
+					</display:column>
+					<display:column>
+						<spring:message code="oferta.alertEv" var="alertEvHeader" />
+						<gp:iconUrl url="/Gestion-Practicas/alumno/practicas.do" onclick="evaluar(${row.id},'${alertEvHeader}', event)" icon="fas fa-check-circle" name="oferta.evaluame" color="Crimson"/>
+					</display:column>
+				</jstl:when>
+				<jstl:otherwise>
+					<display:column>
+					</display:column>
+					<display:column>
+						<spring:message code="oferta.evaluando" var="evaluandoHeader" />
+						<jstl:out value="${evaluandoHeader}" />
+					</display:column>
+				</jstl:otherwise>
+			</jstl:choose>
 		</security:authorize>
 	</display:table>
 </div>
@@ -70,7 +86,6 @@
 				}else{
 					alert("Su tutor ha sido notificado correctamente");
 				}
-				window.location.href = "alumno/practicas.do";
 				
 			},
 			error: function (xhr) {
@@ -78,6 +93,32 @@
 		    }
 		});
 	};	
+	
+	function evaluar(ofertaId,msg,e){
+		if(confirm(msg)){
+			$.ajax({
+				type : "GET",
+				url : 'oferta/evaluar.do',
+				contentType: 'application/json; charset=utf-8',
+			    data: {'ofertaId': ofertaId},
+			    async: false,
+			    cache: false,
+				success: function(callback){			
+					if(localStorage.getItem("language") == "en"){
+						alert("Your internship has been set as evaluable. Contact your mentor for any doubt about it");
+					}else{
+						alert("Su práctica se ha puesto en proceso de evaluación. Contacte a su tutor para cualquier duda sobre ésta");
+					}			
+				},
+				error: function (xhr) {
+					e.preventDefault();
+			        alert('Error ' + xhr.status);
+			    }
+			});
+		}else{
+			e.preventDefault();
+		}	
+	};
 	
 	$(document).ready(function() {
 		if(localStorage.getItem("language") == "en"){
