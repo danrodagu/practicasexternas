@@ -41,6 +41,7 @@ public class Oferta extends DomainEntity {
 	private String tutorEmp;
 	
 	private boolean enEvaluacion;
+	private boolean docuCerrada;
 	private boolean expedienteCerrado;
 	
 	@Transient
@@ -220,6 +221,14 @@ public class Oferta extends DomainEntity {
 
 	public void setEnEvaluacion(final boolean enEvaluacion) {
 		this.enEvaluacion = enEvaluacion;
+	}
+
+	public boolean isDocuCerrada() {
+		return docuCerrada;
+	}
+
+	public void setDocuCerrada(final boolean docuCerrada) {
+		this.docuCerrada = docuCerrada;
 	}
 
 	public Boolean getExpedienteCerrado() {

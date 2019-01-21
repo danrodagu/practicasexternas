@@ -3,7 +3,6 @@ package controllers;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Actor;
 import domain.Documento;
 import domain.Oferta;
 import forms.DocumentoForm;
@@ -46,13 +44,20 @@ public class DocumentoController extends AbstractController {
 		public ModelAndView list(@RequestParam (required = true) final int ofertaId, final HttpServletRequest request) {
 			ModelAndView result;
 			Collection<Documento> documentos;
+			Oferta oferta;
+			boolean esAlumno;
+			
+			oferta = ofertaService.findOne(ofertaId);
 			
 			documentos = documentoService.findDocumentosByOferta(ofertaId);				
 			
 			result = new ModelAndView("documento/list");
+			
+			esAlumno = actorService.isAlumno();
 
 			result.addObject("documentos", documentos);
-			result.addObject("ofertaId", ofertaId);
+			result.addObject("oferta", oferta);
+			result.addObject("esAlumno", esAlumno);
 			
 			return result;
 		}	
@@ -64,6 +69,20 @@ public class DocumentoController extends AbstractController {
 
 		// Ancillary methods ------------------------------------------------------
 
+		@RequestMapping(value = "/delete", method = RequestMethod.GET)
+		public ModelAndView delete(@RequestParam(required = true) final int documentoId) {
+			ModelAndView result;
+			Documento documento;
+
+			documento = this.documentoService.findOne(documentoId);
+			
+			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + documento.getOferta().getId());
+			
+			this.documentoService.delete(documento);					
+
+			return result;
+		}
+		
 		protected ModelAndView createEditModelAndView(final DocumentoForm documentoForm) {
 			ModelAndView result;
 

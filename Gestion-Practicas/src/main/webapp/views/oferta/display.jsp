@@ -14,16 +14,35 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
+<br />
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="documento/list.do?ofertaId=${oferta.id}"><spring:message code="alumno.documentos" /></a></li>
+    <security:authorize access="hasRole('TUTOR') || hasRole('COORDINADOR')">
+	    <jstl:if test="${oferta.docuCerrada}">
+	    	<li class="breadcrumb-item"><a href="valoracion/create.do?ofertaId=${oferta.id}"><spring:message code="oferta.evaluar" /></a></li>
+	  	</jstl:if>
+  	</security:authorize>
+  </ol>
+</nav>
 
 <br />
 <spring:message code="oferta.alumno" />:
 &nbsp;&nbsp;
 <jstl:out value="${oferta.alumnoAsignado.nombreCompleto}" />
+&nbsp;
+<security:authorize access="!hasRole('ALUMNO')">
+	<gp:iconUrl url="mensaje/create.do?actorId=${oferta.alumnoAsignado.id}" icon="fas fa-envelope" name="oferta.contactar" color="Crimson"/>
+</security:authorize>
 <br />
 
 <spring:message code="oferta.tutor" />:
 &nbsp;&nbsp;
 <jstl:out value="${oferta.tutorAsignado.nombreCompleto}" />
+&nbsp;
+<security:authorize access="!hasRole('TUTOR')">
+	<gp:iconUrl url="mensaje/create.do?actorId=${oferta.tutorAsignado.id}" icon="fas fa-envelope" name="oferta.contactar" color="Crimson"/>
+</security:authorize>
 <br />
 
 <div class="dropdown-divider"></div>
@@ -111,4 +130,7 @@
 &nbsp;&nbsp;
 <jstl:out value="${oferta.tutorEmp}" />
 <br />
+<br />
+
+
 

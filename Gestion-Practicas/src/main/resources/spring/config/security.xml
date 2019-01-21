@@ -53,7 +53,7 @@
 		
 		<!-- LIST -->
 		<security:intercept-url pattern="/alumno/list.do" access="hasRole('COORDINADOR') || hasRole('TUTOR') || hasRole('ADMINISTRATIVO')" />
-		<security:intercept-url pattern="/alumno/practicas.do" access="hasRole('ALUMNO') || hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/alumno/practicas.do" access="isAuthenticated()" />
 		
 		<!-- DISPLAY -->
 		<security:intercept-url pattern="/oferta/display.do" access="isAuthenticated()" />
@@ -65,6 +65,7 @@
 		<security:intercept-url pattern="/mensaje/edit?save" access="isAuthenticated()" />
 		<security:intercept-url pattern="/oferta/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/carpeta/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/valoracion/**" access="hasRole('COORDINADOR') || hasRole('TUTOR')" />
 		
 		<security:intercept-url pattern="/uploadServlet" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/downloadServlet" access="isAuthenticated()" />	

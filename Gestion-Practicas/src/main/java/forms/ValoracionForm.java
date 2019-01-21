@@ -1,35 +1,42 @@
 
-package domain;
+package forms;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
-@Entity
-@Access(AccessType.PROPERTY)
-public class Valoracion extends DomainEntity {
+public class ValoracionForm {
 
+	// Attributes -------------------------------------------------------------
+
+	private int id;
 	private String texto;
 	private Integer notaCurricular;
 	private String notaExtracurricular;
+	
+	private Integer idOferta; 
 
 	// Constructors -----------------------------------------------------------
 
-	public Valoracion() {
+	public ValoracionForm() {
 		super();
+		this.id = 0;
 	}
 
-	// Getters and setters ----------------------------------------------------
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(final int id) {
+		this.id = id;
+	}
 
 	@NotNull
 	@NotBlank
+	@SafeHtml
 	public String getTexto() {
-		return this.texto;
+		return texto;
 	}
 
 	public void setTexto(final String texto) {
@@ -52,21 +59,14 @@ public class Valoracion extends DomainEntity {
 		this.notaExtracurricular = notaExtracurricular;
 	}
 
-
-	// Relationships ----------------------------------------------------------
-
-	
-	private Oferta oferta;
-
-	@Valid
-	@NotNull
-	@OneToOne(optional = false)
-	public Oferta getOferta() {
-		return this.oferta;
+	public Integer getIdOferta() {
+		return idOferta;
 	}
 
-	public void setOferta(final Oferta oferta) {
-		this.oferta = oferta;
+	public void setIdOferta(final Integer idOferta) {
+		this.idOferta = idOferta;
 	}
+
 	
+
 }

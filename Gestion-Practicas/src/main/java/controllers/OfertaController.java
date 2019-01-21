@@ -273,8 +273,8 @@ public class OfertaController extends AbstractController {
 
 	// Ancillary methods ------------------------------------------------------
 	
-	@RequestMapping(value = "/evaluar", method = RequestMethod.GET)
-	public ResponseEntity<Object> mensajeFeedback(@RequestParam(value = "ofertaId", required = true) final int ofertaId, final HttpServletRequest request) {
+	@RequestMapping(value = "/peticionEvaluacion", method = RequestMethod.GET)
+	public ResponseEntity<Object> peticionEvaluacion(@RequestParam(value = "ofertaId", required = true) final int ofertaId, final HttpServletRequest request) {
 		HttpHeaders headers = new HttpHeaders();
 		String body = null;
 		Oferta oferta;
@@ -298,6 +298,56 @@ public class OfertaController extends AbstractController {
 		this.mensajeService.createMensaje(mensajeForm);	
 			
 		return new ResponseEntity<Object>(body, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/cerrarDocumentacion", method = RequestMethod.GET)
+	public ModelAndView cerrarDocumentacion(@RequestParam(required = true) final int ofertaId) {
+		ModelAndView result;
+		Oferta oferta;
+		MensajeForm mensajeForm;
+		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+		String dominio = "";
+		
+		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		
+		oferta = ofertaService.findOne(ofertaId);
+		
+		mensajeForm = new MensajeForm();
+		mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
+		mensajeForm.setCuerpo("Se requiere evaluación para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
+				" \r\r Se ha habilitado el formulario de evaluación: "
+				+ "\r\r - Este mensaje ha sido generado automáticamente -");
+		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());			
+		
+		result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
+
+		try {			
+			ofertaService.cerrarDocumentacion(ofertaId);
+			this.mensajeService.createMensaje(mensajeForm);
+		} catch (Throwable oops) {
+			result.addObject("message", "oferta.cerrarDocu.error");
+		}		
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/abrirDocumentacion", method = RequestMethod.GET)
+	public ModelAndView abrirDocumentacion(@RequestParam(required = true) final int ofertaId) {
+		ModelAndView result;
+		Oferta oferta;
+		
+		oferta = ofertaService.findOne(ofertaId);
+		
+		result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
+
+		try {			
+			ofertaService.abrirDocumentacion(ofertaId);			
+		} catch (Throwable oops) {
+			result.addObject("message", "oferta.cerrarDocu.error");
+		}		
+
+		return result;
 	}
 	
 	protected ModelAndView createEditModelAndView(final OfertaForm ofertaForm, final String message) {

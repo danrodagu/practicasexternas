@@ -44,29 +44,30 @@
 		
 		<display:column>
 			<gp:iconUrl url="documento/list.do?ofertaId=${row.id}" icon="fas fa-folder-open" name="alumno.documentos" color="Crimson"/>
-		</display:column>
-		
-		<security:authorize access="hasRole('ALUMNO')">			
-			<jstl:choose>
-				<jstl:when test="${row.enEvaluacion eq false}">
+		</display:column>		
+				
+		<jstl:choose>
+			<jstl:when test="${row.enEvaluacion eq false}">
+				<security:authorize access="hasRole('ALUMNO')">	
 					<display:column>
 						<gp:iconUrl url="/Gestion-Practicas/alumno/practicas.do" onclick="feedback(${row.id})" icon="fas fa-marker" name="oferta.feedback" color="Crimson"/>
 					</display:column>
 					<display:column>
 						<spring:message code="oferta.alertEv" var="alertEvHeader" />
-						<gp:iconUrl url="/Gestion-Practicas/alumno/practicas.do" onclick="evaluar(${row.id},'${alertEvHeader}', event)" icon="fas fa-check-circle" name="oferta.evaluame" color="Crimson"/>
+						<gp:iconUrl url="/Gestion-Practicas/alumno/practicas.do" onclick="peticionEvaluacion(${row.id},'${alertEvHeader}', event)" icon="fas fa-check-circle" name="oferta.evaluame" color="Crimson"/>
 					</display:column>
-				</jstl:when>
-				<jstl:otherwise>
-					<display:column>
-					</display:column>
-					<display:column>
-						<spring:message code="oferta.evaluando" var="evaluandoHeader" />
-						<jstl:out value="${evaluandoHeader}" />
-					</display:column>
-				</jstl:otherwise>
-			</jstl:choose>
-		</security:authorize>
+				</security:authorize>
+			</jstl:when>
+			<jstl:otherwise>
+				<display:column>
+				</display:column>
+				<display:column>
+					<spring:message code="oferta.evaluando" var="evaluandoHeader" />
+					<jstl:out value="${evaluandoHeader}" />
+				</display:column>
+			</jstl:otherwise>
+		</jstl:choose>
+		
 	</display:table>
 </div>
 
@@ -94,11 +95,11 @@
 		});
 	};	
 	
-	function evaluar(ofertaId,msg,e){
+	function peticionEvaluacion(ofertaId,msg,e){
 		if(confirm(msg)){
 			$.ajax({
 				type : "GET",
-				url : 'oferta/evaluar.do',
+				url : 'oferta/peticionEvaluacion.do',
 				contentType: 'application/json; charset=utf-8',
 			    data: {'ofertaId': ofertaId},
 			    async: false,

@@ -18,6 +18,7 @@ CREATE TABLE `oferta` (
   `emailEmp` varchar(255) NOT NULL,
   `tutorEmp` varchar(255) NOT NULL,
   `enEvaluacion` tinyint(1) NOT NULL,
+  `docuCerrada` tinyint(1) NOT NULL,
   `expedienteCerrado` tinyint(1) NOT NULL,
   `alumnoAsignado_id` int(11) NOT NULL,
   `tutorAsignado_id` int(11) NOT NULL,

@@ -125,7 +125,7 @@ public class OfertaService {
 
 	}
 	
-	public Collection<Oferta> ofertasByAlumnoTutor(final int idAlumno, int idTutor) {
+	public Collection<Oferta> ofertasByAlumnoTutor(final int idAlumno, final int idTutor) {
 		final Collection<Oferta> result;
 
 		result = this.ofertaRepository.ofertasByAlumnoTutor(idAlumno, idTutor);
@@ -152,7 +152,7 @@ public class OfertaService {
 
 	}
 	
-	public Collection<Oferta> ofertasCurricByAlumnoEdit(final int idAlumno, int idOferta) {
+	public Collection<Oferta> ofertasCurricByAlumnoEdit(final int idAlumno, final int idOferta) {
 		final Collection<Oferta> result;
 
 		result = this.ofertaRepository.ofertasCurricByAlumnoEdit(idAlumno, idOferta);
@@ -161,7 +161,7 @@ public class OfertaService {
 
 	}
 	
-	public Collection<Oferta> ofertasExtraByAlumnoEdit(final int idAlumno, int idOferta) {
+	public Collection<Oferta> ofertasExtraByAlumnoEdit(final int idAlumno, final int idOferta) {
 		final Collection<Oferta> result;
 
 		result = this.ofertaRepository.ofertasExtraByAlumnoEdit(idAlumno, idOferta);
@@ -267,5 +267,25 @@ public class OfertaService {
 		return res;
 	}	
 	
+	public void cerrarDocumentacion(final int ofertaId) {
+		Oferta oferta;
+		
+		oferta = this.findOne(ofertaId);
+		
+		Assert.isTrue(oferta.isEnEvaluacion());		
+		
+		oferta.setDocuCerrada(true);
+	}
+	
+	public void abrirDocumentacion(final int ofertaId) {
+		Oferta oferta;
+		
+		oferta = this.findOne(ofertaId);
+		
+		Assert.isTrue(oferta.isEnEvaluacion());
+		Assert.isTrue(oferta.isDocuCerrada());
+		
+		oferta.setDocuCerrada(false);
+	}
 
 }

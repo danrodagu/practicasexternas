@@ -95,11 +95,15 @@ public class MensajeController {
 	// Creation ---------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam(required = false) final Integer actorId) {
 		ModelAndView result;
 		MensajeForm mensajeForm;
 
 		mensajeForm = new MensajeForm();
+		
+		if(actorId != null) {
+			mensajeForm.setIdReceptor(actorId);
+		}
 
 		result = this.createEditModelAndView(mensajeForm);
 

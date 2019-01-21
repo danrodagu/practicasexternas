@@ -54,6 +54,7 @@ CREATE TABLE `oferta` (
   `emailEmp` varchar(255) NOT NULL,
   `tutorEmp` varchar(255) NOT NULL,
   `enEvaluacion` tinyint(1) NOT NULL,
+  `docuCerrada` tinyint(1) NOT NULL,
   `expedienteCerrado` tinyint(1) NOT NULL,
   `alumnoAsignado_id` int(11) NOT NULL,
   `tutorAsignado_id` int(11) NOT NULL,
@@ -91,13 +92,13 @@ CREATE TABLE `mensaje` (
 CREATE TABLE `valoracion` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
-  `titulo` varchar(255) NOT NULL,
-  `cuerpo` varchar(255) NOT NULL,
-  `esFinal` tinyint(1) NOT NULL,
-  `alumno_id` int(11) NOT NULL,
+  `texto` varchar(500) NOT NULL,
+  `notaCurricular` int(2),
+  `notaExtracurricular` varchar(10),
+  `oferta_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY (`alumno_id`),
-  FOREIGN KEY (`alumno_id`) REFERENCES `actor` (`id`)
+  UNIQUE KEY (`oferta_id`),
+  FOREIGN KEY (`oferta_id`) REFERENCES `oferta` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `documento` (
