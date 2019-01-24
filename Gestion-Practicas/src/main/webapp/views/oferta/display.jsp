@@ -19,8 +19,13 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="documento/list.do?ofertaId=${oferta.id}"><spring:message code="alumno.documentos" /></a></li>
     <security:authorize access="hasRole('TUTOR') || hasRole('COORDINADOR')">
-	    <jstl:if test="${oferta.docuCerrada}">
+	    <jstl:if test="${oferta.docuCerrada && not oferta.evaluada}">
 	    	<li class="breadcrumb-item"><a href="valoracion/create.do?ofertaId=${oferta.id}"><spring:message code="oferta.evaluar" /></a></li>
+	  	</jstl:if>
+  	</security:authorize>
+  	<security:authorize access="hasRole('ADMINISTRATIVO')">
+  		<jstl:if test="${oferta.evaluada && not oferta.preacta}">
+	    	<li class="breadcrumb-item"><a href="documento/acta/create.do?ofertaId=${oferta.id}"><spring:message code="oferta.generarActa" /></a></li>
 	  	</jstl:if>
   	</security:authorize>
   </ol>

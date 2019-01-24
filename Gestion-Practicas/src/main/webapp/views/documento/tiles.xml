@@ -21,4 +21,9 @@
 		<put-attribute name="body" value="/views/documento/upload.jsp" />
 	</definition>
 	
+	<definition name="documento/acta/create" extends="master.page">	
+		<put-attribute name="title" value="Generate Minutes" />
+		<put-attribute name="body" value="/views/documento/createActa.jsp" />
+	</definition>
+	
 </tiles-definitions>

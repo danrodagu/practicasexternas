@@ -287,5 +287,16 @@ public class OfertaService {
 		
 		oferta.setDocuCerrada(false);
 	}
+	
+	public void evaluarOferta(final int ofertaId) {
+		Oferta oferta;
+		
+		oferta = this.findOne(ofertaId);
+		
+		Assert.isTrue(oferta.isEnEvaluacion());
+		Assert.isTrue(oferta.isDocuCerrada());
+		
+		oferta.setEvaluada(true);
+	}
 
 }

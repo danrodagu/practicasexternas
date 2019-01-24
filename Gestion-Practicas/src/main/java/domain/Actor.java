@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import security.UserAccount;
@@ -19,11 +20,16 @@ import security.UserAccount;
 public class Actor extends DomainEntity {
 
 	//COMUNES
+	private String nif;
 	private String nombre;
 	private String apellidos;
+	private String email;
 	
 	//ALUMNO
-
+	private String titulacion;
+	
+	//TUTOR
+	private String departamento;
 
 	// Constructors -----------------------------------------------------------
 
@@ -58,11 +64,44 @@ public class Actor extends DomainEntity {
 		return getApellidos() + ", " + getNombre();
 	}
 	
-	
-	//ALUMNO
+	@NotNull
+	@NotBlank
+	public String getNif() {
+		return nif;
+	}
 
+	public void setNif(final String nif) {
+		this.nif = nif;
+	}
 
-	// Relationships ----------------------------------------------------------
+	@Email
+	@NotNull
+	@NotBlank
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
+	}
+
+	public String getTitulacion() {
+		return titulacion;
+	}
+
+	public void setTitulacion(final String titulacion) {
+		this.titulacion = titulacion;
+	}
+
+	public String getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(final String departamento) {
+		this.departamento = departamento;
+	}
+
+	// Relationships ----------------------------------------------------------	
 
 	private UserAccount userAccount;
 
@@ -76,9 +115,6 @@ public class Actor extends DomainEntity {
 	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
 	}
-
-	
-	//ALUMNO
 
 	
 

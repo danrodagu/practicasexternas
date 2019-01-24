@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Documento;
 import domain.Oferta;
+import forms.ActaForm;
 import forms.DocumentoForm;
 import services.ActorService;
 import services.DocumentoService;
@@ -65,7 +66,7 @@ public class DocumentoController extends AbstractController {
 
 		// Save -------------------------------------------------------------------
 
-
+		
 
 		// Ancillary methods ------------------------------------------------------
 
@@ -83,6 +84,20 @@ public class DocumentoController extends AbstractController {
 			return result;
 		}
 		
+		@RequestMapping(value = "/acta/create", method = RequestMethod.GET)
+		public ModelAndView create(@RequestParam(required = true) final int ofertaId, final HttpServletRequest request) {
+			ModelAndView result;
+			ActaForm actaForm;
+			
+			actaForm = new ActaForm();
+			actaForm.setIdOferta(ofertaId);
+
+			result = new ModelAndView("documento/acta/create");
+			result.addObject("actaForm", actaForm);
+
+			return result;
+		}
+		
 		protected ModelAndView createEditModelAndView(final DocumentoForm documentoForm) {
 			ModelAndView result;
 
@@ -94,7 +109,7 @@ public class DocumentoController extends AbstractController {
 		protected ModelAndView createEditModelAndView(final DocumentoForm documentoForm, final String message) {
 			ModelAndView result;
 
-			result = new ModelAndView("documento/upload");
+			result = new ModelAndView("documento/edit");
 			result.addObject("documentoForm", documentoForm);
 			result.addObject("message", message);
 

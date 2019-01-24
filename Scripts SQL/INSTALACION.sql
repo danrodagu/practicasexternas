@@ -27,8 +27,12 @@ CREATE TABLE `useraccount_authorities` (
 CREATE TABLE `actor` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
+  `nif` varchar(9) NOT NULL,
   `nombre` varchar(255) NOT NULL,
-  `apellidos` varchar(255) NOT NULL,  
+  `apellidos` varchar(255) NOT NULL, 
+  `titulacion` varchar(255),
+  `departamento` varchar(255), 
+  `email` varchar(255) NOT NULL,
   `userAccount_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`userAccount_id`) REFERENCES `useraccount` (`id`)
@@ -55,6 +59,9 @@ CREATE TABLE `oferta` (
   `tutorEmp` varchar(255) NOT NULL,
   `enEvaluacion` tinyint(1) NOT NULL,
   `docuCerrada` tinyint(1) NOT NULL,
+  `evaluada` tinyint(1) NOT NULL,
+  `preacta` tinyint(1) NOT NULL,
+  `actaFirmada` tinyint(1) NOT NULL,
   `expedienteCerrado` tinyint(1) NOT NULL,
   `alumnoAsignado_id` int(11) NOT NULL,
   `tutorAsignado_id` int(11) NOT NULL,

@@ -18,6 +18,9 @@
 
 		<div class="row">
 			<div class="form-group col-md-4">
+				<gp:textbox id="nif" code="actor.nif" path="nif" cssClass="form-control" required="required" />
+			</div>
+			<div class="form-group col-md-4">
 				<gp:textbox id="nombre" code="actor.nombre" path="nombre" cssClass="form-control" required="required" />
 			</div>
 			<div class="form-group col-md-4">
@@ -28,6 +31,9 @@
 		<div class="row">
 			<div class="form-group col-md-4">
 				<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" />
+			</div>
+			<div class="form-group col-md-4">
+				<gp:textbox id="email" code="actor.email" path="email" cssClass="form-control" required="required" />
 			</div>
 		</div>
 		

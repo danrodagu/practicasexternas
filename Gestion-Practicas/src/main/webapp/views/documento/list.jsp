@@ -59,7 +59,7 @@
 			</security:authorize>
 		</jstl:if>
 		
-		<jstl:if test="${oferta.enEvaluacion && oferta.docuCerrada}">
+		<jstl:if test="${oferta.enEvaluacion && oferta.docuCerrada && not oferta.evaluada}">
 			<security:authorize access="hasRole('ADMINISTRATIVO') || hasRole('COORDINADOR')">
 				<a href="oferta/abrirDocumentacion.do?ofertaId=${oferta.id}" class="btn btn-danger" role="button"><spring:message code="documento.abrir" /></a>
 			</security:authorize>

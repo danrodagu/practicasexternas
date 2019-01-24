@@ -127,6 +127,8 @@ public class AdministrativoService {
 		administrativoForm.setId(administrativo.getId());
 		administrativoForm.setNombre(administrativo.getNombre());
 		administrativoForm.setApellidos(administrativo.getApellidos());
+		administrativoForm.setNif(administrativo.getNif());
+		administrativoForm.setEmail(administrativo.getEmail());
 
 		// administrativoForm.setPicture(administrativo.getPicture());
 		
@@ -152,7 +154,9 @@ public class AdministrativoService {
 		}
 
 		res.setNombre(administrativoForm.getNombre());
-		res.setApellidos(administrativoForm.getApellidos());	
+		res.setApellidos(administrativoForm.getApellidos());
+		res.setNif(administrativoForm.getNif());
+		res.setEmail(administrativoForm.getEmail());
 
 		// res.setPicture(administrativoForm.getPicture());
 		

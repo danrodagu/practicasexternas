@@ -135,6 +135,9 @@ public class AlumnoService {
 		alumnoForm.setId(alumno.getId());
 		alumnoForm.setNombre(alumno.getNombre());
 		alumnoForm.setApellidos(alumno.getApellidos());
+		alumnoForm.setNif(alumno.getNif());
+		alumnoForm.setEmail(alumno.getEmail());
+		alumnoForm.setTitulacion(alumno.getTitulacion());
 
 		// alumnoForm.setPicture(alumno.getPicture());
 		//
@@ -162,6 +165,9 @@ public class AlumnoService {
 		
 		res.setNombre(alumnoForm.getNombre());
 		res.setApellidos(alumnoForm.getApellidos());
+		res.setNif(alumnoForm.getNif());
+		res.setEmail(alumnoForm.getEmail());
+		res.setTitulacion(alumnoForm.getTitulacion());
 //		res.setOfertaAsignada(new Oferta());
 //		res.setTutorAsignado(new Actor());
 

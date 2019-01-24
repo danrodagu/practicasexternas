@@ -42,6 +42,9 @@ public class Oferta extends DomainEntity {
 	
 	private boolean enEvaluacion;
 	private boolean docuCerrada;
+	private boolean evaluada;
+	private boolean preacta;
+	private boolean actaFirmada;
 	private boolean expedienteCerrado;
 	
 	@Transient
@@ -229,6 +232,30 @@ public class Oferta extends DomainEntity {
 
 	public void setDocuCerrada(final boolean docuCerrada) {
 		this.docuCerrada = docuCerrada;
+	}
+
+	public boolean isEvaluada() {
+		return evaluada;
+	}
+
+	public void setEvaluada(final boolean evaluada) {
+		this.evaluada = evaluada;
+	}
+
+	public boolean isPreacta() {
+		return preacta;
+	}
+
+	public void setPreacta(final boolean preacta) {
+		this.preacta = preacta;
+	}
+
+	public boolean isActaFirmada() {
+		return actaFirmada;
+	}
+
+	public void setActaFirmada(final boolean actaFirmada) {
+		this.actaFirmada = actaFirmada;
 	}
 
 	public Boolean getExpedienteCerrado() {

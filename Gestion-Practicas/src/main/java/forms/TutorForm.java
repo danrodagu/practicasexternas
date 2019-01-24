@@ -4,6 +4,7 @@ package forms;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
@@ -13,8 +14,11 @@ public class TutorForm {
 
 	private int id;
 	// private String picture;
+	private String nif;
 	private String nombre;
 	private String apellidos;
+	private String departamento;
+	private String email;
 
 	private String password;
 	private String password2;
@@ -48,6 +52,17 @@ public class TutorForm {
 	@NotNull
 	@NotBlank
 	@SafeHtml
+	public String getNif() {
+		return nif;
+	}
+
+	public void setNif(final String nif) {
+		this.nif = nif;
+	}
+	
+	@NotNull
+	@NotBlank
+	@SafeHtml
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -65,6 +80,29 @@ public class TutorForm {
 
 	public void setApellidos(final String apellidos) {
 		this.apellidos = apellidos;
+	}
+
+	@NotNull
+	@NotBlank
+	@SafeHtml
+	public String getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(final String departamento) {
+		this.departamento = departamento;
+	}
+	
+	@NotNull
+	@NotBlank
+	@Email
+	@SafeHtml
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
 	}
 
 	@NotNull

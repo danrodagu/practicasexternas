@@ -288,14 +288,17 @@ public class OfertaController extends AbstractController {
 		oferta = ofertaService.findOne(ofertaId);
 		oferta.setEnEvaluacion(true);
 		
-		mensajeForm = new MensajeForm();
-		mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
-		mensajeForm.setCuerpo("Se requiere subir la evaluación de la empresa para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
-				" \r\r No olvide pulsar el botón 'Cerrar documentación' tras la subida correspondiente."
-				+ "\r\r - Este mensaje ha sido generado automáticamente -");
-		mensajeForm.setIdReceptor(administrativoService.findAll().iterator().next().getId());
-		
-		this.mensajeService.createMensaje(mensajeForm);	
+		for(Actor a : administrativoService.findAll()) {
+			mensajeForm = new MensajeForm();
+			mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
+			mensajeForm.setCuerpo("Se requiere subir la evaluación de la empresa para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
+					" \r\r Compruebe que no falte ningún documento necesario para la evaluación y pulse el botón 'Cerrar documentación' tras la subida correspondiente."
+					+ "\r\r NOTA: No lleve a cabo este proceso si otro administrativo ya lo ha realizado."
+					+ "\r\r - Este mensaje ha sido generado automáticamente -");
+			mensajeForm.setIdReceptor(a.getId());
+			
+			this.mensajeService.createMensaje(mensajeForm);
+		}			
 			
 		return new ResponseEntity<Object>(body, headers, HttpStatus.OK);
 	}
@@ -316,7 +319,7 @@ public class OfertaController extends AbstractController {
 		mensajeForm = new MensajeForm();
 		mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
 		mensajeForm.setCuerpo("Se requiere evaluación para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
-				" \r\r Se ha habilitado el formulario de evaluación: "
+				" \r\r Se ha habilitado el formulario de evaluación. "
 				+ "\r\r - Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());			
 		

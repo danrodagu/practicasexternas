@@ -130,6 +130,9 @@ public class TutorService {
 		tutorForm.setId(tutor.getId());
 		tutorForm.setNombre(tutor.getNombre());
 		tutorForm.setApellidos(tutor.getApellidos());
+		tutorForm.setNif(tutor.getNif());
+		tutorForm.setEmail(tutor.getEmail());
+		tutorForm.setDepartamento(tutor.getDepartamento());
 
 		// tutorForm.setPicture(tutor.getPicture());
 		
@@ -155,7 +158,10 @@ public class TutorService {
 		}
 
 		res.setNombre(tutorForm.getNombre());
-		res.setApellidos(tutorForm.getApellidos());	
+		res.setApellidos(tutorForm.getApellidos());
+		res.setNif(tutorForm.getNif());
+		res.setEmail(tutorForm.getEmail());
+		res.setDepartamento(tutorForm.getDepartamento());
 
 		// res.setPicture(tutorForm.getPicture());
 		

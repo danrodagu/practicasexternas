@@ -60,6 +60,7 @@
 		
 		<!-- OTROS -->
 		<security:intercept-url pattern="/documento/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/documento/acta/create.do" access="hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/mensaje/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/mensaje/edit?save" access="isAuthenticated()" />
