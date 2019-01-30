@@ -90,6 +90,15 @@ public class ValoracionService {
 
 	// Other business methods -------------------------------------------------	
 
+	public Valoracion findByOferta(final int ofertaId) {
+		final Valoracion result;
+
+		result = this.valoracionRepository.findByOferta(ofertaId);
+
+		return result;
+
+	}
+	
 	public ValoracionForm takeForm(final Valoracion valoracion) {
 		ValoracionForm valoracionForm;
 

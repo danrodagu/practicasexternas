@@ -1,16 +1,17 @@
 
 package services;
 
+import java.io.IOException;
 import java.util.Collection;
 
+import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
+import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Actor;
 import domain.Documento;
-import forms.DocumentoForm;
 import repositories.DocumentoRepository;
 import security.UserAccountService;
 
@@ -84,6 +85,16 @@ public class DocumentoService {
 
 		return res;
 	}	
+	
+	public void rellenarCampo(final PDAcroForm acroForm, final String nombreCampo, final String valor) throws IOException{
+	    PDField field = acroForm.getField(nombreCampo);
+	    if( field != null ) {
+	        field.setValue(valor);
+	    }
+	    else {
+	        System.err.println( "No se ha encontrado el campo "+nombreCampo+"!");
+	    }
+	}
 	
 	
 //	public Collection<Documento> findDocumentosByTutorPrincipal(final int alumnoId) {
