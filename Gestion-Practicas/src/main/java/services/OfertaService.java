@@ -298,5 +298,44 @@ public class OfertaService {
 		
 		oferta.setEvaluada(true);
 	}
+	
+	public void preactaGenerada(final int ofertaId) {
+		Oferta oferta;
+		
+		oferta = this.findOne(ofertaId);
+		
+		Assert.isTrue(oferta.isEnEvaluacion());
+		Assert.isTrue(oferta.isDocuCerrada());
+		Assert.isTrue(oferta.isEvaluada());
+		
+		oferta.setPreacta(true);
+	}
+	
+	public void actaFirmada(final int ofertaId) {
+		Oferta oferta;
+		
+		oferta = this.findOne(ofertaId);
+		
+		Assert.isTrue(oferta.isEnEvaluacion());
+		Assert.isTrue(oferta.isDocuCerrada());
+		Assert.isTrue(oferta.isEvaluada());
+		Assert.isTrue(oferta.isPreacta());
+		
+		oferta.setActaFirmada(true);
+	}
+	
+	public void cerrarExpediente(final int ofertaId) {
+		Oferta oferta;
+		
+		oferta = this.findOne(ofertaId);
+		
+		Assert.isTrue(oferta.isEnEvaluacion());
+		Assert.isTrue(oferta.isDocuCerrada());
+		Assert.isTrue(oferta.isEvaluada());
+		Assert.isTrue(oferta.isPreacta());
+		Assert.isTrue(oferta.isActaFirmada());
+		
+		oferta.setExpedienteCerrado(true);
+	}
 
 }

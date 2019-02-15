@@ -347,7 +347,61 @@ public class OfertaController extends AbstractController {
 		try {			
 			ofertaService.abrirDocumentacion(ofertaId);			
 		} catch (Throwable oops) {
-			result.addObject("message", "oferta.cerrarDocu.error");
+			result.addObject("message", "oferta.abrirDocu.error");
+		}		
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/notificarCierreExp", method = RequestMethod.GET)
+	public ModelAndView notificarCierreExp(@RequestParam(required = true) final int ofertaId) {
+		ModelAndView result;
+		Oferta oferta;
+		
+		MensajeForm mensajeForm;
+		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+		String dominio = "";
+		
+		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		
+		oferta = ofertaService.findOne(ofertaId);		
+		
+		result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
+
+		try {			
+			ofertaService.actaFirmada(ofertaId);
+			
+			for(Actor a : administrativoService.findAll()) {
+				mensajeForm = new MensajeForm();
+				mensajeForm.setAsunto("PETICIÓN DE CIERRE DE EXPEDIENTE");
+				mensajeForm.setCuerpo("Se requiere cierre de expediente para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
+						" \r\r Se ha habilitado para ello el botón 'Cerrar expediente'. No olvide revisar que el acta esté correctamente firmada. "
+						+ "\r\r - Este mensaje ha sido generado automáticamente -");
+				mensajeForm.setIdReceptor(a.getId());
+				
+				this.mensajeService.createMensaje(mensajeForm);
+			}
+		} catch (Throwable oops) {
+			result.addObject("message", "oferta.error");
+		}
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/cerrarExpediente", method = RequestMethod.GET)
+	public ModelAndView cerrarExpediente(@RequestParam(required = true) final int ofertaId) {
+		ModelAndView result;
+		Oferta oferta;
+		
+		oferta = ofertaService.findOne(ofertaId);
+		
+		result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + oferta.getId());
+
+		try {			
+			ofertaService.cerrarExpediente(ofertaId);			
+		} catch (Throwable oops) {
+			result.addObject("message", "oferta.error");
 		}		
 
 		return result;

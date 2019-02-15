@@ -17,7 +17,9 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -84,6 +86,7 @@ public class DocumentoController extends AbstractController {
 			Collection<Documento> documentos;
 			Oferta oferta;
 			boolean esAlumno;
+			boolean esTutor;
 			
 			oferta = ofertaService.findOne(ofertaId);
 			
@@ -92,10 +95,12 @@ public class DocumentoController extends AbstractController {
 			result = new ModelAndView("documento/list");
 			
 			esAlumno = actorService.isAlumno();
+			esTutor = actorService.isTutor();
 
 			result.addObject("documentos", documentos);
 			result.addObject("oferta", oferta);
 			result.addObject("esAlumno", esAlumno);
+			result.addObject("esTutor", esTutor);
 			
 			return result;
 		}	
@@ -136,13 +141,13 @@ public class DocumentoController extends AbstractController {
 		}
 		
 		@RequestMapping(value = "/acta/create", method = RequestMethod.POST, params="save")
-		public ModelAndView create(@Valid final ActaForm actaForm, final BindingResult bindingResult) {
+		public void create(@Valid final ActaForm actaForm, final BindingResult bindingResult, final HttpServletRequest request, final HttpServletResponse response) {
 			ModelAndView result;
 			Oferta oferta;
 			Valoracion valoracion;
 			MensajeForm mensajeForm;
 			Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
-			String dominio = "";
+			String dominio = "";			
 			
 			oferta = ofertaService.findOne(actaForm.getIdOferta());
 			valoracion = valoracionService.findByOferta(oferta.getId());
@@ -198,7 +203,7 @@ public class DocumentoController extends AbstractController {
 		        
 		        statement.setInt(1, utilService.maximoIdDB()+1);
 	            statement.setInt(2, 0);
-	            statement.setString(3, "Acta.pdf");
+	            statement.setString(3, "ActaNoFirmada.pdf");
 	            statement.setString(4, "pdf");	             
 
 	            //Se recupera el pdf como un array de bytes
@@ -226,9 +231,11 @@ public class DocumentoController extends AbstractController {
 	    		mensajeForm.setAsunto("PETICIÓN DE FIRMA");
 	    		mensajeForm.setCuerpo("Se requiere firmar por parte del tutor el acta disponible para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + oferta.getId() + 
 	    				" \r\r Descargue el acta disponible en 'Documentos' y vuélvala a subir firmada. La firma se puede realizar con Adobe Acrobat si se desea."
+	    				+ "\r\r Pulse el botón 'Notificar cierre de expediente' tras la subida del documento para que se revise el acta y se proceda al cierre de expediente."
 	    				+ "\r\r - Este mensaje ha sido generado automáticamente -");
 	    		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());
 	    		
+	    		ofertaService.preactaGenerada(oferta.getId());
 	    		this.mensajeService.createMensaje(mensajeForm);
 	            
 		    } catch (IOException | SQLException e) {
@@ -243,12 +250,15 @@ public class DocumentoController extends AbstractController {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-            }
+            }			
 
-			result = new ModelAndView("welcome/index");
-			result.addObject("message", "acta.administrativo.success");
-
-			return result;
+			try {
+				request.setAttribute("msg", "acta.administrativo.success");
+				request.getServletContext().getRequestDispatcher("/documento/list.do?ofertaId=" + oferta.getId()).forward(request, response);
+			} catch (ServletException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		protected ModelAndView createEditModelAndView(final DocumentoForm documentoForm) {

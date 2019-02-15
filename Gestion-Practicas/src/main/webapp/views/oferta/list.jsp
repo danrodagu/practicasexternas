@@ -36,18 +36,18 @@
 			<gp:iconUrl url="oferta/display.do?ofertaId=${row.id}" icon="fas fa-eye" name="mensaje.display" color="Crimson"/>
 		</display:column>
 		
-		<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
-			<display:column>
-				<gp:iconUrl url="oferta/edit.do?ofertaId=${row.id}" icon="fas fa-pencil-alt" name="oferta.edit" color="Crimson"/>
-			</display:column>
-		</security:authorize>
-		
 		<display:column>
 			<gp:iconUrl url="documento/list.do?ofertaId=${row.id}" icon="fas fa-folder-open" name="alumno.documentos" color="Crimson"/>
 		</display:column>		
+			
 				
 		<jstl:choose>
-			<jstl:when test="${row.enEvaluacion eq false}">
+			<jstl:when test="${not row.enEvaluacion}">
+				<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
+					<display:column>
+						<gp:iconUrl url="oferta/edit.do?ofertaId=${row.id}" icon="fas fa-pencil-alt" name="oferta.edit" color="Crimson"/>
+					</display:column>
+				</security:authorize>
 				<security:authorize access="hasRole('ALUMNO')">	
 					<display:column>
 						<gp:iconUrl url="/Gestion-Practicas/alumno/practicas.do" onclick="feedback(${row.id})" icon="fas fa-marker" name="oferta.feedback" color="Crimson"/>
@@ -55,15 +55,28 @@
 					<display:column>
 						<spring:message code="oferta.alertEv" var="alertEvHeader" />
 						<gp:iconUrl url="/Gestion-Practicas/alumno/practicas.do" onclick="peticionEvaluacion(${row.id},'${alertEvHeader}', event)" icon="fas fa-check-circle" name="oferta.evaluame" color="Crimson"/>
-					</display:column>
+					</display:column>					
 				</security:authorize>
+				<display:column>
+				</display:column>
+			</jstl:when>
+			<jstl:when test="${row.enEvaluacion && not row.expedienteCerrado}">
+				<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
+					<display:column>
+						<gp:iconUrl url="oferta/edit.do?ofertaId=${row.id}" icon="fas fa-pencil-alt" name="oferta.edit" color="Crimson"/>
+					</display:column>
+				</security:authorize>				
+				<display:column>
+					<spring:message code="oferta.evaluando" var="evaluandoHeader" />
+					<jstl:out value="${evaluandoHeader}" />
+				</display:column>
 			</jstl:when>
 			<jstl:otherwise>
 				<display:column>
 				</display:column>
 				<display:column>
-					<spring:message code="oferta.evaluando" var="evaluandoHeader" />
-					<jstl:out value="${evaluandoHeader}" />
+				</display:column>
+				<display:column>
 				</display:column>
 			</jstl:otherwise>
 		</jstl:choose>

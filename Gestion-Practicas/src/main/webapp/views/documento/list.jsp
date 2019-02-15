@@ -12,10 +12,23 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix ="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 
 <br />
+<jstl:if test="${not empty requestScope.msg}">
+	<jstl:if test="${fn:contains(requestScope.msg, 'error')}">
+		<div class="alert alert-danger medium" role="alert">
+			<spring:message code="${requestScope.msg}" />
+		</div>
+	</jstl:if>
+	<jstl:if test="${fn:contains(requestScope.msg, 'success')}">
+		<div class="alert alert-success medium" role="alert">
+			<spring:message code="${requestScope.msg}" />
+		</div>
+	</jstl:if>				
+</jstl:if>
 <form:form id="form" action="uploadServlet"  enctype="multipart/form-data">
 	<div class="input-group mb-3">                     
 		<div class="custom-file">	
@@ -26,7 +39,8 @@
 	  		</div>
 	 	</div>	 	
 	    <input id="file" type="file" name="file" class="btn btn-default" onchange="mostrarArchivo()" style="visibility:hidden;"/>           
-	</div> 
+	</div>
+	
 	<input id="titulo" type="text" name="titulo" style="visibility:hidden;"/>
 	<input id="ofertaId" type="text" name="ofertaId" style="visibility:hidden;"/>
 	<!-- <input id="alumno" type="text" name="alumno" style="visibility:hidden;"/> -->
@@ -42,13 +56,15 @@
 		<spring:message code="documento.uploader" var="uploaderHeader" />
 		<display:column property="uploader.userAccount.username" title="${uploaderHeader}" />
 		
-		<display:column>
-			<gp:iconUrl url="/Gestion-Practicas/downloadServlet?id=${row.id}" icon="fas fa-file-download" name="documento.download" color="Crimson"/>
-		</display:column>		
-		
-		<display:column class="remove"> 
-			<gp:iconUrl url="documento/delete.do?documentoId=${row.id}" deleteConfirmMsg="documento.delete.confirm" icon="fas fa-trash-alt" name="documento.delete" color="Crimson"/>
-		</display:column>
+		<jstl:if test="${not (esAlumno && (row.titulo == 'ActaNoFirmada.pdf' || row.titulo == 'ActaFirmada.pdf'))}">
+			<display:column>
+				<gp:iconUrl url="/Gestion-Practicas/downloadServlet?id=${row.id}" icon="fas fa-file-download" name="documento.download" color="Crimson"/>
+			</display:column>		
+			
+			<display:column class="remove"> 
+				<gp:iconUrl url="documento/delete.do?documentoId=${row.id}" deleteConfirmMsg="documento.delete.confirm" icon="fas fa-trash-alt" name="documento.delete" color="Crimson"/>
+			</display:column>
+		</jstl:if>
 		
 	</display:table>
 	
@@ -62,6 +78,13 @@
 		<jstl:if test="${oferta.enEvaluacion && oferta.docuCerrada && not oferta.evaluada}">
 			<security:authorize access="hasRole('ADMINISTRATIVO') || hasRole('COORDINADOR')">
 				<a href="oferta/abrirDocumentacion.do?ofertaId=${oferta.id}" class="btn btn-danger" role="button"><spring:message code="documento.abrir" /></a>
+			</security:authorize>
+		</jstl:if>
+		
+		<jstl:if test="${oferta.evaluada && oferta.preacta && not oferta.actaFirmada}">
+			<spring:message code="acta.tutor.confirm" var="confirmHeader" />
+			<security:authorize access="hasRole('TUTOR') || hasRole('COORDINADOR')">
+				<a href="oferta/notificarCierreExp.do?ofertaId=${oferta.id}" onclick="return confirm('${confirmHeader}')" class="btn btn-danger" role="button"><spring:message code="documento.notificar.cierreExp" /></a>
 			</security:authorize>
 		</jstl:if>
 	</div>
@@ -96,7 +119,18 @@
 			$('#form').remove();
 			$(".remove").remove();
 		}
-		if('${oferta.docuCerrada}' == 'true'){
+		if('${oferta.docuCerrada}' == 'true' && '${oferta.preacta}' == 'false'){
+			$('#form').remove();
+			$(".remove").remove();
+		}
+		if('${oferta.docuCerrada}' == 'true' && '${oferta.preacta}' == 'true' && '${esTutor}' == 'false'){
+			$('#form').remove();
+			$(".remove").remove();
+		}
+		if('${oferta.docuCerrada}' == 'true' && '${oferta.preacta}' == 'true' && '${esTutor}' == 'true'){
+			$(".remove").remove();
+		}
+		if('${oferta.expedienteCerrado}' == 'true'){
 			$('#form').remove();
 			$(".remove").remove();
 		}
