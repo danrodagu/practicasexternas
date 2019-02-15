@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import domain.Oferta;
 import forms.AlumnoForm;
+import forms.BusquedaAlumnosForm;
 import services.ActorService;
 import services.AlumnoService;
 import services.CarpetaService;
@@ -54,24 +55,26 @@ public class AlumnoController extends AbstractController {
 	
 	// Listing --------------------------------------
 	@RequestMapping(value = "/list")
-	public ModelAndView list(@RequestParam(required = true,  defaultValue = "0") int listAll, final HttpServletRequest request) {
+	public ModelAndView list(@RequestParam(required = true,  defaultValue = "0") final int listAll, @Valid final BusquedaAlumnosForm busqForm, final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Actor> alumnos;
 		
 		HttpSession session = request.getSession();
 		
-		if(listAll == 0) {
-			session.setAttribute("active", "alumnos");
-			
-			Assert.isTrue(actorService.isTutor() || actorService.isCoordinador());			
-			alumnos = this.tutorService.findMyStudents();
-		}else {
-			session.setAttribute("active", "todosAlum");
-			
-			Assert.isTrue(actorService.isAdministrativo() || actorService.isCoordinador());
-			alumnos = alumnoService.findAll();
-		}
+//		if(listAll == 0) {
+//			session.setAttribute("active", "alumnos");
+//			
+//			Assert.isTrue(actorService.isTutor() || actorService.isCoordinador());			
+//			alumnos = this.tutorService.findMyStudents();
+//		}else {
+//			session.setAttribute("active", "todosAlum");
+//			
+//			Assert.isTrue(actorService.isAdministrativo() || actorService.isCoordinador());
+////			alumnos = alumnoService.findAll();
+//			alumnos = alumnoService.alumnosFiltrados(busqForm, listAll);
+//		}
 
+		alumnos = alumnoService.alumnosFiltrados(busqForm, listAll);
 		
 		result = new ModelAndView("alumno/list");
 
@@ -82,7 +85,7 @@ public class AlumnoController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/practicas")
-	public ModelAndView practicas(@RequestParam(required = true, defaultValue = "0") int listAllAlum, @RequestParam(required = true, defaultValue = "0") int alumnoId, final HttpServletRequest request) {
+	public ModelAndView practicas(@RequestParam(required = true, defaultValue = "0") final int listAllAlum, @RequestParam(required = true, defaultValue = "0") final int alumnoId, final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Oferta> ofertas;
 		Actor alumno;

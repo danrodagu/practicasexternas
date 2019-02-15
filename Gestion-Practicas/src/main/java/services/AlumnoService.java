@@ -2,7 +2,13 @@
 package services;
 
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +17,7 @@ import org.springframework.util.Assert;
 
 import domain.Actor;
 import forms.AlumnoForm;
+import forms.BusquedaAlumnosForm;
 import repositories.ActorRepository;
 import security.Authority;
 import security.LoginService;
@@ -21,6 +28,9 @@ import security.UserAccountService;
 @Transactional
 public class AlumnoService {
 
+	@PersistenceContext( unitName="Gestion-Practicas" )
+	private EntityManager em;
+	
 	// Managed repository -----------------------------------------------------
 
 	
@@ -35,6 +45,9 @@ public class AlumnoService {
 	@Autowired
 	private OfertaService ofertaService;
 
+	@Autowired
+	private ActorService actorService;
+	
 	@Autowired
 	private TutorService tutorService;
 	
@@ -179,7 +192,43 @@ public class AlumnoService {
 		
 
 		return res;
-	}	
+	}
 	
+	public List<Actor> alumnosFiltrados(final BusquedaAlumnosForm busqForm, final Integer listAll){
+		String query = "";
+		Actor principal = actorService.findByPrincipal();
+		
+		query = "SELECT a from Actor a JOIN a.userAccount.authorities auth WHERE auth.authority = 'ALUMNO'";
+		
+		//Se filtran los alumnos por tutor asignado
+		if(listAll != 1) {
+			query += " AND a.id IN (SELECT o.alumnoAsignado.id FROM Oferta o WHERE o.tutorAsignado.id = " + principal.getId() + ")";
+		}
+		
+		if(!StringUtils.isEmpty(busqForm.getNif())) {
+			query += " AND a.nif LIKE '%" + busqForm.getNif() + "%'";
+		}
+		if(!StringUtils.isEmpty(busqForm.getNombre())) {
+			query += " AND a.nombre LIKE '%" + busqForm.getNombre() + "%'";
+		}
+		if(!StringUtils.isEmpty(busqForm.getApellidos())) {
+			query += " AND a.apellidos LIKE '%" + busqForm.getApellidos() + "%'";
+		}
+		if(!StringUtils.isEmpty(busqForm.getTitulacion())) {
+			query += " AND a.titulacion LIKE '%" + busqForm.getTitulacion() + "%'";
+		}
+		
+		if(busqForm.getTienePracticaAbierta() != null) {
+			if(busqForm.getTienePracticaAbierta()) {
+				query += " AND (SELECT COUNT(o1) Oferta o1 WHERE o1.alumnoAsignado.id = a.id AND o1.expedienteCerrado = 0) >= 1";
+			}else {
+				query += " AND (SELECT COUNT(o1) Oferta o1 WHERE o1.alumnoAsignado.id=a.id AND o1.expedienteCerrado = 0) = 0";
+			}
+		}		
+		
+		TypedQuery<Actor> q = em.createQuery(query, Actor.class);
+		
+		return q.getResultList();
+	}
 
 }
