@@ -121,6 +121,24 @@
 			<artifactId>spring-context</artifactId>
 			<version>4.0.3.RELEASE</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>4.0.3.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>4.0.3.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>4.0.3.RELEASE</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -152,11 +170,17 @@
 			</exclusions>
 		</dependency>
 		
-		<!-- <dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-beans</artifactId>
+		    <version>4.0.3.RELEASE</version>
+  		</dependency>
+		
+		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-core</artifactId>
-		    <version>4.2.3.RELEASE</version>
-		</dependency> -->
+		    <version>4.0.3.RELEASE</version>
+		</dependency>
 		
 				
 		<!-- Spring Framework - Data -->
@@ -328,13 +352,8 @@
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>1.10.1</version>
-		</dependency>
+		</dependency>		
 		
-		<!-- <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-beans</artifactId>
-		    <version>5.0.3.RELEASE</version>
-  		</dependency> -->
   		
   		<!-- PDFBox -->
   		
@@ -366,6 +385,29 @@
 		    <groupId>org.bouncycastle</groupId>
 		    <artifactId>bcpkix-jdk15on</artifactId>
 		    <version>1.60</version>
+		</dependency>
+		
+		<!-- JavaMail -->
+		
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.5.5</version>
+		</dependency>
+		
+		
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>javax.mail-api</artifactId>
+		    <version>1.6.2</version>
+		</dependency>
+		
+		<!-- Apache Commons Logging -->
+		
+		<dependency>
+		    <groupId>commons-logging</groupId>
+		    <artifactId>commons-logging</artifactId>
+		    <version>1.2</version>
 		</dependency>
 		
 	</dependencies>

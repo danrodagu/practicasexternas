@@ -70,6 +70,8 @@
 		
 		<security:intercept-url pattern="/uploadServlet" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/downloadServlet" access="isAuthenticated()" />	
+		
+		<security:intercept-url pattern="/sendEmailServlet" access="permitAll" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

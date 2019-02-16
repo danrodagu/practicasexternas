@@ -46,5 +46,22 @@
 		<!-- <prop key="hibernate.hbm2ddl.auto">verify</prop> -->
 		<prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
 	</util:properties>
+	
+	<!-- JavaMail -->
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="mail.us.es" />
+        <property name="port" value="587" />
+        <property name="username" value="youremail" />
+        <property name="password" value="yourpassword" />
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.from">fromEmail</prop>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
 
 </beans>

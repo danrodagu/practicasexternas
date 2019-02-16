@@ -220,9 +220,9 @@ public class AlumnoService {
 		
 		if(busqForm.getTienePracticaAbierta() != null) {
 			if(busqForm.getTienePracticaAbierta()) {
-				query += " AND (SELECT COUNT(o1) Oferta o1 WHERE o1.alumnoAsignado.id = a.id AND o1.expedienteCerrado = 0) >= 1";
+				query += " AND (SELECT COUNT(o1) FROM Oferta o1 WHERE o1.alumnoAsignado.id = a.id AND o1.expedienteCerrado = 0) >= 1";
 			}else {
-				query += " AND (SELECT COUNT(o1) Oferta o1 WHERE o1.alumnoAsignado.id=a.id AND o1.expedienteCerrado = 0) = 0";
+				query += " AND (SELECT COUNT(o1) FROM Oferta o1 WHERE o1.alumnoAsignado.id=a.id AND o1.expedienteCerrado = 0) = 0";
 			}
 		}		
 		

@@ -16,7 +16,8 @@
 
 
 <br />
-<form:form action="alumno/list.do?listAll=0" modelAttribute="busquedaAlumnosForm">
+
+<form:form action="alumno/list.do?listAll=${listAllAlum}" modelAttribute="busquedaAlumnosForm">
 
 	<div class="row">
 		<div class="form-group col-md-4">
@@ -34,9 +35,6 @@
 		<div class="form-group col-md-4">
 			<gp:textbox id="titulacion" code="actor.titulacion" path="titulacion" cssClass="form-control" />
 		</div>
-	</div>
-	
-	<div class="row">
 		<div class="form-group col-md-4">							
 			<form:label path="tienePracticaAbierta">
 				<spring:message code="alumno.search.practicaAbierta" />
@@ -50,14 +48,17 @@
 			<br />	
 			<form:errors cssClass="alert alert-danger medium" path="tienePracticaAbierta" />			
 		</div>
+		<div class="form-group col-md-4" style="position: relative; margin-top: 0.6%">
+			<br />
+			<button name="search" type="submit" class="btn btn-dark"><spring:message code="alumno.search.btn" /></button>				
+		</div>
 	</div>
 	<br />
-	<br />
 	
-	
-	<button name="search" type="submit" class="btn btn-dark"><spring:message code="alumno.search.btn" /></button>				
 	
 </form:form>
+
+
 	
 	<br />
 
@@ -67,6 +68,12 @@
 	
 		<spring:message code="alumno" var="alumnoHeader" />
 		<display:column property="nombreCompleto" title="${alumnoHeader}" />
+		
+		<spring:message code="actor.nif" var="nifHeader" />
+		<display:column property="nif" title="${nifHeader}" />
+		
+		<spring:message code="actor.titulacion" var="titulacionHeader" />
+		<display:column property="titulacion" title="${titulacionHeader}" />
 		
 		<display:column>
 			<gp:iconUrl url="alumno/practicas.do?listAllAlum=${listAllAlum}&alumnoId=${row.id}" icon="fas fa-graduation-cap" name="alumno.practicas" color="Crimson"/>
