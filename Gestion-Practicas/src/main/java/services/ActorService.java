@@ -1,11 +1,28 @@
 
 package services;
 
+import java.security.SecureRandom;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -19,11 +36,17 @@ import security.UserAccount;
 @Service
 @Transactional
 public class ActorService {
+	
+	@PersistenceContext( unitName="Gestion-Practicas" )
+	private EntityManager em;
 
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
 	private ActorRepository actorRepository;
+	
+	@Autowired
+    private JavaMailSender mailSender;
 
 	// Supporting Services ----------------------------------------------------
 
@@ -153,6 +176,108 @@ public class ActorService {
 
 		return result;
 
+	}
+	
+	public Stream<Character> getRandomSpecialChars(final int count) {
+	    Random random = new SecureRandom();
+	    IntStream specialChars = random.ints(count, 33, 45);
+	    return specialChars.mapToObj(data -> (char) data);
+	}
+	
+	public Stream<Character> getRandomNumbers(final int count) {
+	    Random random = new SecureRandom();
+	    IntStream numeros = random.ints(count, 48, 57);
+	    return numeros.mapToObj(data -> (char) data);
+	}
+	
+	public Stream<Character> getRandomAlphabets(final int count, final boolean mayus) {
+	    Random random = new SecureRandom();
+	    IntStream letras;
+	    
+	    if(mayus) {
+	    	letras = random.ints(count, 65, 90);
+	    }else {
+	    	letras = random.ints(count, 97, 122);
+	    }	    
+	    
+	    return letras.mapToObj(data -> (char) data);
+	}
+	
+	public String generateSecureRandomPassword() {
+	    Stream<Character> pwdStream = Stream.concat(getRandomNumbers(3), 
+	      Stream.concat(getRandomSpecialChars(2), 
+	      Stream.concat(getRandomAlphabets(4, true), getRandomAlphabets(4, false))));
+	    List<Character> charList = pwdStream.collect(Collectors.toList());
+	    Collections.shuffle(charList);
+	    String password = charList.stream()
+	        .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+	        .toString();
+	    
+	    System.out.println(password);
+	    
+	    return password;
+	}
+	
+	
+	
+	public void enviarCredencialesCorreo(final String email, final String username, final String password) {		
+		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+		String dominio = "";
+		
+		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		
+		// informacion del correo
+        String recipientAddress = email;
+        String subject = "Plataforma de Gestión de Prácticas Externas";
+        String message = "Bienvenido a la Plataforma de Gestión de Prácticas Externas."
+				+ "<br /><br />"
+				+ "Sus credenciales de usuario son:"
+				+ "<br />"
+				+ "<b>Usuario</b>: " + username + "<br />"
+        		+ "<b>Contraseña</b>: " + password
+        		+ "<br /><br />"
+        		+ "Puede acceder haciendo click " + "<a href='http://" + dominio + "/security/login.do' target='_blank'>aquí</a>";     
+	     
+	    // debug
+	    System.out.println("To: " + recipientAddress);
+	    System.out.println("Subject: " + subject);
+	    System.out.println("Message: " + message);
+	    
+	    // creacion del mensaje
+	    MimeMessage mimeMessage = mailSender.createMimeMessage();
+	    MimeMessageHelper helper;
+		try {
+			helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
+			helper.setSubject(subject);
+			helper.setTo(recipientAddress);			
+		    mimeMessage.setContent(message, "text/html");			    
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	    
+	     
+	    // envia el email
+		mailSender.send(mimeMessage);
+	}
+	
+	public Boolean existePassword(final String password) {
+		Integer passwordsIguales;
+		BCryptPasswordEncoder encoder;
+		String passEncrypt;
+		
+		Assert.isTrue(!StringUtils.isEmpty(password));
+		
+		encoder = new BCryptPasswordEncoder();
+		passEncrypt = encoder.encode(password);
+
+		passwordsIguales = this.actorRepository.passwordsIguales(passEncrypt);
+		
+		if(passwordsIguales >= 1) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 

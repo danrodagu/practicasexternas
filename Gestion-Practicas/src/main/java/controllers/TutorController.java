@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import forms.TutorForm;
+import services.ActorService;
 import services.CarpetaService;
 import services.TutorService;
 
@@ -29,6 +30,9 @@ public class TutorController extends AbstractController {
 	
 	@Autowired
 	private CarpetaService carpetaService;
+	
+	@Autowired
+	private ActorService actorService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -103,14 +107,15 @@ public class TutorController extends AbstractController {
 
 			if (tutorForm.getId() != 0) {
 				Assert.isTrue(tutorForm.getId() == this.tutorService.findByPrincipal().getId());
+				
+				try {
+					Assert.isTrue(tutorForm.getPassword().equals(tutorForm.getPassword2()));
+				} catch (final Throwable oops) {
+					result = this.createEditModelAndView(tutorForm, "actor.password.error");
+					return result;
+				}
 			}
-
-			try {
-				Assert.isTrue(tutorForm.getPassword().equals(tutorForm.getPassword2()));
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(tutorForm, "actor.password.error");
-				return result;
-			}
+			
 
 			if (bindingResult.hasErrors()) {
 				result = this.createEditModelAndView(tutorForm);

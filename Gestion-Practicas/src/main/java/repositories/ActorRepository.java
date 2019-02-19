@@ -24,6 +24,10 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 	@Query("SELECT MAX(a.id) FROM Actor a")
 	Integer maxActorId();
 	
+	// Comprueba si existe una contraseña en el sistema
+	@Query("SELECT COUNT(u) FROM UserAccount u WHERE u.password = ?1")
+	Integer passwordsIguales(String password);
+	
 //	--- ALUMNO ---
 	
 	// Obtiene todos los alumnos

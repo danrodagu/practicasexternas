@@ -33,9 +33,6 @@ public class TutorService {
 	
 	@Autowired
 	private ActorService actorService;
-	
-	@Autowired
-	private CarpetaService carpetaService;
 
 	// Constructors -----------------------------------------------------------
 	public TutorService() {
@@ -146,12 +143,18 @@ public class TutorService {
 
 		if (tutorForm.getId() == 0) {
 			res = this.create();
+			
+			//Generación de contraseña aleatoria
+			String password = actorService.generateSecureRandomPassword();
+			res.getUserAccount().setPassword(password);
+			
+			actorService.enviarCredencialesCorreo(tutorForm.getEmail(), tutorForm.getUsername(), password);
 		} else {
 			res = this.findByPrincipal();
 		}
 
 		// Comprobacion para que ambas contraseñas sean iguales
-		Assert.isTrue(tutorForm.getPassword().equals(tutorForm.getPassword2()), "Las contraseñas no son iguales");
+//		Assert.isTrue(tutorForm.getPassword().equals(tutorForm.getPassword2()), "Las contraseñas no son iguales");
 
 		if (tutorForm.getId() != 0) {
 			Assert.isTrue(res.getId() == (tutorForm.getId()));
@@ -165,8 +168,7 @@ public class TutorService {
 
 		// res.setPicture(tutorForm.getPicture());
 		
-		res.getUserAccount().setUsername(tutorForm.getUsername());
-		res.getUserAccount().setPassword(tutorForm.getPassword());
+		res.getUserAccount().setUsername(tutorForm.getUsername());		
 
 		return res;
 	}

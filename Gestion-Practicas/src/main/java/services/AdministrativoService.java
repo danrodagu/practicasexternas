@@ -32,7 +32,7 @@ public class AdministrativoService {
 	private UserAccountService userAccountService;
 	
 	@Autowired
-	private CarpetaService carpetaService;
+	private ActorService actorService;
 
 	// Constructors -----------------------------------------------------------
 	public AdministrativoService() {
@@ -142,6 +142,11 @@ public class AdministrativoService {
 
 		if (administrativoForm.getId() == 0) {
 			res = this.create();
+			
+			//Generación de contraseña
+			String password = actorService.generateSecureRandomPassword();
+			
+			res.getUserAccount().setPassword(password);
 		} else {
 			res = this.findByPrincipal();
 		}
@@ -161,7 +166,6 @@ public class AdministrativoService {
 		// res.setPicture(administrativoForm.getPicture());
 		
 		res.getUserAccount().setUsername(administrativoForm.getUsername());
-		res.getUserAccount().setPassword(administrativoForm.getPassword());
 
 
 		return res;

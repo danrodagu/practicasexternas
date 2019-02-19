@@ -31,7 +31,7 @@ public class CoordinadorService {
 	private UserAccountService userAccountService;
 	
 	@Autowired
-	private CarpetaService carpetaService;
+	private ActorService actorService;
 
 	// Constructors -----------------------------------------------------------
 	public CoordinadorService() {

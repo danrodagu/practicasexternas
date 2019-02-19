@@ -24,15 +24,18 @@
 
 <%@ attribute name="required" required="false" %>
 
-<jstl:if test="${required == null}">
-	<jstl:set var="required" value="false" />
-</jstl:if>
 
 <%-- Definition --%>
 
 <div>
 	<label for="${id}"><spring:message code="${code}" /></label>
-	<form:password id="${id}" path="${path}" cssClass="${cssClass}" required="${required}"/>
+	<jstl:if test="${empty required}">
+		<form:password id="${id}" path="${path}" cssClass="${cssClass}"/>
+	</jstl:if>
+	<jstl:if test="${not empty required}">
+		<form:password id="${id}" path="${path}" cssClass="${cssClass}" required="${required}"/>
+	</jstl:if>
+	
 	<br />	
 	<form:errors cssClass="alert alert-danger medium" path="${path}" />	
 	

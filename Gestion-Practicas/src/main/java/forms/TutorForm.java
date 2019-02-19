@@ -104,9 +104,7 @@ public class TutorForm {
 	public void setEmail(final String email) {
 		this.email = email;
 	}
-
-	@NotNull
-	@NotBlank
+	
 	@Size(min = 5, max = 32)
 	@SafeHtml
 	public String getPassword() {

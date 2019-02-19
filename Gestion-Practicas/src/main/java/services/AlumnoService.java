@@ -163,7 +163,12 @@ public class AlumnoService {
 		Actor res;
 
 		if (alumnoForm.getId() == 0) {
-			res = this.create();			
+			res = this.create();
+			
+			//Generación de contraseña
+			String password = actorService.generateSecureRandomPassword();
+			
+			res.getUserAccount().setPassword(password);
 		} else {
 			res = this.findByPrincipal();
 		}
@@ -186,9 +191,7 @@ public class AlumnoService {
 
 		// res.setPicture(alumnoForm.getPicture());
 		//
-		res.getUserAccount().setUsername(alumnoForm.getUsername());
-		res.getUserAccount().setPassword(alumnoForm.getPassword());
-		
+		res.getUserAccount().setUsername(alumnoForm.getUsername());		
 		
 
 		return res;
