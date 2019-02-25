@@ -40,6 +40,8 @@
 	<br />
 	<br />
 	
+	<a href="/Gestion-Practicas/actor/recoverPassword.do"><spring:message code="security.recover.password" /></a>
+	
 	<jstl:if test="${showError == true}">
 		<div class="alert alert-danger col-sm-4" role="alert">
 	 		 <spring:message code="security.login.error" />
@@ -47,6 +49,8 @@
 	</jstl:if>	
 		
 </form:form>
+
+
 
 <script type="text/javascript">
 	document.getElementById("username").placeholder='<spring:message code="security.username" />';

@@ -148,15 +148,13 @@ public class TutorService {
 			String password = actorService.generateSecureRandomPassword();
 			res.getUserAccount().setPassword(password);
 			
-			actorService.enviarCredencialesCorreo(tutorForm.getEmail(), tutorForm.getUsername(), password);
+			actorService.enviarCredencialesCorreo(tutorForm.getEmail(), tutorForm.getUsername(), password, false);
 		} else {
-			res = this.findByPrincipal();
-		}
-
-		// Comprobacion para que ambas contraseñas sean iguales
-//		Assert.isTrue(tutorForm.getPassword().equals(tutorForm.getPassword2()), "Las contraseñas no son iguales");
-
-		if (tutorForm.getId() != 0) {
+			res = this.findByPrincipal();			
+			
+			// Comprobacion para que ambas contraseñas sean iguales
+			Assert.isTrue(tutorForm.getPassword().equals(tutorForm.getPassword2()), "Las contraseñas no son iguales");
+			
 			Assert.isTrue(res.getId() == (tutorForm.getId()));
 		}
 

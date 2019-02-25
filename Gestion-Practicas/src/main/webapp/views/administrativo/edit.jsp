@@ -37,14 +37,16 @@
 			</div>
 		</div>
 		
-		<div class="row">
-			<div class="form-group col-md-4">
-				<gp:password id="password" code="actor.password" path="password" cssClass="form-control" required="required" />
+		<jstl:if test="${administrativoForm.id != 0}">
+			<div class="row">
+				<div class="form-group col-md-4">
+					<gp:password id="password" code="actor.password" path="password" cssClass="form-control" required="required" />
+				</div>
+				<div class="form-group col-md-4">
+					<gp:password id="password2" code="actor.password2" path="password2" cssClass="form-control" required="required"/>				
+				</div>
 			</div>
-			<div class="form-group col-md-4">
-				<gp:password id="password2" code="actor.password2" path="password2" cssClass="form-control" required="required"/>				
-			</div>
-		</div>
+		</jstl:if>
 		<br />
 		<br />
 		

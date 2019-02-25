@@ -103,14 +103,16 @@ public class AdministrativoController extends AbstractController {
 
 				if (administrativoForm.getId() != 0) {
 					Assert.isTrue(administrativoForm.getId() == this.administrativoService.findByPrincipal().getId());
+					
+					try {
+						Assert.isTrue(administrativoForm.getPassword().equals(administrativoForm.getPassword2()));
+					} catch (final Throwable oops) {
+						result = this.createEditModelAndView(administrativoForm, "actor.password.error");
+						return result;
+					}
 				}
 
-				try {
-					Assert.isTrue(administrativoForm.getPassword().equals(administrativoForm.getPassword2()));
-				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(administrativoForm, "actor.password.error");
-					return result;
-				}
+				
 
 				if (bindingResult.hasErrors()) {
 					result = this.createEditModelAndView(administrativoForm);

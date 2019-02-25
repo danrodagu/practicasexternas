@@ -167,19 +167,17 @@ public class AlumnoService {
 			
 			//Generación de contraseña
 			String password = actorService.generateSecureRandomPassword();
-			
 			res.getUserAccount().setPassword(password);
+			
+			actorService.enviarCredencialesCorreo(alumnoForm.getEmail(), alumnoForm.getUsername(), password, false);
 		} else {
 			res = this.findByPrincipal();
-		}
-
-		// Comprobacion para que ambas contraseñas sean iguales
-		Assert.isTrue(alumnoForm.getPassword().equals(alumnoForm.getPassword2()), "Las contraseñas no son iguales");
-
-		if (alumnoForm.getId() != 0) {
+			
+			// Comprobacion para que ambas contraseñas sean iguales
+			Assert.isTrue(alumnoForm.getPassword().equals(alumnoForm.getPassword2()), "Las contraseñas no son iguales");
+			
 			Assert.isTrue(res.getId() == (alumnoForm.getId()));
 		}
-
 		
 		res.setNombre(alumnoForm.getNombre());
 		res.setApellidos(alumnoForm.getApellidos());

@@ -182,14 +182,16 @@ public class AlumnoController extends AbstractController {
 
 		if (alumnoForm.getId() != 0) {
 			Assert.isTrue(alumnoForm.getId() == this.alumnoService.findByPrincipal().getId());
+			
+			try {
+				Assert.isTrue(alumnoForm.getPassword().equals(alumnoForm.getPassword2()));
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(alumnoForm, "actor.password.error");
+				return result;
+			}
 		}
 
-		try {
-			Assert.isTrue(alumnoForm.getPassword().equals(alumnoForm.getPassword2()));
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(alumnoForm, "actor.password.error");
-			return result;
-		}
+		
 
 		if (bindingResult.hasErrors()) {
 			result = this.createEditModelAndView(alumnoForm);

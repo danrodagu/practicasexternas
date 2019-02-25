@@ -88,6 +88,11 @@ public class ActorService {
 
 	public Actor save(final Actor actor) {
 		Actor result;
+		BCryptPasswordEncoder encoder;
+		
+		encoder = new BCryptPasswordEncoder();
+
+		actor.getUserAccount().setPassword(encoder.encode(actor.getUserAccount().getPassword()));
 
 		result = this.actorRepository.save(actor);
 
@@ -220,24 +225,41 @@ public class ActorService {
 	
 	
 	
-	public void enviarCredencialesCorreo(final String email, final String username, final String password) {		
+	public void enviarCredencialesCorreo(final String email, final String username, final String password, final boolean recoverPassword) {		
 		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
+		String subject;
+		String message;
 		
 		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
 		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
 		
 		// informacion del correo
         String recipientAddress = email;
-        String subject = "Plataforma de Gestión de Prácticas Externas";
-        String message = "Bienvenido a la Plataforma de Gestión de Prácticas Externas."
-				+ "<br /><br />"
-				+ "Sus credenciales de usuario son:"
-				+ "<br />"
-				+ "<b>Usuario</b>: " + username + "<br />"
-        		+ "<b>Contraseña</b>: " + password
-        		+ "<br /><br />"
-        		+ "Puede acceder haciendo click " + "<a href='http://" + dominio + "/security/login.do' target='_blank'>aquí</a>";     
+        
+        if(!recoverPassword) {
+        	subject = "Bienvenido a la Plataforma de Gestión de Prácticas Externas";
+        	
+        	 message = "Bienvenido a la Plataforma de Gestión de Prácticas Externas."
+     				+ "<br /><br />"
+     				+ "Sus credenciales de usuario son:"
+     				+ "<br />"
+     				+ "<b>Usuario</b>: " + username + "<br />"
+             		+ "<b>Contraseña</b>: " + password
+             		+ "<br /><br />"
+             		+ "Puede acceder haciendo click " + "<a href='http://" + dominio + "/security/login.do' target='_blank'>aquí</a>";
+        }else {
+        	subject = "Nueva contraseña para la Plataforma de Gestión de Prácticas Externas";
+        	
+	    	 message = "Sus nuevas credenciales de usuario son:"
+	 				+ "<br />"
+	 				+ "<b>Usuario</b>: " + username + "<br />"
+	         		+ "<b>Contraseña</b>: " + password
+	         		+ "<br /><br />"
+	         		+ "Puede acceder haciendo click " + "<a href='http://" + dominio + "/security/login.do' target='_blank'>aquí</a>";
+        }
+        
+            
 	     
 	    // debug
 	    System.out.println("To: " + recipientAddress);
@@ -278,6 +300,12 @@ public class ActorService {
 		}else {
 			return false;
 		}
+	}
+	
+	public void changePassword (final Actor actor, final String password) {		
+		actor.getUserAccount().setPassword(password);
+		
+		save(actor);
 	}
 	
 

@@ -15,7 +15,7 @@
 
 <p><spring:message code="welcome.greeting.current.time" /> ${moment}</p>
 
-<form:form id="form" action="sendEmailServlet" >
+<%-- <form:form id="form" action="sendEmailServlet" >
 <span id="uploadBtn" class="input-group-text" style="cursor: pointer;"><spring:message code="documento.upload" /></span>
 </form:form>
 
@@ -27,4 +27,4 @@
 		$('#form').submit();
 	});	
 	
-</script>
+</script> --%>

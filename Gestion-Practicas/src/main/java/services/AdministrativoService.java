@@ -144,17 +144,16 @@ public class AdministrativoService {
 			res = this.create();
 			
 			//Generación de contraseña
-			String password = actorService.generateSecureRandomPassword();
-			
+			String password = actorService.generateSecureRandomPassword();			
 			res.getUserAccount().setPassword(password);
+			
+			actorService.enviarCredencialesCorreo(administrativoForm.getEmail(), administrativoForm.getUsername(), password, false);
 		} else {
 			res = this.findByPrincipal();
-		}
-
-		// Comprobacion para que ambas contraseñas sean iguales
-		Assert.isTrue(administrativoForm.getPassword().equals(administrativoForm.getPassword2()), "Las contraseñas no son iguales");
-
-		if (administrativoForm.getId() != 0) {
+			
+			// Comprobacion para que ambas contraseñas sean iguales
+			Assert.isTrue(administrativoForm.getPassword().equals(administrativoForm.getPassword2()), "Las contraseñas no son iguales");
+			
 			Assert.isTrue(res.getId() == (administrativoForm.getId()));
 		}
 
