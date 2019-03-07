@@ -75,6 +75,12 @@
 		<spring:message code="actor.titulacion" var="titulacionHeader" />
 		<display:column property="titulacion" title="${titulacionHeader}" />
 		
+		<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
+			<display:column>
+				<gp:iconUrl url="actor/edit.do?actorId=${row.id}" icon="fas fa-pencil-alt" name="oferta.edit" color="Crimson"/>
+			</display:column>
+		</security:authorize>
+		
 		<display:column>
 			<gp:iconUrl url="alumno/practicas.do?listAllAlum=${listAllAlum}&alumnoId=${row.id}" icon="fas fa-graduation-cap" name="alumno.practicas" color="Crimson"/>
 		</display:column>

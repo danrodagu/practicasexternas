@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
+import forms.EdicionPerfilForm;
 import forms.RecoverPasswordForm;
 import services.ActorService;
 
@@ -104,7 +105,120 @@ public class ActorController extends AbstractController {
 		}
 
 		return result;
-	}	
+	}
+	
+	// Edition ----------------------------------------------------------------
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam(required = false, defaultValue = "0") final int actorId) {
+		ModelAndView result;
+		Actor actorLogueado;
+		Actor actorPerfil;
+		boolean mismoActorLogYPerfil;
+		EdicionPerfilForm edicionPerfilForm;
+
+		actorLogueado = this.actorService.findByPrincipal();
+		
+		if (actorId == 0) {
+			actorPerfil = this.actorService.findByPrincipal();
+		}else {
+			actorPerfil = this.actorService.findOne(actorId);
+		}
+		
+		Assert.notNull(actorPerfil);
+
+		edicionPerfilForm = this.actorService.takeForm(actorPerfil);
+		result = this.createEditModelAndView(edicionPerfilForm);
+		
+		if(actorLogueado.getId() == actorPerfil.getId()) {
+			mismoActorLogYPerfil = true;
+		}else {
+			mismoActorLogYPerfil = false;
+		}
+		
+		result.addObject("rolLogueado", actorLogueado.getUserAccount().getAuthorities().iterator().next().getAuthority());
+		result.addObject("rolPerfil", actorPerfil.getUserAccount().getAuthorities().iterator().next().getAuthority());
+		result.addObject("mismoActorLogYPerfil", mismoActorLogYPerfil);
+
+		return result;
+	}
+
+	// Save -------------------------------------------------------------------
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final EdicionPerfilForm edicionPerfilForm, final BindingResult bindingResult) {
+
+		ModelAndView result;
+		Actor actor;
+
+		if (StringUtils.isNotBlank(edicionPerfilForm.getPassword()) && StringUtils.isNotBlank(edicionPerfilForm.getPassword2())) {			
+			try {
+				Assert.isTrue(edicionPerfilForm.getPassword().equals(edicionPerfilForm.getPassword2()));
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(edicionPerfilForm, "actor.password.error");
+				return result;
+			}
+			try {
+				Assert.isTrue(edicionPerfilForm.getPassword().length() >= 5 && edicionPerfilForm.getPassword().length() <= 32);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(edicionPerfilForm, "actor.password.longitud.error");
+				return result;
+			}
+		}
+		
+
+		if (bindingResult.hasErrors()) {
+			result = this.createEditModelAndView(edicionPerfilForm);
+		} else {
+			try {
+				actor = this.actorService.reconstruct(edicionPerfilForm);
+				actor = this.actorService.save(actor);				
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(edicionPerfilForm, "actor.commit.error");
+			}
+		}
+
+		return result;
+
+	}
+
+	// Ancillary methods ------------------------------------------------------
+
+	protected ModelAndView createEditModelAndView(final EdicionPerfilForm edicionPerfilForm) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(edicionPerfilForm, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final EdicionPerfilForm edicionPerfilForm, final String message) {
+		ModelAndView result;
+		Actor actorLogueado;
+		Actor actorPerfil;
+		boolean mismoActorLogYPerfil;
+
+		actorLogueado = this.actorService.findByPrincipal();		
+		actorPerfil = this.actorService.findOne(edicionPerfilForm.getId());
+		
+		if(actorLogueado.getId() == actorPerfil.getId()) {
+			mismoActorLogYPerfil = true;
+		}else {
+			mismoActorLogYPerfil = false;
+		}		
+		
+
+		result = new ModelAndView("actor/edit");
+		result.addObject("edicionPerfilForm", edicionPerfilForm);
+		result.addObject("message", message);
+		
+		result.addObject("rolLogueado", actorLogueado.getUserAccount().getAuthorities().iterator().next().getAuthority());
+		result.addObject("rolPerfil", actorPerfil.getUserAccount().getAuthorities().iterator().next().getAuthority());
+		result.addObject("mismoActorLogYPerfil", mismoActorLogYPerfil);
+
+		return result;
+	}
 
 
 }

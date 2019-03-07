@@ -1,24 +1,25 @@
 
 package forms;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
-public class AlumnoForm {
+public class EdicionPerfilForm {
 
 	// Attributes -------------------------------------------------------------
 
 	private int id;
-	// private String picture;
 	private String nif;
 	private String nombre;
 	private String apellidos;
-	private String titulacion;
 	private String email;
+	
+	// ALUMNO
+	private String titulacion;
+	
+	// TUTOR
+	private String departamento;
+	
 
 	private String password;
 	private String password2;
@@ -26,7 +27,7 @@ public class AlumnoForm {
 
 	// Constructors -----------------------------------------------------------
 
-	public AlumnoForm() {
+	public EdicionPerfilForm() {
 		super();
 		this.id = 0;
 	}
@@ -39,18 +40,7 @@ public class AlumnoForm {
 		this.id = id;
 	}
 
-	// @URL
-	// @SafeHtml
-	// public String getPicture() {
-	// return this.picture;
-	// }
-	//
-	// public void setPicture(final String picture) {
-	// this.picture = picture;
-	// }
 
-	@NotNull
-	@NotBlank
 	@SafeHtml
 	public String getNif() {
 		return nif;
@@ -60,8 +50,7 @@ public class AlumnoForm {
 		this.nif = nif;
 	}
 	
-	@NotNull
-	@NotBlank
+
 	@SafeHtml
 	public String getNombre() {
 		return this.nombre;
@@ -71,8 +60,7 @@ public class AlumnoForm {
 		this.nombre = nombre;
 	}
 
-	@NotNull
-	@NotBlank
+
 	@SafeHtml
 	public String getApellidos() {
 		return this.apellidos;
@@ -82,8 +70,6 @@ public class AlumnoForm {
 		this.apellidos = apellidos;
 	}
 
-	@NotNull
-	@NotBlank
 	@SafeHtml
 	public String getTitulacion() {
 		return titulacion;
@@ -93,8 +79,16 @@ public class AlumnoForm {
 		this.titulacion = titulacion;
 	}
 	
-	@NotNull
-	@NotBlank
+	@SafeHtml
+	public String getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(final String departamento) {
+		this.departamento = departamento;
+	}
+
+
 	@Email
 	@SafeHtml
 	public String getEmail() {
@@ -105,7 +99,7 @@ public class AlumnoForm {
 		this.email = email;
 	}
 
-	@Size(min = 5, max = 32)
+
 	@SafeHtml
 	public String getPassword() {
 		return this.password;
@@ -115,7 +109,6 @@ public class AlumnoForm {
 		this.password = password;
 	}
 
-	@Size(min = 5, max = 32)
 	@SafeHtml
 	public String getPassword2() {
 		return this.password2;
@@ -125,8 +118,7 @@ public class AlumnoForm {
 		this.password2 = password2;
 	}
 
-	@NotNull
-	@Size(min = 5, max = 32)
+
 	@SafeHtml
 	public String getUsername() {
 		return this.username;

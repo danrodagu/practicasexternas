@@ -138,8 +138,11 @@ public class OfertaController extends AbstractController {
 		ModelAndView result;
 		Oferta oferta;
 		OfertaForm ofertaForm;
+		Actor actor;
 		
-		Assert.isTrue(actorService.isAdministrativo() || actorService.isCoordinador());		
+		actor = actorService.findByPrincipal();
+		
+		Assert.isTrue(actorService.isAdministrativo(actor.getId()) || actorService.isCoordinador(actor.getId()));		
 		
 
 		oferta = this.ofertaService.findOne(ofertaId);

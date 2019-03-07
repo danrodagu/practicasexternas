@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actor;
+import forms.EdicionPerfilForm;
 import repositories.ActorRepository;
 import security.Authority;
 import security.LoginService;
@@ -88,11 +89,11 @@ public class ActorService {
 
 	public Actor save(final Actor actor) {
 		Actor result;
-		BCryptPasswordEncoder encoder;
-		
-		encoder = new BCryptPasswordEncoder();
-
-		actor.getUserAccount().setPassword(encoder.encode(actor.getUserAccount().getPassword()));
+//		BCryptPasswordEncoder encoder;
+//		
+//		encoder = new BCryptPasswordEncoder();
+//
+//		actor.getUserAccount().setPassword(encoder.encode(actor.getUserAccount().getPassword()));
 
 		result = this.actorRepository.save(actor);
 
@@ -113,12 +114,13 @@ public class ActorService {
 		return res;
 	}
 
-	public boolean checkRol(final String role) {
+	public boolean checkRol(final String role, final int actorId) {
 		boolean result;
 		Collection<Authority> authorities;
 
 		result = false;
-		authorities = LoginService.getPrincipal().getAuthorities();
+//		authorities = LoginService.getPrincipal().getAuthorities();
+		authorities = this.findOne(actorId).getUserAccount().getAuthorities();
 		for (final Authority a : authorities) {
 			result = result || a.getAuthority().equals(role);
 		}
@@ -126,45 +128,47 @@ public class ActorService {
 		return result;
 	}
 
-	public boolean isAdministrativo() {
+	public boolean isAdministrativo(final int actorId) {
 		boolean result;
 
-		result = this.checkRol(Authority.ADMINISTRATIVO);
+		result = this.checkRol(Authority.ADMINISTRATIVO, actorId);
 
 		return result;
 	}
 
-	public boolean isCoordinador() {
+	public boolean isCoordinador(final int actorId) {
 		boolean result;
 
-		result = this.checkRol(Authority.COORDINADOR);
+		result = this.checkRol(Authority.COORDINADOR, actorId);
 
 		return result;
 	}
 
-	public boolean isTutor() {
+	public boolean isTutor(final int actorId) {
 		boolean result;
 
-		result = this.checkRol(Authority.TUTOR);
+		result = this.checkRol(Authority.TUTOR, actorId);
 
 		return result;
 	}
 
-	public boolean isAlumno() {
+	public boolean isAlumno(final int actorId) {
 		boolean result;
 
-		result = this.checkRol(Authority.ALUMNO);
+		result = this.checkRol(Authority.ALUMNO, actorId);
 
 		return result;
 	}
 
-	public boolean isAnonymous() {
+	public boolean isAnonymousPrincipal() {
 		boolean result;
+		
 
 		Authentication authentication;
-
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		result = authentication.getAuthorities().iterator().next().getAuthority().equals("ROLE_ANONYMOUS");
+		
+//		result = this.findOne(actorId).getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ROLE_ANONYMOUS");
 
 		return result;
 	}
@@ -181,6 +185,67 @@ public class ActorService {
 
 		return result;
 
+	}
+	
+	public EdicionPerfilForm takeForm(final Actor actor) {
+		EdicionPerfilForm edicionPerfilForm;
+
+		edicionPerfilForm = new EdicionPerfilForm();
+
+		edicionPerfilForm.setId(actor.getId());
+		edicionPerfilForm.setNombre(actor.getNombre());
+		edicionPerfilForm.setApellidos(actor.getApellidos());
+		edicionPerfilForm.setNif(actor.getNif());
+		edicionPerfilForm.setEmail(actor.getEmail());
+		edicionPerfilForm.setTitulacion(actor.getTitulacion());
+		edicionPerfilForm.setDepartamento(actor.getDepartamento());
+		
+		edicionPerfilForm.setUsername(actor.getUserAccount().getUsername());
+
+		return edicionPerfilForm;
+	}
+
+	public Actor reconstruct(final EdicionPerfilForm edicionPerfilForm) {
+		Actor actorPerfil;
+		Actor actorLogueado;
+		boolean mismoActorLogYPerfil;		
+		
+		actorPerfil = this.findOne(edicionPerfilForm.getId());
+		actorLogueado = this.findByPrincipal();
+		
+		if(actorLogueado.getId() == actorPerfil.getId()) {
+			mismoActorLogYPerfil = true;
+		}else {
+			mismoActorLogYPerfil = false;
+		}		
+		
+		//El administrativo es el que puede modificar estos campos
+		if(isAdministrativo(actorLogueado.getId())) {
+			actorPerfil.setNombre(edicionPerfilForm.getNombre());
+			actorPerfil.setApellidos(edicionPerfilForm.getApellidos());
+			actorPerfil.setNif(edicionPerfilForm.getNif());
+			
+			actorPerfil.getUserAccount().setUsername(edicionPerfilForm.getUsername());
+			
+			if(isAlumno(actorPerfil.getId())){
+				actorPerfil.setTitulacion(edicionPerfilForm.getTitulacion());
+			}
+			if(isTutor(actorPerfil.getId())) {
+				actorPerfil.setDepartamento(edicionPerfilForm.getDepartamento());
+			}
+		}
+		
+		actorPerfil.setEmail(edicionPerfilForm.getEmail());
+		
+		//Solo se puede modificar la contraseña si el usuario logueado es el mismo que el del perfil a cambiar. Si no se genera por el olvido de contraseña
+		if(mismoActorLogYPerfil && !StringUtils.isBlank(edicionPerfilForm.getPassword()) && !StringUtils.isBlank(edicionPerfilForm.getPassword2())) {	
+			// Comprobacion para que ambas contraseñas sean iguales
+			Assert.isTrue(edicionPerfilForm.getPassword().equals(edicionPerfilForm.getPassword2()), "Las contraseñas no son iguales");
+			
+			actorPerfil.getUserAccount().setPassword(cifrarPassword(edicionPerfilForm.getPassword()));
+		}		
+
+		return actorPerfil;
 	}
 	
 	public Stream<Character> getRandomSpecialChars(final int count) {
@@ -252,7 +317,7 @@ public class ActorService {
         	subject = "Nueva contraseña para la Plataforma de Gestión de Prácticas Externas";
         	
 	    	 message = "Sus nuevas credenciales de usuario son:"
-	 				+ "<br />"
+	 				+ "<br /><br />"
 	 				+ "<b>Usuario</b>: " + username + "<br />"
 	         		+ "<b>Contraseña</b>: " + password
 	         		+ "<br /><br />"
@@ -283,15 +348,23 @@ public class ActorService {
 		mailSender.send(mimeMessage);
 	}
 	
+	public String cifrarPassword(final String password) {
+		String passCifrada;		
+		BCryptPasswordEncoder encoder;
+		
+		encoder = new BCryptPasswordEncoder();
+
+		passCifrada = encoder.encode(password);
+		
+		return passCifrada;
+	}
+	
 	public Boolean existePassword(final String password) {
 		Integer passwordsIguales;
-		BCryptPasswordEncoder encoder;
 		String passEncrypt;
 		
 		Assert.isTrue(!StringUtils.isEmpty(password));
-		
-		encoder = new BCryptPasswordEncoder();
-		passEncrypt = encoder.encode(password);
+		passEncrypt = cifrarPassword(password);
 
 		passwordsIguales = this.actorRepository.passwordsIguales(passEncrypt);
 		
@@ -307,6 +380,8 @@ public class ActorService {
 		
 		save(actor);
 	}
+	
+	
 	
 
 }

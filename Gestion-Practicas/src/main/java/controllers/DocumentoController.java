@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Actor;
 import domain.Documento;
 import domain.Oferta;
 import domain.Valoracion;
@@ -87,6 +88,9 @@ public class DocumentoController extends AbstractController {
 			Oferta oferta;
 			boolean esAlumno;
 			boolean esTutor;
+			Actor actor;
+			
+			actor = actorService.findByPrincipal();
 			
 			oferta = ofertaService.findOne(ofertaId);
 			
@@ -94,8 +98,8 @@ public class DocumentoController extends AbstractController {
 			
 			result = new ModelAndView("documento/list");
 			
-			esAlumno = actorService.isAlumno();
-			esTutor = actorService.isTutor();
+			esAlumno = actorService.isAlumno(actor.getId());
+			esTutor = actorService.isTutor(actor.getId());
 
 			result.addObject("documentos", documentos);
 			result.addObject("oferta", oferta);

@@ -37,14 +37,14 @@ public class WelcomeController extends AbstractController {
 	// Index ------------------------------------------------------------------
 
 	@RequestMapping(value = "/index")
-	public ModelAndView index(@RequestParam(required = false) final String error, HttpServletRequest request)
+	public ModelAndView index(@RequestParam(required = false) final String error, final HttpServletRequest request)
 			throws ServletException, IOException {
 		ModelAndView result;
 
 		HttpSession session = request.getSession();
 		session.setAttribute("active", "inicio");
 
-		if (!this.actorService.isAnonymous()) {
+		if (!this.actorService.isAnonymousPrincipal()) {
 			String uvus = this.actorService.findByPrincipal().getUserAccount().getUsername();
 			String rol = this.actorService.findByPrincipal().getUserAccount().getAuthorities().iterator().next()
 					.getAuthority().toLowerCase();
@@ -62,7 +62,7 @@ public class WelcomeController extends AbstractController {
 	// Noticias ------------------------------------------------------------------
 
 	@RequestMapping(value = "/noticias")
-	public ModelAndView noticias(HttpServletRequest request) throws ServletException, IOException {
+	public ModelAndView noticias(final HttpServletRequest request) throws ServletException, IOException {
 		ModelAndView result;
 
 		HttpSession session = request.getSession();

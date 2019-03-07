@@ -60,7 +60,7 @@
 								<%= session.getAttribute("uvus") %>
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenu">					
-							   <a class="dropdown-item" href="<%= session.getAttribute("rol") %>/display.do"><spring:message code="master.page.perfil"/></a>							   
+							   <a class="dropdown-item" href="actor/edit.do"><spring:message code="master.page.perfil"/></a>							   
 							    <div class="dropdown-divider"></div>
 							    <a class="dropdown-item" href="j_spring_security_logout"><spring:message code="master.page.logout" /></a>
 							</div>
