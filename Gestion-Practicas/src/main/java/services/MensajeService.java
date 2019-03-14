@@ -227,8 +227,8 @@ public class MensajeService {
 		hora = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
 		
 		if(mensaje.getCuerpo().contains("--------------------------------------------------------")) {
-			String[] jaja = mensaje.getCuerpo().split("--------------------------------------------------------");
-			cuerpo = " El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r\r" + jaja[1] + "\r--------------------------------------------------------";
+			String[] cuerpoAux = mensaje.getCuerpo().split("--------------------------------------------------------");
+			cuerpo = " El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r\r" + cuerpoAux[1] + "\r--------------------------------------------------------";
 		}else {
 			cuerpo = " El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r\r" + mensaje.getCuerpo() + "\r--------------------------------------------------------";
 		}

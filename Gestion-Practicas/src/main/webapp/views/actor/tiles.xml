@@ -17,7 +17,7 @@
 	</definition>
 	
 	<definition name="actor/edit" extends="master.page">	
-		<put-attribute name="title" value="Edit profilel" />
+		<put-attribute name="title" value="Edit profile" />
 		<put-attribute name="body" value="/views/actor/edit.jsp" />
 	</definition>
 	

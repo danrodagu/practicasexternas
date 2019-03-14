@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
+import forms.BusquedaTutoresForm;
 import forms.TutorForm;
 import services.ActorService;
 import services.CarpetaService;
@@ -38,6 +41,24 @@ public class TutorController extends AbstractController {
 
 	public TutorController() {
 		super();
+	}
+	
+	
+	// Listing --------------------------------------
+	@RequestMapping(value = "/list")
+	public ModelAndView list(@Valid final BusquedaTutoresForm busqForm, final HttpServletRequest request) {
+		ModelAndView result;
+		Collection<Actor> tutores;
+		
+		HttpSession session = request.getSession();
+
+		tutores = tutorService.tutoresFiltrados(busqForm);
+		
+		result = new ModelAndView("tutor/list");
+
+		result.addObject("tutores", tutores);
+
+		return result;
 	}
 
 	// Display ----------------------------------------------------------------

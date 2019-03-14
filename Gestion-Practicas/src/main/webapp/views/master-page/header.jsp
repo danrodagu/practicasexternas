@@ -101,6 +101,9 @@
 	      <security:authorize access="hasRole('COORDINADOR') || hasRole('TUTOR')">
 		      <a id="alumnos" class="nav-item nav-link" href="alumno/list.do"><spring:message code="master.page.mis.alumnos"/></a>
 	      </security:authorize>
+	      <security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
+		      <a id="tutores" class="nav-item nav-link" href="tutor/list.do"><spring:message code="master.page.tutores"/></a>
+	      </security:authorize>
 	      <security:authorize access="hasRole('ALUMNO')">
 	      	  <a id="practicas" class="nav-item nav-link" href="alumno/practicas.do"><spring:message code="master.page.mis.practicas"/></a>
 		      <%-- <a id="documentos" class="nav-item nav-link" href="documento/list.do"><spring:message code="master.page.mis.documentos"/></a> --%>

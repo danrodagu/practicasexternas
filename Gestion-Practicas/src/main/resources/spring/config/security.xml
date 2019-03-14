@@ -56,6 +56,7 @@
 		<!-- LIST -->
 		<security:intercept-url pattern="/alumno/list.do" access="hasRole('COORDINADOR') || hasRole('TUTOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/alumno/practicas.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/tutor/list.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<!-- DISPLAY -->
 		<security:intercept-url pattern="/oferta/display.do" access="isAuthenticated()" />

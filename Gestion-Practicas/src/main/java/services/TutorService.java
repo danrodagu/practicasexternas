@@ -2,7 +2,13 @@
 package services;
 
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actor;
+import forms.BusquedaTutoresForm;
 import forms.TutorForm;
 import repositories.ActorRepository;
 import security.Authority;
@@ -21,6 +28,9 @@ import security.UserAccountService;
 @Transactional
 public class TutorService {
 
+	@PersistenceContext( unitName="Gestion-Practicas" )
+	private EntityManager em;
+	
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
@@ -177,6 +187,29 @@ public class TutorService {
 		res = this.actorRepository.findMyStudents(actorService.findByPrincipal().getId());
 
 		return res;
+	}
+	
+	public List<Actor> tutoresFiltrados(final BusquedaTutoresForm busqForm){
+		String query = "";
+		
+		query = "SELECT a from Actor a JOIN a.userAccount.authorities auth WHERE (auth.authority = 'TUTOR' OR auth.authority = 'COORDINADOR')";
+		
+		if(!StringUtils.isEmpty(busqForm.getNif())) {
+			query += " AND a.nif LIKE '%" + busqForm.getNif() + "%'";
+		}
+		if(!StringUtils.isEmpty(busqForm.getNombre())) {
+			query += " AND a.nombre LIKE '%" + busqForm.getNombre() + "%'";
+		}
+		if(!StringUtils.isEmpty(busqForm.getApellidos())) {
+			query += " AND a.apellidos LIKE '%" + busqForm.getApellidos() + "%'";
+		}
+		if(!StringUtils.isEmpty(busqForm.getDepartamento())) {
+			query += " AND a.departamento LIKE '%" + busqForm.getDepartamento() + "%'";
+		}	
+		
+		TypedQuery<Actor> q = em.createQuery(query, Actor.class);
+		
+		return q.getResultList();
 	}
 
 }

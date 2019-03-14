@@ -122,7 +122,37 @@
 </fieldset>
 
 <script type="text/javascript">
+	$(document).ready(function() {
+		$( '#password' ).removeAttr('oninvalid');
+		$( '#password' ).removeAttr('oninput');
+		$( '#password2' ).removeAttr('oninvalid');
+		$( '#password2' ).removeAttr('oninput');
+	});	
+	
 	$('#password').change(function() {
+	    if($(this).val() != ''){
+	        $(this).prop('required', true);
+	        $( '#password2' ).prop('required', true);
+	    }else{
+	        if($('#password2').val() == ''){
+	            $(this).prop('required', false);
+	            $( '#password2' ).prop('required', false);
+	        }           
+	    }       
+	});
+	
+	$('#password2').change(function() {
+	    if($(this).val() != ''){
+	        $(this).prop('required', true);
+	        $('#password').prop('required', true);
+	    }else{
+	        if($('#password').val() == ''){
+	            $(this).prop('required', false);
+	            $('#password').prop('required', false);
+	        }           
+	    }
+	});
+	/* $('#password').change(function() {
 		if($(this).val() != ''){
 			$(this).attr('required', true);			
 			$( '#password2' ).attr('required', true);
@@ -152,8 +182,9 @@
 				$( '#password2' ).removeAttr('oninput');
 			}			
 		}
-	});
-	$('#password2').change(function() {
+	}); */
+	
+	/* $('#password2').change(function() {
 		if($(this).val() != ''){
 			$(this).attr('required', true);
 			$('#password').attr('required', true);
@@ -163,5 +194,5 @@
 				$('#password').removeAttr('required');
 			}			
 		}
-	});
+	}); */	
 </script>
