@@ -206,7 +206,7 @@ public class MensajeController {
 		
 		mensajeForm = new MensajeForm();
 		mensajeForm.setAsunto("PETICIÓN DE FEEDBACK");
-		mensajeForm.setCuerpo("Se requiere feedback para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + " \r\r - Este mensaje ha sido generado automáticamente -");
+		mensajeForm.setCuerpo("Se requiere feedback para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + "<br /><br />- Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());
 		
 		this.mensajeService.createMensaje(mensajeForm);	

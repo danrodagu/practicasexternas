@@ -186,6 +186,7 @@ public class MensajeService {
 		String fecha;
 		Calendar calendar;
 		String hora;
+		Integer minuto;
 
 		result = new MensajeForm();
 		mensaje = this.findOne(mensajeId);
@@ -223,14 +224,15 @@ public class MensajeService {
 		
 		calendar = Calendar.getInstance();
 		calendar.setTime(mensaje.getFecha());
+		minuto = calendar.get(Calendar.MINUTE);
 		
-		hora = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+		hora = calendar.get(Calendar.HOUR_OF_DAY) + ":" + ((minuto.toString().length() == 1) ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE));
 		
-		if(mensaje.getCuerpo().contains("--------------------------------------------------------")) {
-			String[] cuerpoAux = mensaje.getCuerpo().split("--------------------------------------------------------");
-			cuerpo = " El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r\r" + cuerpoAux[1] + "\r--------------------------------------------------------";
+		if(mensaje.getCuerpo().contains("__________________________________")) {
+			String[] cuerpoAux = mensaje.getCuerpo().split("__________________________________");
+			cuerpo = " <span style='color: rgb(0, 71, 178);'>El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + cuerpoAux[1] + "</span><br />__________________________________";
 		}else {
-			cuerpo = " El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r\r" + mensaje.getCuerpo() + "\r--------------------------------------------------------";
+			cuerpo = " <span style='color: rgb(0, 71, 178);'>El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + mensaje.getCuerpo() + "</span><br />__________________________________";
 		}
 		
 		
@@ -252,6 +254,7 @@ public class MensajeService {
 		String fecha;
 		Calendar calendar;
 		String hora;
+		Integer minuto;
 
 		result = new MensajeForm();
 		mensaje = this.findOne(mensajeId);
@@ -277,10 +280,18 @@ public class MensajeService {
 		
 		calendar = Calendar.getInstance();
 		calendar.setTime(mensaje.getFecha());
+		minuto = calendar.get(Calendar.MINUTE);		
 		
-		hora = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+		hora = calendar.get(Calendar.HOUR_OF_DAY) + ":" + ((minuto.toString().length() == 1) ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE));
 		
-		cuerpo = " \r----Mensaje enviado----\r\r  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: \r" + mensaje.getCuerpo();
+		if(mensaje.getCuerpo().contains("__________________________________")) {
+			String[] cuerpoAux = mensaje.getCuerpo().split("__________________________________");
+			cuerpo = " <span style='color: rgb(0, 71, 178);'>----Mensaje enviado----<br /><br />  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + cuerpoAux[1] + "</span><br />__________________________________";
+		}else {
+			cuerpo = " <span style='color: rgb(0, 71, 178);'>----Mensaje enviado----<br /><br />  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + mensaje.getCuerpo() + "</span><br />__________________________________";
+		}
+		
+//		cuerpo = " ----Mensaje enviado----<br /><br />  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br />" + mensaje.getCuerpo();
 		
 		if(!mensaje.getAsunto().startsWith("FW:") && !mensaje.getAsunto().startsWith("RE:")) {
 			result.setAsunto("FW: " + mensaje.getAsunto());

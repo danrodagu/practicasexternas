@@ -44,55 +44,41 @@
 			</jstl:if>
 		</div>
 		
-		<security:authorize access="hasRole('ADMINISTRATIVO') || hasRole('COORDINADOR')">
-			<div class="row">
-				<jstl:if test="${rolLogueado == 'ADMINISTRATIVO' && rolPerfil == 'ALUMNO'}">
+		
+		<div class="row">
+			<jstl:if test="${rolLogueado == 'ADMINISTRATIVO'}">
+				<div class="form-group col-md-4">
+					<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" />
+				</div>							
+				<jstl:if test="${rolPerfil == 'ALUMNO'}">
 					<div class="form-group col-md-4">
 						<gp:textbox id="titulacion" code="actor.titulacion" path="titulacion" cssClass="form-control" required="required" />
 					</div>
 				</jstl:if>			
-				<jstl:if test="${rolLogueado == 'ADMINISTRATIVO' && rolPerfil == 'TUTOR'}">
+				<jstl:if test="${rolPerfil == 'TUTOR' || rolPerfil == 'COORDINADOR'}">
 					<div class="form-group col-md-4">
 						<gp:textbox id="departamento" code="actor.departamento" path="departamento" cssClass="form-control" required="required" />
 					</div>
 				</jstl:if>
-				<jstl:if test="${rolLogueado == 'ADMINISTRATIVO'}">
-					<div class="form-group col-md-4">
-						<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" />
-					</div>				
-				</jstl:if>
-				
-				<jstl:if test="${rolLogueado == 'COORDINADOR' && rolPerfil == 'ALUMNO'}">
+			</jstl:if>
+			
+			<jstl:if test="${rolLogueado != 'ADMINISTRATIVO'}">
+				<div class="form-group col-md-4">
+					<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" readonly="true"/>
+				</div>		
+				<jstl:if test="${rolPerfil == 'ALUMNO'}">
 					<div class="form-group col-md-4">
 						<gp:textbox id="titulacion" code="actor.titulacion" path="titulacion" cssClass="form-control" required="required" readonly="true"/>
 					</div>
-				</jstl:if>			
-				<jstl:if test="${rolLogueado == 'ADMINISTRATIVO' && rolPerfil == 'TUTOR'}">
+				</jstl:if>
+				
+				<jstl:if test="${rolPerfil == 'TUTOR' || rolPerfil == 'COORDINADOR'}">
 					<div class="form-group col-md-4">
 						<gp:textbox id="departamento" code="actor.departamento" path="departamento" cssClass="form-control" required="required" readonly="true"/>
 					</div>
-				</jstl:if>
-			</div>
-		</security:authorize>
-		
-		<div class="row">
-			<security:authorize access="!hasRole('ADMINISTRATIVO')">
-				<div class="form-group col-md-4">
-					<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" readonly="true"/>
-				</div>	
-			</security:authorize>		
-			<security:authorize access="hasRole('ALUMNO')">
-				<div class="form-group col-md-4">
-					<gp:textbox id="titulacion" code="actor.titulacion" path="titulacion" cssClass="form-control" required="required" readonly="true"/>
-				</div>
-			</security:authorize>
+				</jstl:if>					
+			</jstl:if>
 			
-			<security:authorize access="hasRole('TUTOR')">
-				<div class="form-group col-md-4">
-					<gp:textbox id="departamento" code="actor.departamento" path="departamento" cssClass="form-control" required="required" readonly="true"/>
-				</div>
-			</security:authorize>	
-		
 			<div class="form-group col-md-4">
 				<gp:textbox id="email" code="actor.email" path="email" cssClass="form-control" required="required" />
 			</div>

@@ -295,9 +295,9 @@ public class OfertaController extends AbstractController {
 			mensajeForm = new MensajeForm();
 			mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
 			mensajeForm.setCuerpo("Se requiere subir la evaluación de la empresa para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
-					" \r\r Compruebe que no falte ningún documento necesario para la evaluación y pulse el botón 'Cerrar documentación' tras la subida correspondiente."
-					+ "\r\r NOTA: No lleve a cabo este proceso si otro administrativo ya lo ha realizado."
-					+ "\r\r - Este mensaje ha sido generado automáticamente -");
+					" <br /><br /> Compruebe que no falte ningún documento necesario para la evaluación y pulse el botón 'Cerrar documentación' tras la subida correspondiente."
+					+ "<br /><br /> NOTA: No lleve a cabo este proceso si otro administrativo ya lo ha realizado."
+					+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 			mensajeForm.setIdReceptor(a.getId());
 			
 			this.mensajeService.createMensaje(mensajeForm);
@@ -322,8 +322,8 @@ public class OfertaController extends AbstractController {
 		mensajeForm = new MensajeForm();
 		mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
 		mensajeForm.setCuerpo("Se requiere evaluación para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
-				" \r\r Se ha habilitado el formulario de evaluación. "
-				+ "\r\r - Este mensaje ha sido generado automáticamente -");
+				" <br /><br /> Se ha habilitado el formulario de evaluación. "
+				+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());			
 		
 		result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
@@ -379,8 +379,8 @@ public class OfertaController extends AbstractController {
 				mensajeForm = new MensajeForm();
 				mensajeForm.setAsunto("PETICIÓN DE CIERRE DE EXPEDIENTE");
 				mensajeForm.setCuerpo("Se requiere cierre de expediente para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
-						" \r\r Se ha habilitado para ello el botón 'Cerrar expediente'. No olvide revisar que el acta esté correctamente firmada. "
-						+ "\r\r - Este mensaje ha sido generado automáticamente -");
+						" <br /><br /> Se ha habilitado para ello el botón 'Cerrar expediente'. No olvide revisar que el acta esté correctamente firmada. "
+						+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 				mensajeForm.setIdReceptor(a.getId());
 				
 				this.mensajeService.createMensaje(mensajeForm);

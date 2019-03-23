@@ -75,7 +75,7 @@
 		    </div>		    
 		    <input id="cuerpo" name="cuerpo" type="hidden">
 		    <div id="editor">	    		
-		    	<p></p>		    		
+		    	<p>${mensajeForm.cuerpo}</p>		    		
 		    </div>
 		    
 			<br />
@@ -110,12 +110,16 @@
 		    $("#receptor").children('option[value=""]').remove();
 		}
 		
+		
+		
 		var quill = new Quill('#editor', {
 		    modules : { 
 		    	toolbar: '#toolbar'
 		    },
 			theme: 'snow'
-	    });  
+	    }); 
+	    
+	    
 	    
 		
 	    $("form").submit(function(e) {	    

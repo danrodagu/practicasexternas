@@ -37,7 +37,7 @@
 <br />
 <br />
 <%-- <spring:message code="mensaje.cuerpo" />: --%>
-&nbsp;&nbsp;
+
 <div class="card">
 	<div class="card-body" id="cuerpo">
 		<jstl:out value="${mensaje.cuerpo}" />
