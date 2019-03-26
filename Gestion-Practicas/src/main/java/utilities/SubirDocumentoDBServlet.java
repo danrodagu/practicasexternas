@@ -57,18 +57,22 @@ public class SubirDocumentoDBServlet extends HttpServlet{
     	String msg = null; 
     	
     	String ofertaId = request.getParameter("ofertaId");
-    	Oferta oferta = ofertaService.findOne(Integer.parseInt(ofertaId));
+    	Oferta oferta;
+    	
+    	if(ofertaId != null && !ofertaId.isEmpty()) {
+    		oferta = ofertaService.findOne(Integer.parseInt(ofertaId));
+    	}else {
+    		oferta = null;
+    	}
     	
     	String titulo = request.getParameter("titulo");
     	
-    	if(oferta.isPreacta() && !oferta.isActaFirmada() && !titulo.equals("ActaFirmada.pdf")) {
+    	if(oferta != null && oferta.isPreacta() && !oferta.isActaFirmada() && !titulo.equals("ActaFirmada.pdf")) {
     		msg = "acta.tutor.error";
     	}else {
     		String formato = titulo.split("\\.")[1].toLowerCase();
         	int uploader = actorService.findByPrincipal().getId();
-        	
-        	
-             
+        	             
             InputStream inputStream = null;
              
             // se obtiene el documento
@@ -91,7 +95,13 @@ public class SubirDocumentoDBServlet extends HttpServlet{
                 conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
      
                 // se construye la query de inserción del documento
-                String sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?, ?)";
+                String sql;
+                
+                if(oferta != null) {
+                	sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?, ?)";
+                }else {
+                	sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id) values (?, ?, ?, ?, ?, ?)";
+                }
                 PreparedStatement statement = conn.prepareStatement(sql);
                 statement.setInt(1, utilService.maximoIdDB()+1);
                 statement.setInt(2, 0);
@@ -104,8 +114,9 @@ public class SubirDocumentoDBServlet extends HttpServlet{
                 
                 statement.setInt(6, uploader);
                 
-                
-                statement.setInt(7, Integer.parseInt(ofertaId));
+                if(oferta != null) {
+                	statement.setInt(7, Integer.parseInt(ofertaId));
+                }       
 
                 
                 int row = statement.executeUpdate();
@@ -134,7 +145,13 @@ public class SubirDocumentoDBServlet extends HttpServlet{
         request.setAttribute("msg", msg);
         
         // se redirecciona al listado tras la subida
-        getServletContext().getRequestDispatcher("/documento/list.do?ofertaId=" + ofertaId).forward(request, response);
+        if(oferta != null) {
+        	getServletContext().getRequestDispatcher("/documento/list.do?ofertaId=" + ofertaId).forward(request, response);
+        }else {
+        	getServletContext().getRequestDispatcher("/welcome/documentacion.do").forward(request, response);
+        }
+        
+        
         
     }
 }

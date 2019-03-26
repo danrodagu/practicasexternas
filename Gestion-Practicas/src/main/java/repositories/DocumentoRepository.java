@@ -20,6 +20,10 @@ public interface DocumentoRepository extends JpaRepository<Documento, Integer> {
 	@Query("select d from Documento d where d.oferta.id=?1")
 	Collection<Documento> findDocumentosByOferta(int ofertaId);
 	
+	// Obtiene los documentos de la documentación visible por todos
+	@Query("select d from Documento d where d.oferta.id IS NULL")
+	Collection<Documento> findDocumentosSinOferta();
+	
 	// Obtiene maximo id de los documentos
 	@Query("SELECT MAX(a.id) FROM Documento a")
 	Integer maxDocumentoId();

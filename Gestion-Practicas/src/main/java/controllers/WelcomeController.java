@@ -6,6 +6,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Actor;
+import domain.Documento;
 import services.ActorService;
+import services.DocumentoService;
 
 @Controller
 @RequestMapping("/welcome")
@@ -26,7 +30,10 @@ public class WelcomeController extends AbstractController {
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	ActorService actorService;
+	private ActorService actorService;
+	
+	@Autowired
+	private DocumentoService documentoService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -69,6 +76,38 @@ public class WelcomeController extends AbstractController {
 		session.setAttribute("active", "noticias");
 
 		result = new ModelAndView("welcome/noticias");
+
+		return result;
+	}
+	
+	// Documentacion ------------------------------------------------------------------
+
+	@RequestMapping(value = "/documentacion")
+	public ModelAndView documentacion(final HttpServletRequest request) {
+		ModelAndView result;
+		Collection<Documento> documentos;
+		Actor principal;
+		boolean esCoordiAdmin;		
+
+		HttpSession session = request.getSession();
+		session.setAttribute("active", "documentacion");
+		
+		documentos = documentoService.findDocumentosSinOferta();
+		
+		esCoordiAdmin = false;
+		
+		if(!actorService.isAnonymousPrincipal()){
+			principal = actorService.findByPrincipal();
+			
+			if((actorService.isCoordinador(principal.getId()) || actorService.isAdministrativo(principal.getId()))) {
+				esCoordiAdmin = true;
+			}
+		}
+
+		result = new ModelAndView("welcome/documentacion");
+		
+		result.addObject("documentos", documentos);
+		result.addObject("esCoordiAdmin", esCoordiAdmin);
 
 		return result;
 	}

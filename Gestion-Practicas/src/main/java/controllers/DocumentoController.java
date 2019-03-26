@@ -123,7 +123,13 @@ public class DocumentoController extends AbstractController {
 
 			documento = this.documentoService.findOne(documentoId);
 			
-			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + documento.getOferta().getId());
+			if(documento.getOferta() != null){
+				// Se redirige al listado de archivos de la oferta si se borra un archivo de ahí
+				result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + documento.getOferta().getId());
+			}else {
+				// Se redirige al listado de archivos de la documentación general si se borra un archivo de ahí
+				result = new ModelAndView("welcome/documentacion");
+			}			
 			
 			this.documentoService.delete(documento);					
 

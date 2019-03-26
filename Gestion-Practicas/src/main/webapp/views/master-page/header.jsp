@@ -81,7 +81,7 @@
 	    <div class="navbar-nav">
 	      <a id="inicio" class="nav-item nav-link" href="welcome/index.do"><spring:message code="master.page.inicio"/><span class="sr-only">(current)</span></a>
 	      <a id="noticias" class="nav-item nav-link" href="welcome/noticias.do"><spring:message code="master.page.noticias"/></a>
-	      <a class="nav-item nav-link" href="#"><spring:message code="master.page.documentacion"/></a>
+	      <a id="documentacion" class="nav-item nav-link" href="welcome/documentacion.do"><spring:message code="master.page.documentacion"/></a>
 	      <security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
 		      <div class="dropdown">
 			      <a id="alta" class="nav-item nav-link dropdown-toggle" style="cursor:pointer;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -90,7 +90,7 @@
 			      <div class="dropdown-menu" aria-labelledby="alta">
 			          <a class="dropdown-item" href="alumno/create.do"><spring:message code="master.page.alumno"/></a>
 			          <a class="dropdown-item" href="tutor/create.do"><spring:message code="master.page.tutor"/></a>
-			          <security:authorize access="hasRole('COORDINADOR')">
+			          <security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
 			          	<a class="dropdown-item" href="administrativo/create.do"><spring:message code="master.page.administrativo"/></a>
 		          	  </security:authorize>
 		          	  <a class="dropdown-item" href="oferta/create.do"><spring:message code="master.page.oferta"/></a>

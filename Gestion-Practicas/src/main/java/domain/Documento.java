@@ -74,7 +74,7 @@ public class Documento extends DomainEntity {
 	
 
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	public Oferta getOferta() {
 		return this.oferta;
 	}

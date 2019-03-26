@@ -21,4 +21,9 @@
 		<put-attribute name="body" value="/views/welcome/noticias.jsp" />
 	</definition>
 	
+	<definition name="welcome/documentacion" extends="master.page">	
+		<put-attribute name="title" value="Documentation" />
+		<put-attribute name="body" value="/views/welcome/listDocumentacion.jsp" />
+	</definition>
+	
 </tiles-definitions>

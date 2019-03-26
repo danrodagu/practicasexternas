@@ -84,7 +84,15 @@ public class DocumentoService {
 		res = this.documentoRepository.findDocumentosByOferta(ofertaId);
 
 		return res;
-	}	
+	}
+	
+	public Collection<Documento> findDocumentosSinOferta(){
+		Collection<Documento> res;
+
+		res = this.documentoRepository.findDocumentosSinOferta();
+
+		return res;
+	}
 	
 	public void rellenarCampo(final PDAcroForm acroForm, final String nombreCampo, final String valor) throws IOException{
 	    PDField field = acroForm.getField(nombreCampo);
