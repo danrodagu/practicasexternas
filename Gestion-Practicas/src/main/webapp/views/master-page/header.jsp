@@ -80,7 +80,7 @@
 	  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 	    <div class="navbar-nav">
 	      <a id="inicio" class="nav-item nav-link" href="welcome/index.do"><spring:message code="master.page.inicio"/><span class="sr-only">(current)</span></a>
-	      <a id="noticias" class="nav-item nav-link" href="welcome/noticias.do"><spring:message code="master.page.noticias"/></a>
+	      <a id="noticias" class="nav-item nav-link" href="noticia/list.do"><spring:message code="master.page.noticias"/></a>
 	      <a id="documentacion" class="nav-item nav-link" href="welcome/documentacion.do"><spring:message code="master.page.documentacion"/></a>
 	      <security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
 		      <div class="dropdown">

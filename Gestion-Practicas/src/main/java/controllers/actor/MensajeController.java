@@ -181,7 +181,7 @@ public class MensajeController {
 		// se usa para obtener solo el cuerpo del mensaje
 		body = cuerpo.substring(11, cuerpo.length()-2);
         
-        if(body == null || !body.startsWith("<p>") || !body.endsWith("<p>")) {
+        if(body == null || !body.startsWith("<p>") || !body.endsWith("</p>")) {
         	error = "1";
         }
 		

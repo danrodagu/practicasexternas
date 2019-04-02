@@ -25,6 +25,9 @@
 		<bean class="converters.MensajeToStringConverter" />
 		<bean class="converters.StringToMensajeConverter" />
 		
+		<bean class="converters.NoticiaToStringConverter" />
+		<bean class="converters.StringToNoticiaConverter" />
+		
 		<bean class="converters.OfertaToStringConverter" />
 		<bean class="converters.StringToOfertaConverter" />
 				

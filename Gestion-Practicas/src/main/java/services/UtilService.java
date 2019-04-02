@@ -9,6 +9,7 @@ import repositories.ActorRepository;
 import repositories.CarpetaRepository;
 import repositories.DocumentoRepository;
 import repositories.MensajeRepository;
+import repositories.NoticiaRepository;
 import repositories.OfertaRepository;
 import repositories.ValoracionRepository;
 
@@ -27,6 +28,9 @@ public class UtilService {
 	
 	@Autowired
 	private MensajeRepository	mensajeRepository;
+	
+	@Autowired
+	private NoticiaRepository	noticiaRepository;
 	
 	@Autowired
 	private OfertaRepository ofertaRepository;
@@ -52,10 +56,11 @@ public class UtilService {
 		Integer idCarpeta = carpetaRepository.maxCarpetaId();
 		Integer idDocumento = documentoRepository.maxDocumentoId();
 		Integer idMensaje = mensajeRepository.maxMensajeId();
+		Integer idNoticia = noticiaRepository.maxNoticiaId();
 		Integer idOferta = ofertaRepository.maxOfertaId();
 		Integer idValoracion = valoracionRepository.maxValoracionId();
 		
-		Integer[] ids = {idActor,idCarpeta,idDocumento,idMensaje,idOferta,idValoracion};
+		Integer[] ids = {idActor,idCarpeta,idDocumento,idMensaje,idNoticia,idOferta,idValoracion};
 		
 		Integer maxId = 0;
 		

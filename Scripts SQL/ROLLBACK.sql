@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS `gestion-practicas`.`documento`;
 DROP TABLE IF EXISTS `gestion-practicas`.`valoracion`;
+DROP TABLE IF EXISTS `gestion-practicas`.`noticia`;
 DROP TABLE IF EXISTS `gestion-practicas`.`mensaje`;
 DROP TABLE IF EXISTS `gestion-practicas`.`carpeta`;
 DROP TABLE IF EXISTS `gestion-practicas`.`actor`;

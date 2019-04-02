@@ -22,6 +22,7 @@
 		<value>/views/coordinador/tiles.xml</value>
 		<value>/views/documento/tiles.xml</value>
 		<value>/views/mensaje/tiles.xml</value>
+		<value>/views/noticia/tiles.xml</value>
 		<value>/views/oferta/tiles.xml</value>
 		<value>/views/tutor/tiles.xml</value>
 		<value>/views/valoracion/tiles.xml</value>

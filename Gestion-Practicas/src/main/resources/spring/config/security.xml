@@ -37,6 +37,9 @@
 
 		<security:intercept-url pattern="/welcome/**" access="permitAll" />		
 		
+		<security:intercept-url pattern="/noticia/list.do" access="permitAll" />
+			
+		
 		<security:intercept-url pattern="/coordinador/**" access="hasRole('COORDINADOR')" />
 			
 		<!-- CREATE -->
@@ -44,12 +47,14 @@
 		<security:intercept-url pattern="/alumno/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />		
 		<security:intercept-url pattern="/tutor/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/oferta/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/noticia/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<!-- EDIT -->
 		<security:intercept-url pattern="/tutor/edit.do" access="hasRole('TUTOR') || hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/alumno/edit.do" access="hasRole('ALUMNO') || hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/administrativo/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/oferta/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/noticia/edit.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/actor/edit.do" access="isAuthenticated()" />
 		
@@ -57,9 +62,11 @@
 		<security:intercept-url pattern="/alumno/list.do" access="hasRole('COORDINADOR') || hasRole('TUTOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/alumno/practicas.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/tutor/list.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/noticia/list.do" access="permitAll" />
 		
 		<!-- DISPLAY -->
 		<security:intercept-url pattern="/oferta/display.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/noticia/display.do" access="permitAll" />
 		
 		<!-- OTROS -->
 		<security:intercept-url pattern="/documento/**" access="isAuthenticated()" />
@@ -70,6 +77,7 @@
 		<security:intercept-url pattern="/oferta/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/carpeta/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/valoracion/**" access="hasRole('COORDINADOR') || hasRole('TUTOR')" />
+		<security:intercept-url pattern="/noticia/noticiaAjax.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/actor/recoverPassword.do" access="isAnonymous()" />
 		

@@ -1,5 +1,5 @@
 <%--
- * create.jsp
+ * list.jsp
 
  --%>
 
