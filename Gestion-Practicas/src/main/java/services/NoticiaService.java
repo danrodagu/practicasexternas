@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -91,14 +92,23 @@ public class NoticiaService {
 	public Noticia reconstruct(final NoticiaForm noticiaForm) {
 		Noticia noticia;
 		Actor autor;
+		Date fechaModificacion;
 
 		// Recupero el actor que está creando la noticia
 		autor = this.actorService.findByPrincipal();
 
-		noticia = this.create();
+		if(noticiaForm.getId() == 0) {
+			noticia = this.create();
+		}else {
+			noticia = findOne(noticiaForm.getId());
+		}
+		
+		fechaModificacion = new Date();
+		fechaModificacion.setTime(fechaModificacion.getTime() - 1);
 
 		noticia.setCuerpo(noticiaForm.getCuerpo());
 		noticia.setTitulo(noticiaForm.getTitulo());
+		noticia.setFechaModificacion(fechaModificacion);
 		noticia.setAutor(autor);
 		
 		return noticia;

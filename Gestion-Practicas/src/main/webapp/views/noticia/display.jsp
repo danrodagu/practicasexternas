@@ -16,9 +16,9 @@
 
 <jsp:useBean id="util" class="utilities.UtilMethods" scope="page"/>
 
-<spring:message code="noticia.fecha" />:
+<spring:message code="noticia.fechaModificacion" />:
 &nbsp;&nbsp;
-<jstl:out value="${noticia.fecha}" />
+<jstl:out value="${noticia.fechaModificacion}" />
 <br />
 
 <spring:message code="noticia.titulo" />:

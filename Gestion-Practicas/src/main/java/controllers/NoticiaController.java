@@ -135,7 +135,7 @@ public class NoticiaController {
 				noticiaForm.setCuerpo(cuerpo);
 				noticia = this.noticiaService.reconstruct(noticiaForm);
 				this.noticiaService.save(noticia);
-				result = new ModelAndView("noticia/list");
+				result = new ModelAndView("redirect:/noticia/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(noticiaForm, "noticia.commit.error");
 			}
@@ -155,11 +155,26 @@ public class NoticiaController {
 		// se usa para obtener solo el cuerpo del noticia
 		body = cuerpo.substring(11, cuerpo.length()-2);
         
-        if(body == null || !body.startsWith("<p>") || !body.endsWith("</p>")) {
+        if(body == null
+        	|| (!body.startsWith("<p>") && !body.startsWith("<p") && !body.startsWith("<ul>") && !body.startsWith("<ol>"))
+        	|| (!body.endsWith("</p>") && !body.endsWith("</ul>") && !body.endsWith("</ol>"))) {
         	error = "1";
-        }
-		
-		request.getSession().setAttribute("cuerpoNoticia", body);
+        }else {
+//        	body = body.replaceAll("/\\<\\/p>(?=.*\\<\\/p>/g)", "");
+        	String aux = body;
+        	aux = aux.replaceAll("</p><p><br></p>", "<br><br>");
+        	aux = aux.replaceAll("</p><p>", "<br>");
+        	aux = aux.replaceAll("<p>", "");
+        	aux = aux.replaceAll("</p>", "");
+        	//Para escapar las dobles comillas
+        	aux = aux.replaceAll("\\\\\"", "\"");
+        	//Para escapar la barra inversa '\'
+        	aux = aux.replaceAll("\\\\+", "\\\\");
+//        	aux = "<p>" + aux + "</p>";
+        	body = aux;
+        	
+        	request.getSession().setAttribute("cuerpoNoticia", body);
+        }		
 		
 		return new ResponseEntity<Object>(error, headers, HttpStatus.OK);
 	}

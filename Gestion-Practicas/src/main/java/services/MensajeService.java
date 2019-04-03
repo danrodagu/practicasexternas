@@ -70,15 +70,15 @@ public class MensajeService {
 	}
 
 	public Mensaje save(Mensaje mensaje) {
-		Date Fecha;
+		Date fecha;
 		Mensaje m;
 
 		// Copia mensaje para receptor
 		if (mensaje.getId() == 0) {
 
-			Fecha = new Date();
-			Fecha.setTime(Fecha.getTime() - 1);
-			mensaje.setFecha(Fecha);
+			fecha = new Date();
+			fecha.setTime(fecha.getTime() - 1);
+			mensaje.setFecha(fecha);
 
 			Carpeta inbox = null;
 			inbox = this.carpetaService.findCarpetaByNombreAndActor("Recibido", mensaje.getReceptor().getId());
@@ -87,7 +87,7 @@ public class MensajeService {
 			m = new Mensaje();
 
 			m.setCarpeta(inbox);
-			m.setFecha(Fecha);
+			m.setFecha(fecha);
 			m.setCuerpo(mensaje.getCuerpo());
 			m.setAsunto(mensaje.getAsunto());
 			m.setLeido(false);

@@ -64,8 +64,6 @@
 			  </span>			  
 			  <span class=ql-formats>  
 				  <button class="ql-link"></button>
-				  <button class="ql-image"></button>
-				  <button class="ql-code-block"></button>
 			  </span>
 		    </div>		    
 		    <input id="cuerpo" name="cuerpo" type="hidden">
@@ -99,7 +97,7 @@
 			
 		var quill = new Quill('#editor', {
 		    modules : { 
-		    	toolbar: '#toolbar'
+		    	toolbar: '#toolbar',
 		    },
 			theme: 'snow'
 	    });  

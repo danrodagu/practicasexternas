@@ -181,11 +181,26 @@ public class MensajeController {
 		// se usa para obtener solo el cuerpo del mensaje
 		body = cuerpo.substring(11, cuerpo.length()-2);
         
-        if(body == null || !body.startsWith("<p>") || !body.endsWith("</p>")) {
-        	error = "1";
-        }
-		
-		request.getSession().setAttribute("cuerpoMensaje", body);
+        if(body == null
+            	|| (!body.startsWith("<p>") && !body.startsWith("<p") && !body.startsWith("<ul>") && !body.startsWith("<ol>"))
+            	|| (!body.endsWith("</p>") && !body.endsWith("</ul>") && !body.endsWith("</ol>"))) {
+            	error = "1";
+            }else {
+//            	body = body.replaceAll("/\\<\\/p>(?=.*\\<\\/p>/g)", "");
+            	String aux = body;
+            	aux = aux.replaceAll("</p><p><br></p>", "<br><br>");
+            	aux = aux.replaceAll("</p><p>", "<br>");
+            	aux = aux.replaceAll("<p>", "");
+            	aux = aux.replaceAll("</p>", "");
+            	//Para escapar las dobles comillas
+            	aux = aux.replaceAll("\\\\\"", "\"");
+            	//Para escapar la barra inversa '\'
+            	aux = aux.replaceAll("\\\\+", "\\\\");
+//            	aux = "<p>" + aux + "</p>";
+            	body = aux;
+            	
+            	request.getSession().setAttribute("cuerpoMensaje", body);
+            }	
 		
 		return new ResponseEntity<Object>(error, headers, HttpStatus.OK);
 	}
