@@ -16,12 +16,16 @@
 <%@taglib prefix ="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
-
+<br />
 <div class="table-responsive">
-<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
-	<%-- <gp:buttonUrl url="noticia/create.do" code="noticia.create"/> --%>
-	<gp:iconUrl url="noticia/create.do" icon="fas fa-plus-circle" name="noticia.create" color="Crimson"/>
-</security:authorize>
+<div align="right">
+	<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
+		<%-- <gp:buttonUrl url="noticia/create.do" code="noticia.create"/> --%>
+		<%-- <gp:iconUrl url="noticia/create.do" icon="fas fa-plus-circle" name="noticia.create" color="Crimson"/> --%>
+		<a href="noticia/create.do" class="btn btn-danger" role="button"><spring:message code="noticia.create" /></a>
+	</security:authorize>
+</div>
+<br />
 <display:table name="noticias" id="row" requestURI="noticia/list.do"
 	pagesize="10" class="table table-hover">
 	
@@ -29,7 +33,10 @@
 	<spring:message code="noticia.fechaModificacion" var="fechaModificacionHeader" />
 	<display:column title="${noticiasHeader}">
 		<h4>${row.titulo}</h4>
-		<br />
+		<br />		
+		<span style="font-size: 15px; color: Crimson;">
+			<i class="fas fa-calendar-alt"></i>
+		</span>
 		<i style="font-size:medium;"> ${fechaModificacionHeader}&nbsp;<fmt:formatDate value="${row.fechaModificacion}" pattern="dd/MM/yyyy HH:mm" />	</i>	
 		<br /><br />
 		${row.cuerpo}

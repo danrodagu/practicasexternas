@@ -188,7 +188,7 @@ public class NoticiaController {
 
 		this.noticiaService.delete(noticia);
 		
-		result = new ModelAndView("noticia/list");
+		result = new ModelAndView("redirect:/noticia/list.do");
 
 		return result;
 	}

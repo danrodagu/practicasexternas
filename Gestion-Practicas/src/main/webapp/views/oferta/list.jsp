@@ -61,15 +61,15 @@
 				</display:column>
 			</jstl:when>
 			<jstl:when test="${row.enEvaluacion && not row.expedienteCerrado}">
-				<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
-					<display:column>
-						<gp:iconUrl url="oferta/edit.do?ofertaId=${row.id}" icon="fas fa-pencil-alt" name="oferta.edit" color="Crimson"/>
-					</display:column>
-				</security:authorize>				
 				<display:column>
 					<spring:message code="oferta.evaluando" var="evaluandoHeader" />
 					<jstl:out value="${evaluandoHeader}" />
 				</display:column>
+				<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
+					<display:column>
+						<%-- <gp:iconUrl url="oferta/edit.do?ofertaId=${row.id}" icon="fas fa-pencil-alt" name="oferta.edit" color="Crimson"/> --%>
+					</display:column>
+				</security:authorize>				
 			</jstl:when>
 			<jstl:otherwise>
 				<display:column>

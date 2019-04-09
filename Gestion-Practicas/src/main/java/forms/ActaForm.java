@@ -1,6 +1,7 @@
 package forms;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -19,10 +20,9 @@ public class ActaForm {
 	public ActaForm() {
 		super();
 	}
-
-	@NotNull
-	@NotBlank
+	
 	@SafeHtml
+	@Pattern(regexp = "^[0-9]{4}-[0-9]{2}$")
 	public String getCurso() {
 		return curso;
 	}

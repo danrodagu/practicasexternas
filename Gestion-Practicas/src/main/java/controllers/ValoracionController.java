@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -134,7 +135,10 @@ public class ValoracionController extends AbstractController {
 
 		if (bindingResult.hasErrors()) {
 			result = this.createEditModelAndView(valoracionForm, null);
+		} else if(valoracionForm.getNotaCurricular() == null && StringUtils.isEmpty(valoracionForm.getNotaExtracurricular())){
+			result = this.createEditModelAndView(valoracionForm, "valoracion.calificacion.error");
 		} else {
+		
 			try {
 				valoracion = this.valoracionService.reconstruct(valoracionForm);
 				valoracion = this.valoracionService.save(valoracion);

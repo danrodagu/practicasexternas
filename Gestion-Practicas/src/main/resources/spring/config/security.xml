@@ -58,6 +58,9 @@
 		
 		<security:intercept-url pattern="/actor/edit.do" access="isAuthenticated()" />
 		
+		<!-- DELETE -->
+		<security:intercept-url pattern="/noticia/delete.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />		
+		
 		<!-- LIST -->
 		<security:intercept-url pattern="/alumno/list.do" access="hasRole('COORDINADOR') || hasRole('TUTOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/alumno/practicas.do" access="isAuthenticated()" />

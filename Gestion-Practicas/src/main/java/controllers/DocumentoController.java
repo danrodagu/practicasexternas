@@ -17,7 +17,6 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -27,6 +26,7 @@ import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -87,7 +87,7 @@ public class DocumentoController extends AbstractController {
 			Collection<Documento> documentos;
 			Oferta oferta;
 			boolean esAlumno;
-			boolean esTutor;
+			boolean esTutorOCoordinador;
 			Actor actor;
 			
 			actor = actorService.findByPrincipal();
@@ -99,12 +99,12 @@ public class DocumentoController extends AbstractController {
 			result = new ModelAndView("documento/list");
 			
 			esAlumno = actorService.isAlumno(actor.getId());
-			esTutor = actorService.isTutor(actor.getId());
+			esTutorOCoordinador = actorService.isTutor(actor.getId()) || actorService.isCoordinador(actor.getId());
 
 			result.addObject("documentos", documentos);
 			result.addObject("oferta", oferta);
 			result.addObject("esAlumno", esAlumno);
-			result.addObject("esTutor", esTutor);
+			result.addObject("esTutorOCoordinador", esTutorOCoordinador);
 			
 			return result;
 		}	
@@ -150,8 +150,142 @@ public class DocumentoController extends AbstractController {
 			return result;
 		}
 		
+//		@RequestMapping(value = "/acta/create", method = RequestMethod.POST, params="save")
+//		public void create(@Valid final ActaForm actaForm, final BindingResult bindingResult, final HttpServletRequest request, final HttpServletResponse response) {
+//			ModelAndView result;
+//			Oferta oferta;
+//			Valoracion valoracion;
+//			MensajeForm mensajeForm;
+//			Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+//			String dominio = "";			
+//			
+//			oferta = ofertaService.findOne(actaForm.getIdOferta());
+//			valoracion = valoracionService.findByOferta(oferta.getId());
+//			
+//			
+//			try {
+//				if(bindingResult.hasErrors() || StringUtils.isEmpty(actaForm.getConvocatoria())
+//						|| StringUtils.isEmpty(actaForm.getCurso())) {
+//					request.setAttribute("msg", "acta.generar.error");
+//					request.getServletContext().getRequestDispatcher("/documento/acta/create.do?ofertaId=" + oferta.getId()).forward(request, response);
+//				}
+//			} catch (ServletException | IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} 
+//			
+//			
+//			PDDocument pdfDocument;
+//			Connection conn = null;
+//		    try {
+//		    	String dbURL = "jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false";
+//		        String dbUser = "root";
+//		        String dbPass = "USpracticas18";
+//		        
+//		        conn = DriverManager.getConnection(dbURL,dbUser,dbPass);
+//		    	
+//		        String workingDirectory = System.getProperty("user.dir");
+//		        
+//		        String absoluteFilePath = "";
+//		        String nombrePlantilla = "plantillaActa.pdf";
+//				
+//				//absoluteFilePath = workingDirectory + System.getProperty("file.separator") + filename;
+//				absoluteFilePath = workingDirectory + "\\src\\main\\webapp\\plantillas\\" + nombrePlantilla;
+//		        
+//				System.out.println(absoluteFilePath);
+//				
+//		        pdfDocument = PDDocument.load(new File(absoluteFilePath));
+//
+//		        PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
+//		        PDAcroForm acroForm = docCatalog.getAcroForm();
+//		        
+//		        LocalDateTime fechaAux = LocalDateTime.now();
+//		        String fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH).format(fechaAux);
+//
+//		        documentoService.rellenarCampo(acroForm, "estudiante", oferta.getAlumnoAsignado().getNombreCompleto());
+//		        documentoService.rellenarCampo(acroForm, "dni", oferta.getAlumnoAsignado().getNif());
+//		        documentoService.rellenarCampo(acroForm, "curso", actaForm.getCurso());
+//		        documentoService.rellenarCampo(acroForm, "convocatoria", actaForm.getConvocatoria());
+//		        documentoService.rellenarCampo(acroForm, "titulacion", oferta.getAlumnoAsignado().getTitulacion());
+//		        documentoService.rellenarCampo(acroForm, "tutor", oferta.getTutorAsignado().getNombreCompleto());
+//		        documentoService.rellenarCampo(acroForm, "departamento", oferta.getTutorAsignado().getDepartamento());
+//		        if(oferta.getEsCurricular()) {
+//		        	documentoService.rellenarCampo(acroForm, "calificacion", valoracion.getNotaCurricular().toString());
+//		        }else {
+//		        	documentoService.rellenarCampo(acroForm, "calificacion", valoracion.getNotaExtracurricular());
+//		        }
+//		        documentoService.rellenarCampo(acroForm, "fecha", fecha);
+//		        
+//		        //Se guarda el pdf autogenerado temporalmente para poder obtenerlo como un array de bytes y almacenarlo en la BBDD
+//		        pdfDocument.save(workingDirectory + "\\src\\main\\webapp\\plantillas\\actaTemporal.pdf");
+//		        pdfDocument.close();
+//		        
+//		        String insertSQL = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?, ?)";
+//				 
+//		        PreparedStatement statement = conn.prepareStatement(insertSQL);			        
+//		        
+//		        statement.setInt(1, utilService.maximoIdDB()+1);
+//	            statement.setInt(2, 0);
+//	            statement.setString(3, "ActaNoFirmada.pdf");
+//	            statement.setString(4, "pdf");	             
+//
+//	            //Se recupera el pdf como un array de bytes
+//	        	Path pdfPath = Paths.get(workingDirectory + "\\src\\main\\webapp\\plantillas\\actaTemporal.pdf");
+//	        	byte[] pdf = Files.readAllBytes(pdfPath);
+//	        	
+//	        	//Se elimina el pdf temporal previamente guardado
+//	        	Files.deleteIfExists(pdfPath); 
+//	            
+//	            if (pdf != null) {                
+//	                statement.setBytes(5, pdf);
+//	            }
+//	            
+//	            statement.setInt(6, actorService.findByPrincipal().getId());	            
+//	            
+//	            statement.setInt(7, oferta.getId());	            
+//		        
+//	            statement.executeUpdate();	            
+//	            
+//	            //Se notifica al tutor de que puede firmar el acta	    		
+//	    		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+//	    		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+//	            
+//	            mensajeForm = new MensajeForm();
+//	    		mensajeForm.setAsunto("PETICIÓN DE FIRMA");
+//	    		mensajeForm.setCuerpo("Se requiere firmar por parte del tutor el acta disponible para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + oferta.getId() + 
+//	    				" \r\r Descargue el acta disponible en 'Documentos' y vuélvala a subir firmada. La firma se puede realizar con Adobe Acrobat si se desea."
+//	    				+ "\r\r Pulse el botón 'Notificar cierre de expediente' tras la subida del documento para que se revise el acta y se proceda al cierre de expediente."
+//	    				+ "\r\r - Este mensaje ha sido generado automáticamente -");
+//	    		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());
+//	    		
+//	    		ofertaService.preactaGenerada(oferta.getId());
+//	    		this.mensajeService.createMensaje(mensajeForm);
+//	            
+//		    } catch (IOException | SQLException e) {
+//		        // TODO Auto-generated catch block
+//		        e.printStackTrace();
+//		    }
+//		    
+//		    if (conn != null) {
+//                // cierra la conexión de la db
+//                try {
+//                    conn.close();
+//                } catch (SQLException ex) {
+//                    ex.printStackTrace();
+//                }
+//            }			
+//
+//			try {
+//				request.setAttribute("msg", "acta.administrativo.success");
+//				request.getServletContext().getRequestDispatcher("/documento/list.do?ofertaId=" + oferta.getId()).forward(request, response);
+//			} catch (ServletException | IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+		
 		@RequestMapping(value = "/acta/create", method = RequestMethod.POST, params="save")
-		public void create(@Valid final ActaForm actaForm, final BindingResult bindingResult, final HttpServletRequest request, final HttpServletResponse response) {
+		public ModelAndView create(@Valid final ActaForm actaForm, final BindingResult bindingResult, final HttpServletRequest request, final HttpServletResponse response) {
 			ModelAndView result;
 			Oferta oferta;
 			Valoracion valoracion;
@@ -162,113 +296,128 @@ public class DocumentoController extends AbstractController {
 			oferta = ofertaService.findOne(actaForm.getIdOferta());
 			valoracion = valoracionService.findByOferta(oferta.getId());
 			
-			PDDocument pdfDocument;
-			Connection conn = null;
-		    try {
-		    	String dbURL = "jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false";
-		        String dbUser = "root";
-		        String dbPass = "USpracticas18";
-		        
-		        conn = DriverManager.getConnection(dbURL,dbUser,dbPass);
-		    	
-		        String workingDirectory = System.getProperty("user.dir");
-		        
-		        String absoluteFilePath = "";
-		        String nombrePlantilla = "plantillaActa.pdf";
+			
+			if(bindingResult.hasErrors() || StringUtils.isEmpty(actaForm.getConvocatoria())
+					|| StringUtils.isEmpty(actaForm.getCurso())) {
+				result =  new ModelAndView("documento/acta/create");
 				
-				//absoluteFilePath = workingDirectory + System.getProperty("file.separator") + filename;
-				absoluteFilePath = workingDirectory + "\\src\\main\\webapp\\plantillas\\" + nombrePlantilla;
-		        
-				System.out.println(absoluteFilePath);
+				result.addObject("actaForm", actaForm);
+				result.addObject("message", "acta.generar.error");
+			}else {
+				PDDocument pdfDocument;
+				Connection conn = null;
+			    try {
+			    	String dbURL = "jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false";
+			        String dbUser = "root";
+			        String dbPass = "USpracticas18";
+			        
+			        conn = DriverManager.getConnection(dbURL,dbUser,dbPass);
+			    	
+			        String workingDirectory = System.getProperty("user.dir");
+			        
+			        String absoluteFilePath = "";
+			        String nombrePlantilla = "plantillaActa.pdf";
+					
+					//absoluteFilePath = workingDirectory + System.getProperty("file.separator") + filename;
+					absoluteFilePath = workingDirectory + "\\src\\main\\webapp\\plantillas\\" + nombrePlantilla;
+			        
+					System.out.println(absoluteFilePath);
+					
+			        pdfDocument = PDDocument.load(new File(absoluteFilePath));
+
+			        PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
+			        PDAcroForm acroForm = docCatalog.getAcroForm();
+			        
+			        LocalDateTime fechaAux = LocalDateTime.now();
+			        String fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH).format(fechaAux);
+
+			        documentoService.rellenarCampo(acroForm, "estudiante", oferta.getAlumnoAsignado().getNombreCompleto());
+			        documentoService.rellenarCampo(acroForm, "dni", oferta.getAlumnoAsignado().getNif());
+			        documentoService.rellenarCampo(acroForm, "curso", actaForm.getCurso());
+			        documentoService.rellenarCampo(acroForm, "convocatoria", actaForm.getConvocatoria());
+			        documentoService.rellenarCampo(acroForm, "titulacion", oferta.getAlumnoAsignado().getTitulacion());
+			        documentoService.rellenarCampo(acroForm, "tutor", oferta.getTutorAsignado().getNombreCompleto());
+			        documentoService.rellenarCampo(acroForm, "departamento", oferta.getTutorAsignado().getDepartamento());
+			        if(oferta.getEsCurricular()) {
+			        	documentoService.rellenarCampo(acroForm, "calificacion", valoracion.getNotaCurricular().toString());
+			        }else {
+			        	documentoService.rellenarCampo(acroForm, "calificacion", valoracion.getNotaExtracurricular());
+			        }
+			        documentoService.rellenarCampo(acroForm, "fecha", fecha);
+			        
+			        //Se guarda el pdf autogenerado temporalmente para poder obtenerlo como un array de bytes y almacenarlo en la BBDD
+			        pdfDocument.save(workingDirectory + "\\src\\main\\webapp\\plantillas\\actaTemporal.pdf");
+			        pdfDocument.close();
+			        
+			        String insertSQL = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?, ?)";
+					 
+			        PreparedStatement statement = conn.prepareStatement(insertSQL);			        
+			        
+			        statement.setInt(1, utilService.maximoIdDB()+1);
+		            statement.setInt(2, 0);
+		            statement.setString(3, "ActaNoFirmada.pdf");
+		            statement.setString(4, "pdf");	             
+
+		            //Se recupera el pdf como un array de bytes
+		        	Path pdfPath = Paths.get(workingDirectory + "\\src\\main\\webapp\\plantillas\\actaTemporal.pdf");
+		        	byte[] pdf = Files.readAllBytes(pdfPath);
+		        	
+		        	//Se elimina el pdf temporal previamente guardado
+		        	Files.deleteIfExists(pdfPath); 
+		            
+		            if (pdf != null) {                
+		                statement.setBytes(5, pdf);
+		            }
+		            
+		            statement.setInt(6, actorService.findByPrincipal().getId());	            
+		            
+		            statement.setInt(7, oferta.getId());	            
+			        
+		            statement.executeUpdate();	            
+		            
+		            //Se notifica al tutor de que puede firmar el acta	    		
+		    		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+		    		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		            
+		            mensajeForm = new MensajeForm();
+		    		mensajeForm.setAsunto("PETICIÓN DE FIRMA");
+		    		mensajeForm.setCuerpo("Se requiere firmar por parte del tutor el acta disponible para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + oferta.getId() + 
+		    				" \r\r Descargue el acta disponible en 'Documentos' y vuélvala a subir firmada. La firma se puede realizar con Adobe Acrobat si se desea."
+		    				+ "\r\r Pulse el botón 'Notificar cierre de expediente' tras la subida del documento para que se revise el acta y se proceda al cierre de expediente."
+		    				+ "\r\r - Este mensaje ha sido generado automáticamente -");
+		    		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());
+		    		
+		    		ofertaService.preactaGenerada(oferta.getId());
+		    		this.mensajeService.createMensaje(mensajeForm);
+		            
+			    } catch (IOException | SQLException e) {
+			        // TODO Auto-generated catch block
+			        e.printStackTrace();
+			    }
+			    
+			    if (conn != null) {
+	                // cierra la conexión de la db
+	                try {
+	                    conn.close();
+	                } catch (SQLException ex) {
+	                    ex.printStackTrace();
+	                }
+	            }			
+
+//				try {
+//					request.setAttribute("msg", "acta.administrativo.success");
+//					request.getServletContext().getRequestDispatcher("/documento/list.do?ofertaId=" + oferta.getId()).forward(request, response);
+//				} catch (ServletException | IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				
-		        pdfDocument = PDDocument.load(new File(absoluteFilePath));
-
-		        PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
-		        PDAcroForm acroForm = docCatalog.getAcroForm();
-		        
-		        LocalDateTime fechaAux = LocalDateTime.now();
-		        String fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH).format(fechaAux);
-
-		        documentoService.rellenarCampo(acroForm, "estudiante", oferta.getAlumnoAsignado().getNombreCompleto());
-		        documentoService.rellenarCampo(acroForm, "dni", oferta.getAlumnoAsignado().getNif());
-		        documentoService.rellenarCampo(acroForm, "curso", actaForm.getCurso());
-		        documentoService.rellenarCampo(acroForm, "convocatoria", actaForm.getConvocatoria());
-		        documentoService.rellenarCampo(acroForm, "titulacion", oferta.getAlumnoAsignado().getTitulacion());
-		        documentoService.rellenarCampo(acroForm, "tutor", oferta.getTutorAsignado().getNombreCompleto());
-		        documentoService.rellenarCampo(acroForm, "departamento", oferta.getTutorAsignado().getDepartamento());
-		        if(oferta.getEsCurricular()) {
-		        	documentoService.rellenarCampo(acroForm, "calificacion", valoracion.getNotaCurricular().toString());
-		        }else {
-		        	documentoService.rellenarCampo(acroForm, "calificacion", valoracion.getNotaExtracurricular());
-		        }
-		        documentoService.rellenarCampo(acroForm, "fecha", fecha);
-		        
-		        //Se guarda el pdf autogenerado temporalmente para poder obtenerlo como un array de bytes y almacenarlo en la BBDD
-		        pdfDocument.save(workingDirectory + "\\src\\main\\webapp\\plantillas\\actaTemporal.pdf");
-		        pdfDocument.close();
-		        
-		        String insertSQL = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?, ?)";
-				 
-		        PreparedStatement statement = conn.prepareStatement(insertSQL);			        
-		        
-		        statement.setInt(1, utilService.maximoIdDB()+1);
-	            statement.setInt(2, 0);
-	            statement.setString(3, "ActaNoFirmada.pdf");
-	            statement.setString(4, "pdf");	             
-
-	            //Se recupera el pdf como un array de bytes
-	        	Path pdfPath = Paths.get(workingDirectory + "\\src\\main\\webapp\\plantillas\\actaTemporal.pdf");
-	        	byte[] pdf = Files.readAllBytes(pdfPath);
-	        	
-	        	//Se elimina el pdf temporal previamente guardado
-	        	Files.deleteIfExists(pdfPath); 
-	            
-	            if (pdf != null) {                
-	                statement.setBytes(5, pdf);
-	            }
-	            
-	            statement.setInt(6, actorService.findByPrincipal().getId());	            
-	            
-	            statement.setInt(7, oferta.getId());	            
-		        
-	            statement.executeUpdate();	            
-	            
-	            //Se notifica al tutor de que puede firmar el acta	    		
-	    		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-	    		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
-	            
-	            mensajeForm = new MensajeForm();
-	    		mensajeForm.setAsunto("PETICIÓN DE FIRMA");
-	    		mensajeForm.setCuerpo("Se requiere firmar por parte del tutor el acta disponible para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + oferta.getId() + 
-	    				" \r\r Descargue el acta disponible en 'Documentos' y vuélvala a subir firmada. La firma se puede realizar con Adobe Acrobat si se desea."
-	    				+ "\r\r Pulse el botón 'Notificar cierre de expediente' tras la subida del documento para que se revise el acta y se proceda al cierre de expediente."
-	    				+ "\r\r - Este mensaje ha sido generado automáticamente -");
-	    		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());
-	    		
-	    		ofertaService.preactaGenerada(oferta.getId());
-	    		this.mensajeService.createMensaje(mensajeForm);
-	            
-		    } catch (IOException | SQLException e) {
-		        // TODO Auto-generated catch block
-		        e.printStackTrace();
-		    }
-		    
-		    if (conn != null) {
-                // cierra la conexión de la db
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }			
-
-			try {
-				request.setAttribute("msg", "acta.administrativo.success");
-				request.getServletContext().getRequestDispatcher("/documento/list.do?ofertaId=" + oferta.getId()).forward(request, response);
-			} catch (ServletException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//faltaria añadir mensaje de éxito 'acta.administrativo.success'
+				result =  new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
 			}
+			
+			
+			return result;
 		}
 		
 		protected ModelAndView createEditModelAndView(final DocumentoForm documentoForm) {
