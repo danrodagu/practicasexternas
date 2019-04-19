@@ -65,6 +65,7 @@ public class TutorService {
 
 		userAccount.addAuthority(authority);
 		result.setUserAccount(userAccount);
+		result.setActivo(true);
 
 		return result;
 
@@ -84,6 +85,14 @@ public class TutorService {
 		Collection<Actor> result;
 
 		result = this.actorRepository.findAllTutores();
+
+		return result;
+	}
+	
+	public Collection<Actor> findAllActivos() {
+		Collection<Actor> result;
+
+		result = this.actorRepository.findAllTutoresActivos();
 
 		return result;
 	}
@@ -205,7 +214,15 @@ public class TutorService {
 		}
 		if(!StringUtils.isEmpty(busqForm.getDepartamento())) {
 			query += " AND a.departamento LIKE '%" + busqForm.getDepartamento() + "%'";
-		}	
+		}
+		
+		if(busqForm.getActivo() != null) {
+			if(busqForm.getActivo()) {
+				query += " AND a.activo = 1";
+			}else {
+				query += " AND a.activo = 0";
+			}
+		}
 		
 		TypedQuery<Actor> q = em.createQuery(query, Actor.class);
 		

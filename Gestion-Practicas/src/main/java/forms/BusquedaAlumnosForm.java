@@ -11,7 +11,9 @@ public class BusquedaAlumnosForm {
 	private String apellidos;
 	private String titulacion;
 	
-	private Boolean tienePracticaAbierta;	
+	private Boolean tienePracticaAbierta;
+	private Boolean activo;
+	
 
 	// Constructors -----------------------------------------------------------
 
@@ -63,7 +65,13 @@ public class BusquedaAlumnosForm {
 		this.tienePracticaAbierta = tienePracticaAbierta;
 	}
 
-	
+	public Boolean getActivo() {
+		return activo;
+	}
+
+	public void setActivo(final Boolean activo) {
+		this.activo = activo;
+	}	
 
 	
 

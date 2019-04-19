@@ -17,6 +17,15 @@
 
 
 <br />
+<spring:message code="welcome.documentacion" var="docText" />
+<spring:message code="welcome.documentacion.aqui" var="docUrl" />
+
+<a>${docText}</a>
+<a href="https://www.informatica.us.es/index.php/secretaria/practicas-en-empresa" target="_blank">${docUrl}</a>
+
+<br />
+<br />
+
 <jstl:if test="${not empty requestScope.msg}">
 	<jstl:if test="${fn:contains(requestScope.msg, 'error')}">
 		<div class="alert alert-danger medium" role="alert">

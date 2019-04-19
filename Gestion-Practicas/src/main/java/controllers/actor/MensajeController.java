@@ -274,7 +274,7 @@ public class MensajeController {
 	protected ModelAndView createEditModelAndView(final MensajeForm mensajeForm, final String message) {
 		ModelAndView result;
 		Collection<Actor> actores;
-		actores = this.actorService.findAll();
+		actores = this.actorService.findAllActivos();
 
 		result = new ModelAndView("mensaje/create");
 		result.addObject("mensajeForm", mensajeForm);

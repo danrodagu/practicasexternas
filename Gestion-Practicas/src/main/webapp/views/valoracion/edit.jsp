@@ -20,7 +20,7 @@
 
 
 		<div class="row">
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-8">
 				<gp:textarea id="texto" cols="20" rows="10" code="valoracion.texto" path="texto" cssClass="form-control" required="required" />
 			</div>
 		</div>

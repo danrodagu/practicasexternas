@@ -48,6 +48,19 @@
 			<br />	
 			<form:errors cssClass="alert alert-danger medium" path="tienePracticaAbierta" />			
 		</div>
+		<div class="form-group col-md-4">							
+			<form:label path="activo">
+				<spring:message code="alumno.search.activo" />
+			</form:label>	
+			<form:select id="activo" path="activo" cssClass="form-control" >
+				<spring:message code="alumno.search.activo.indiferente" var="optVacio" />
+				<form:option value="" label="${optVacio}" />
+				<form:option id="si" value="true" label="Sí" />
+				<form:option id="no" value="false" label="No" />						
+			</form:select>
+			<br />	
+			<form:errors cssClass="alert alert-danger medium" path="activo" />			
+		</div>		
 		<div class="form-group col-md-4" style="position: relative; margin-top: 0.6%">
 			<br />
 			<button name="search" type="submit" class="btn btn-dark"><spring:message code="alumno.search.btn" /></button>				
@@ -74,16 +87,24 @@
 		
 		<spring:message code="actor.titulacion" var="titulacionHeader" />
 		<display:column property="titulacion" title="${titulacionHeader}" />
+				
+		<display:column>
+			<gp:iconUrl url="alumno/practicas.do?listAllAlum=${listAllAlum}&alumnoId=${row.id}" icon="fas fa-graduation-cap" name="alumno.practicas" color="Crimson"/>
+		</display:column>
 		
 		<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
 			<display:column>
 				<gp:iconUrl url="actor/edit.do?actorId=${row.id}" icon="fas fa-pencil-alt" name="oferta.edit" color="Crimson"/>
 			</display:column>
-		</security:authorize>
-		
-		<display:column>
-			<gp:iconUrl url="alumno/practicas.do?listAllAlum=${listAllAlum}&alumnoId=${row.id}" icon="fas fa-graduation-cap" name="alumno.practicas" color="Crimson"/>
-		</display:column>
+			<display:column>
+				<jstl:if test="${row.activo == true}">
+					<a href="actor/desactivar.do?actorId=${row.id}" class="btn btn-danger btn-sm btn-block" role="button"><spring:message code="actor.desactivar" /></a>
+				</jstl:if>
+				<jstl:if test="${row.activo == false}">
+					<a href="actor/activar.do?actorId=${row.id}" class="btn btn-primary btn-sm btn-block" role="button"><spring:message code="actor.activar" /></a>
+				</jstl:if>
+			</display:column>
+		</security:authorize>		
 	</display:table>
 </div>
 

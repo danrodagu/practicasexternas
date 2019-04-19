@@ -75,6 +75,10 @@
 		<security:intercept-url pattern="/documento/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/documento/acta/create.do" access="hasRole('ADMINISTRATIVO')" />
 		
+		<security:intercept-url pattern="/oferta/abrirDocumentacion.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/oferta/cerrarDocumentacion.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/oferta/notificarCierreExp.do" access="hasRole('COORDINADOR') || hasRole('TUTOR')" />
+		
 		<security:intercept-url pattern="/mensaje/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/mensaje/edit?save" access="isAuthenticated()" />
 		<security:intercept-url pattern="/oferta/**" access="isAuthenticated()" />
@@ -83,6 +87,8 @@
 		<security:intercept-url pattern="/noticia/noticiaAjax.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/actor/recoverPassword.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/actor/activar.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
+		<security:intercept-url pattern="/actor/desactivar.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/uploadServlet" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/downloadServlet" access="permitAll" />	

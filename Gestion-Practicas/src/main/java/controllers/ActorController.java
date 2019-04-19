@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -216,6 +217,38 @@ public class ActorController extends AbstractController {
 		result.addObject("rolLogueado", actorLogueado.getUserAccount().getAuthorities().iterator().next().getAuthority());
 		result.addObject("rolPerfil", actorPerfil.getUserAccount().getAuthorities().iterator().next().getAuthority());
 		result.addObject("mismoActorLogYPerfil", mismoActorLogYPerfil);
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/desactivar", method = RequestMethod.GET)
+	public ModelAndView desactivar(@RequestParam(required = true) final int actorId, @RequestHeader(value = "referer", required = false) final String referer) {
+		ModelAndView result;
+		
+		result = new ModelAndView("redirect:" + referer);
+
+		try {			
+			actorService.desactivarUsuario(actorId);			
+		} catch (Throwable oops) {
+			result = new ModelAndView("welcome/index");
+			result.addObject("message", "actor.commit.error");
+		}		
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/activar", method = RequestMethod.GET)
+	public ModelAndView activar(@RequestParam(required = true) final int actorId, @RequestHeader(value = "referer", required = false) final String referer) {
+		ModelAndView result;
+		
+		result = new ModelAndView("redirect:" + referer);
+
+		try {			
+			actorService.activarUsuario(actorId);			
+		} catch (Throwable oops) {
+			result = new ModelAndView("welcome/index");
+			result.addObject("message", "actor.commit.error");
+		}		
 
 		return result;
 	}

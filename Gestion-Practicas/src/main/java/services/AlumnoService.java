@@ -75,6 +75,7 @@ public class AlumnoService {
 
 		userAccount.addAuthority(authority);
 		result.setUserAccount(userAccount);
+		result.setActivo(true);
 
 		return result;
 
@@ -94,6 +95,14 @@ public class AlumnoService {
 		Collection<Actor> result;
 
 		result = this.actorRepository.findAllAlumnos();
+
+		return result;
+	}
+	
+	public Collection<Actor> findAllActivos() {
+		Collection<Actor> result;
+
+		result = this.actorRepository.findAllAlumnosActivos();
 
 		return result;
 	}
@@ -219,6 +228,14 @@ public class AlumnoService {
 			query += " AND a.titulacion LIKE '%" + busqForm.getTitulacion() + "%'";
 		}
 		
+		if(busqForm.getActivo() != null) {
+			if(busqForm.getActivo()) {
+				query += " AND a.activo = 1";
+			}else {
+				query += " AND a.activo = 0";
+			}
+		}
+		
 		if(busqForm.getTienePracticaAbierta() != null) {
 			if(busqForm.getTienePracticaAbierta()) {
 				query += " AND (SELECT COUNT(o1) FROM Oferta o1 WHERE o1.alumnoAsignado.id = a.id AND o1.expedienteCerrado = 0) >= 1";
@@ -226,6 +243,7 @@ public class AlumnoService {
 				query += " AND (SELECT COUNT(o1) FROM Oferta o1 WHERE o1.alumnoAsignado.id=a.id AND o1.expedienteCerrado = 0) = 0";
 			}
 		}		
+	
 		
 		TypedQuery<Actor> q = em.createQuery(query, Actor.class);
 		

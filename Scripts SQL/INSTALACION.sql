@@ -33,6 +33,7 @@ CREATE TABLE `actor` (
   `titulacion` varchar(255),
   `departamento` varchar(255), 
   `email` varchar(255) NOT NULL,
+  `activo` tinyint(1) NOT NULL,
   `userAccount_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`userAccount_id`) REFERENCES `useraccount` (`id`)

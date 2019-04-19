@@ -291,7 +291,7 @@ public class OfertaController extends AbstractController {
 		oferta = ofertaService.findOne(ofertaId);
 		oferta.setEnEvaluacion(true);
 		
-		for(Actor a : administrativoService.findAll()) {
+		for(Actor a : administrativoService.findAllActivos()) {
 			mensajeForm = new MensajeForm();
 			mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
 			mensajeForm.setCuerpo("Se requiere subir la evaluación de la empresa para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
@@ -375,7 +375,7 @@ public class OfertaController extends AbstractController {
 		try {			
 			ofertaService.actaFirmada(ofertaId);
 			
-			for(Actor a : administrativoService.findAll()) {
+			for(Actor a : administrativoService.findAllActivos()) {
 				mensajeForm = new MensajeForm();
 				mensajeForm.setAsunto("PETICIÓN DE CIERRE DE EXPEDIENTE");
 				mensajeForm.setCuerpo("Se requiere cierre de expediente para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 

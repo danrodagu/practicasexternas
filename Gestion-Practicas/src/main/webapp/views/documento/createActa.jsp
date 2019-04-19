@@ -24,9 +24,28 @@
 		</div>
 		
 		<div class="row">
-			<div class="form-group col-md-4">
+			<%-- <div class="form-group col-md-4">
 				<gp:textbox id="convocatoria" code="acta.convocatoria" path="convocatoria" cssClass="form-control" required="required" />
-			</div>
+			</div> --%>
+			<div class="form-group col-md-4">							
+			<form:label path="convocatoria">
+				<spring:message code="acta.convocatoria" />
+			</form:label>	
+			<form:select id="convocatoria" path="convocatoria" cssClass="form-control" >
+				<spring:message code="master.page.select" var="optVacio" />
+				<spring:message code="acta.diciembre" var="optDic" />
+				<spring:message code="acta.febrero" var="optFeb" />
+				<spring:message code="acta.junio" var="optJun" />
+				<spring:message code="acta.septiembre" var="optSep" />
+				<form:option value="" label="${optVacio}" />
+				<form:option value="Diciembre" label="${optDic}" />
+				<form:option value="Febrero" label="${optFeb}" />
+				<form:option value="Junio" label="${optJun}" />
+				<form:option value="Septiembre" label="${optSep}" />						
+			</form:select>
+			<br />	
+			<form:errors cssClass="alert alert-danger medium" path="convocatoria" />			
+		</div>	
 		</div>
 		
 		

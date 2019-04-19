@@ -10,6 +10,7 @@ public class BusquedaTutoresForm {
 	private String nombre;
 	private String apellidos;
 	private String departamento;
+	private Boolean activo;
 
 	// Constructors -----------------------------------------------------------
 
@@ -51,6 +52,14 @@ public class BusquedaTutoresForm {
 
 	public void setDepartamento(final String departamento) {
 		this.departamento = departamento;
+	}
+	
+	public Boolean getActivo() {
+		return activo;
+	}
+
+	public void setActivo(final Boolean activo) {
+		this.activo = activo;
 	}
 	
 

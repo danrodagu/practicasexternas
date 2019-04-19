@@ -86,6 +86,14 @@ public class ActorService {
 
 		return result;
 	}
+	
+	public Collection<Actor> findAllActivos() {
+		Collection<Actor> result;
+
+		result = this.actorRepository.findAllActoresActivos();
+
+		return result;
+	}
 
 	public Actor save(final Actor actor) {
 		Actor result;
@@ -381,6 +389,25 @@ public class ActorService {
 		save(actor);
 	}
 	
+	public void desactivarUsuario(final int actorId) {
+		Actor actor;
+		
+		actor = this.findOne(actorId);
+		
+		Assert.notNull(actor);		
+		
+		actor.setActivo(false);
+	}
+	
+	public void activarUsuario(final int actorId) {
+		Actor actor;
+		
+		actor = this.findOne(actorId);
+		
+		Assert.notNull(actor);		
+		
+		actor.setActivo(true);
+	}
 	
 	
 

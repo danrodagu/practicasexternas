@@ -55,6 +55,7 @@ public class AdministrativoService {
 
 		userAccount.addAuthority(authority);
 		result.setUserAccount(userAccount);
+		result.setActivo(true);
 
 		return result;
 
@@ -74,6 +75,14 @@ public class AdministrativoService {
 		Collection<Actor> result;
 
 		result = this.actorRepository.findAllAdministrativos();
+
+		return result;
+	}
+	
+	public Collection<Actor> findAllActivos() {
+		Collection<Actor> result;
+
+		result = this.actorRepository.findAllAdministrativosActivos();
 
 		return result;
 	}

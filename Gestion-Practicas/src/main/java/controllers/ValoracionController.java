@@ -147,7 +147,7 @@ public class ValoracionController extends AbstractController {
 				dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
 				dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
 				
-				for(Actor a : administrativoService.findAll()) {
+				for(Actor a : administrativoService.findAllActivos()) {
 					mensajeForm = new MensajeForm();
 					mensajeForm.setAsunto("PETICIÓN DE ACTA");
 					mensajeForm.setCuerpo("Se requiere rellenar los datos de la preacta para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + valoracion.getOferta().getId() + 
