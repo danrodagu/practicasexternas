@@ -1,10 +1,13 @@
 
 package forms;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.format.annotation.NumberFormat;
 
 public class ValoracionForm {
 
@@ -12,7 +15,7 @@ public class ValoracionForm {
 
 	private int id;
 	private String texto;
-	private Integer notaCurricular;
+	private BigDecimal notaCurricular;
 	private String notaExtracurricular;
 	
 	private Integer idOferta; 
@@ -43,11 +46,12 @@ public class ValoracionForm {
 		this.texto = texto;
 	}
 
-	public Integer getNotaCurricular() {
+	@NumberFormat
+	public BigDecimal getNotaCurricular() {
 		return notaCurricular;
 	}
 
-	public void setNotaCurricular(final Integer notaCurricular) {
+	public void setNotaCurricular(final BigDecimal notaCurricular) {
 		this.notaCurricular = notaCurricular;
 	}
 

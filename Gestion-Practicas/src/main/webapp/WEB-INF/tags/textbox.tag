@@ -26,22 +26,23 @@
 <%@ attribute name="required" required="false" %>
 <%@ attribute name="readonly" required="false" %>
 <%@ attribute name="placeholder" required="false" %>
+<%@ attribute name="pattern" required="false" %>
 
 
 <%-- Definition --%>
 <div>
 	<label for="${id}"><spring:message code="${code}" /></label>
 	<jstl:if test="${empty required && empty readonly}">
-		<form:input id="${id}" path="${path}" cssClass="${cssClass}" placeholder="${placeholder}" />
+		<form:input id="${id}" path="${path}" cssClass="${cssClass}" placeholder="${placeholder}" pattern="${pattern}" />
 	</jstl:if>
 	<jstl:if test="${empty required && not empty readonly}">
-		<form:input id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" placeholder="${placeholder}" />
+		<form:input id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" placeholder="${placeholder}" pattern="${pattern}"/>
 	</jstl:if>
 	<jstl:if test="${not empty required && empty readonly}">
-		<form:input id="${id}" path="${path}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}" />
+		<form:input id="${id}" path="${path}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}" pattern="${pattern}"/>
 	</jstl:if>
 	<jstl:if test="${not empty required && not empty readonly}">
-		<form:input id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}" />
+		<form:input id="${id}" path="${path}" readonly="${readonly}" cssClass="${cssClass}" required="${required}" placeholder="${placeholder}" pattern="${pattern}"/>
 	</jstl:if>
 		
 	<br />	

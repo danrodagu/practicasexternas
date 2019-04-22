@@ -43,6 +43,7 @@ public class UserAccount extends DomainEntity implements UserDetails {
 
 	private String username;
 	private String password;
+	private boolean enabled;
 	private Collection<Authority> authorities;
 
 	// Hace referencia al UVUS
@@ -113,10 +114,13 @@ public class UserAccount extends DomainEntity implements UserDetails {
 		return true;
 	}
 
-	@Transient
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return this.enabled;
+	}
+	
+	public void setEnabled(final boolean enabled) {
+		this.enabled = enabled;
 	}
 	
 	

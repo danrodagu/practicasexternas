@@ -14,6 +14,7 @@ CREATE TABLE `useraccount` (
   `version` int(11) NOT NULL,
   `password` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -33,7 +34,6 @@ CREATE TABLE `actor` (
   `titulacion` varchar(255),
   `departamento` varchar(255), 
   `email` varchar(255) NOT NULL,
-  `activo` tinyint(1) NOT NULL,
   `userAccount_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`userAccount_id`) REFERENCES `useraccount` (`id`)
@@ -112,7 +112,7 @@ CREATE TABLE `valoracion` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
   `texto` varchar(500) NOT NULL,
-  `notaCurricular` int(2),
+  `notaCurricular` decimal(3,1),
   `notaExtracurricular` varchar(10),
   `oferta_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),

@@ -65,7 +65,7 @@ public class TutorService {
 
 		userAccount.addAuthority(authority);
 		result.setUserAccount(userAccount);
-		result.setActivo(true);
+		result.getUserAccount().setEnabled(true);
 
 		return result;
 
@@ -218,9 +218,9 @@ public class TutorService {
 		
 		if(busqForm.getActivo() != null) {
 			if(busqForm.getActivo()) {
-				query += " AND a.activo = 1";
+				query += " AND a.userAccount.enabled = 1";
 			}else {
-				query += " AND a.activo = 0";
+				query += " AND a.userAccount.enabled = 0";
 			}
 		}
 		

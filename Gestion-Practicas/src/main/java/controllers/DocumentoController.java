@@ -339,7 +339,9 @@ public class DocumentoController extends AbstractController {
 			        documentoService.rellenarCampo(acroForm, "tutor", oferta.getTutorAsignado().getNombreCompleto());
 			        documentoService.rellenarCampo(acroForm, "departamento", oferta.getTutorAsignado().getDepartamento());
 			        if(oferta.getEsCurricular()) {
-			        	documentoService.rellenarCampo(acroForm, "calificacion", valoracion.getNotaCurricular().toString());
+			        	String notaAux = valoracion.getNotaCurricular().toString();
+			        	notaAux = notaAux.replaceAll("\\.", ",");
+			        	documentoService.rellenarCampo(acroForm, "calificacion", notaAux);
 			        }else {
 			        	documentoService.rellenarCampo(acroForm, "calificacion", valoracion.getNotaExtracurricular());
 			        }

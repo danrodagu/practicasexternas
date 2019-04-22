@@ -51,13 +51,13 @@
 				<gp:textbox id="duracion" code="oferta.duracion" path="duracion" cssClass="form-control" required="required" />
 			</div>
 			<div class="form-group col-md-4">
-				<gp:textbox id="horas" code="oferta.horas" path="horas" cssClass="form-control" required="required" />
+				<gp:textbox id="horas" code="oferta.horas" path="horas" cssClass="form-control" required="required" pattern="^[1-9][0-9]*$"/>
 			</div>
 			<div class="form-group col-md-4">
-				<gp:textbox id="fechaInicio" code="oferta.fechaInicio" path="fechaInicio" cssClass="form-control" required="required" />
+				<gp:textbox id="fechaInicio" code="oferta.fechaInicio" path="fechaInicio" cssClass="form-control" />
 			</div>			
 			<div class="form-group col-md-4">
-				<gp:textbox id="fechaFin" code="oferta.fechaFin" path="fechaFin" cssClass="form-control" required="required" />
+				<gp:textbox id="fechaFin" code="oferta.fechaFin" path="fechaFin" cssClass="form-control" />
 			</div>
 		</div>
 

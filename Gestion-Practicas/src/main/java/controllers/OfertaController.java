@@ -159,35 +159,68 @@ public class OfertaController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView create(@Valid final OfertaForm ofertaForm, final BindingResult bindingResult) {
 
+		ModelAndView result;		
+		
+		try {
+			Assert.isTrue(ofertaForm.getDuracion().doubleValue() >= 1.5 && ofertaForm.getDuracion().doubleValue() <= 6.0);
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(ofertaForm, "oferta.duracion.error");
+			return result;
+		}
+		
+		try {
+			Assert.isTrue(ofertaForm.getDotacion().doubleValue() >= 0.0);
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(ofertaForm, "oferta.dotacion.error");
+			return result;
+		}
+
+		if (bindingResult.hasErrors()) {
+			result = this.createEditModelAndView(ofertaForm, null);
+		} else {
+			try {			
+				Integer ofertasAsignadas = ofertaService.ofertasByAlumno(ofertaForm.getIdAlumno()).size();
+				Assert.isTrue(ofertasAsignadas < 2);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(ofertaForm, "oferta.numOfertas.error");
+				return result;
+			}			
+			try {
+				if(ofertaForm.getEsCurricular()) {
+					Integer ofertasCurricAsignadas = ofertaService.ofertasCurricByAlumno(ofertaForm.getIdAlumno()).size();
+					Assert.isTrue(ofertasCurricAsignadas == 0);
+				}			
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(ofertaForm, "oferta.numCurric.error");
+				return result;
+			}			
+			try {
+				if(!ofertaForm.getEsCurricular()) {
+					Integer ofertasExtraAsignadas = ofertaService.ofertasExtraByAlumno(ofertaForm.getIdAlumno()).size();
+					Assert.isTrue(ofertasExtraAsignadas == 0);
+				}			
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(ofertaForm, "oferta.numExtra.error");
+				return result;
+			}
+			
+			try {
+				this.ofertaService.registrarOferta(ofertaForm);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(ofertaForm, "actor.commit.error");
+			}
+		}
+
+		return result;
+
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView edit(@Valid final OfertaForm ofertaForm, final BindingResult bindingResult) {
+
 		ModelAndView result;
-		
-		try {			
-			Integer ofertasAsignadas = ofertaService.ofertasByAlumno(ofertaForm.getIdAlumno()).size();
-			Assert.isTrue(ofertasAsignadas < 2);
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(ofertaForm, "oferta.numOfertas.error");
-			return result;
-		}
-		
-		try {
-			if(ofertaForm.getEsCurricular()) {
-				Integer ofertasCurricAsignadas = ofertaService.ofertasCurricByAlumno(ofertaForm.getIdAlumno()).size();
-				Assert.isTrue(ofertasCurricAsignadas == 0);
-			}			
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(ofertaForm, "oferta.numCurric.error");
-			return result;
-		}
-		
-		try {
-			if(!ofertaForm.getEsCurricular()) {
-				Integer ofertasExtraAsignadas = ofertaService.ofertasExtraByAlumno(ofertaForm.getIdAlumno()).size();
-				Assert.isTrue(ofertasExtraAsignadas == 0);
-			}			
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(ofertaForm, "oferta.numExtra.error");
-			return result;
-		}
+		Oferta oferta;		
 		
 		try {
 			Assert.isTrue(ofertaForm.getDuracion().doubleValue() >= 1.5 && ofertaForm.getDuracion().doubleValue() <= 6.0);
@@ -207,60 +240,24 @@ public class OfertaController extends AbstractController {
 			result = this.createEditModelAndView(ofertaForm, null);
 		} else {
 			try {
-				this.ofertaService.registrarOferta(ofertaForm);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				if(ofertaForm.getEsCurricular()) {
+					Integer ofertasCurricAsignadas = ofertaService.ofertasCurricByAlumnoEdit(ofertaForm.getIdAlumno(), ofertaForm.getId()).size();
+					Assert.isTrue(ofertasCurricAsignadas == 0);
+				}			
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(ofertaForm, "actor.commit.error");
+				result = this.createEditModelAndView(ofertaForm, "oferta.numCurric.error");
+				return result;
+			}			
+			try {
+				if(!ofertaForm.getEsCurricular()) {
+					Integer ofertasExtraAsignadas = ofertaService.ofertasExtraByAlumnoEdit(ofertaForm.getIdAlumno(), ofertaForm.getId()).size();
+					Assert.isTrue(ofertasExtraAsignadas == 0);
+				}			
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(ofertaForm, "oferta.numExtra.error");
+				return result;
 			}
-		}
-
-		return result;
-
-	}
-	
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(@Valid final OfertaForm ofertaForm, final BindingResult bindingResult) {
-
-		ModelAndView result;
-		Oferta oferta;
-				
-		try {
-			if(ofertaForm.getEsCurricular()) {
-				Integer ofertasCurricAsignadas = ofertaService.ofertasCurricByAlumnoEdit(ofertaForm.getIdAlumno(), ofertaForm.getId()).size();
-				Assert.isTrue(ofertasCurricAsignadas == 0);
-			}			
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(ofertaForm, "oferta.numCurric.error");
-			return result;
-		}
-		
-		try {
-			if(!ofertaForm.getEsCurricular()) {
-				Integer ofertasExtraAsignadas = ofertaService.ofertasExtraByAlumnoEdit(ofertaForm.getIdAlumno(), ofertaForm.getId()).size();
-				Assert.isTrue(ofertasExtraAsignadas == 0);
-			}			
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(ofertaForm, "oferta.numExtra.error");
-			return result;
-		}
-		
-		try {
-			Assert.isTrue(ofertaForm.getDuracion().doubleValue() >= 1.5 && ofertaForm.getDuracion().doubleValue() <= 6.0);
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(ofertaForm, "oferta.duracion.error");
-			return result;
-		}
-		
-		try {
-			Assert.isTrue(ofertaForm.getDotacion().doubleValue() >= 0.0);
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(ofertaForm, "oferta.dotacion.error");
-			return result;
-		}
-
-		if (bindingResult.hasErrors()) {
-			result = this.createEditModelAndView(ofertaForm, null);
-		} else {
+			
 			try {
 				oferta = this.ofertaService.reconstructEdit(ofertaForm);
 				this.ofertaService.save(oferta);

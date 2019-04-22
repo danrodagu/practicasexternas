@@ -396,7 +396,7 @@ public class ActorService {
 		
 		Assert.notNull(actor);		
 		
-		actor.setActivo(false);
+		actor.getUserAccount().setEnabled(false);
 	}
 	
 	public void activarUsuario(final int actorId) {
@@ -406,7 +406,7 @@ public class ActorService {
 		
 		Assert.notNull(actor);		
 		
-		actor.setActivo(true);
+		actor.getUserAccount().setEnabled(true);
 	}
 	
 	

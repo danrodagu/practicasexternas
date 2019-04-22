@@ -132,6 +132,16 @@ public class ValoracionController extends AbstractController {
 		MensajeForm mensajeForm;
 		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
+		
+		if(valoracionForm.getNotaCurricular() != null) {
+			try {
+				Assert.isTrue(valoracionForm.getNotaCurricular().doubleValue() >= 0.0 && valoracionForm.getNotaCurricular().doubleValue() <= 10.0);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(valoracionForm, "valoracion.calificacion.error2");
+				return result;
+			}
+		}
+		
 
 		if (bindingResult.hasErrors()) {
 			result = this.createEditModelAndView(valoracionForm, null);

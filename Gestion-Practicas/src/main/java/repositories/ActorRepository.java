@@ -13,7 +13,7 @@ import domain.Actor;
 public interface ActorRepository extends JpaRepository<Actor, Integer> {
 
 	// Obtiene todos los actores activos
-	@Query("select a from Actor a where a.activo = 1")
+	@Query("select a from Actor a where a.userAccount.enabled = 1")
 	Collection<Actor> findAllActoresActivos();
 	
 	// Obtiene actor que está logado
@@ -39,7 +39,7 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 	Collection<Actor> findAllAlumnos();
 	
 	// Obtiene todos los alumnos activos
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ALUMNO' AND a.activo = 1")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ALUMNO' AND a.userAccount.enabled = 1")
 	Collection<Actor> findAllAlumnosActivos();
 	
 	
@@ -50,7 +50,7 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 	Collection<Actor> findAllCoordinadores();
 	
 	// Obtiene todos los coordinadores activos
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'COORDINADOR' AND a.activo = 1")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'COORDINADOR' AND a.userAccount.enabled = 1")
 	Collection<Actor> findAllCoordinadoresActivos();
 	
 //	--- TUTOR ---
@@ -60,7 +60,7 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 	Collection<Actor> findAllTutores();
 	
 	// Obtiene todos los tutores
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'TUTOR' OR auth.authority = 'COORDINADOR' AND a.activo = 1")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'TUTOR' OR auth.authority = 'COORDINADOR' AND a.userAccount.enabled = 1")
 	Collection<Actor> findAllTutoresActivos();
 	
 	// Obtiene los alumnos del tutor logueado
@@ -74,7 +74,7 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 	Collection<Actor> findAllAdministrativos();
 	
 	// Obtiene todos los administrativos activos
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ADMINISTRATIVO' AND a.activo = 1")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ADMINISTRATIVO' AND a.userAccount.enabled = 1")
 	Collection<Actor> findAllAdministrativosActivos();
 
 }

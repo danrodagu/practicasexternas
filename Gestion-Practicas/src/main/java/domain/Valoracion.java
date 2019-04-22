@@ -1,6 +1,8 @@
 
 package domain;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
@@ -15,7 +17,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Valoracion extends DomainEntity {
 
 	private String texto;
-	private Integer notaCurricular;
+	private BigDecimal notaCurricular;
 	private String notaExtracurricular;
 
 	// Constructors -----------------------------------------------------------
@@ -36,11 +38,11 @@ public class Valoracion extends DomainEntity {
 		this.texto = texto;
 	}
 
-	public Integer getNotaCurricular() {
+	public BigDecimal getNotaCurricular() {
 		return notaCurricular;
 	}
 
-	public void setNotaCurricular(final Integer notaCurricular) {
+	public void setNotaCurricular(final BigDecimal notaCurricular) {
 		this.notaCurricular = notaCurricular;
 	}
 

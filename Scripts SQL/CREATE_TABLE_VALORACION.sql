@@ -2,7 +2,7 @@ CREATE TABLE `valoracion` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
   `texto` varchar(500) NOT NULL,
-  `notaCurricular` int(2),
+  `notaCurricular` decimal(3,1),
   `notaExtracurricular` varchar(10),
   `oferta_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),

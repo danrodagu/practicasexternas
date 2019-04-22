@@ -80,10 +80,10 @@
 				<gp:iconUrl url="actor/edit.do?actorId=${row.id}" icon="fas fa-pencil-alt" name="oferta.edit" color="Crimson"/>
 			</display:column>
 			<display:column>
-				<jstl:if test="${row.activo == true}">
+				<jstl:if test="${row.userAccount.enabled == true}">
 					<a href="actor/desactivar.do?actorId=${row.id}" class="btn btn-danger btn-sm btn-block" role="button"><spring:message code="actor.desactivar" /></a>
 				</jstl:if>
-				<jstl:if test="${row.activo == false}">
+				<jstl:if test="${row.userAccount.enabled == false}">
 					<a href="actor/activar.do?actorId=${row.id}" class="btn btn-primary btn-sm btn-block" role="button"><spring:message code="actor.activar" /></a>
 				</jstl:if>
 			</display:column>

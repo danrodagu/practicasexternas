@@ -54,7 +54,7 @@ public class CoordinadorService {
 
 		userAccount.addAuthority(authority);
 		result.setUserAccount(userAccount);
-		result.setActivo(true);
+		result.getUserAccount().setEnabled(true);
 
 		return result;
 

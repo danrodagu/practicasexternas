@@ -24,7 +24,6 @@ public class Actor extends DomainEntity {
 	private String nombre;
 	private String apellidos;
 	private String email;
-	private boolean activo;
 	
 	//ALUMNO
 	private String titulacion;
@@ -84,14 +83,6 @@ public class Actor extends DomainEntity {
 
 	public void setEmail(final String email) {
 		this.email = email;
-	}
-
-	public boolean isActivo() {
-		return activo;
-	}
-
-	public void setActivo(final boolean activo) {
-		this.activo = activo;
 	}
 
 	public String getTitulacion() {

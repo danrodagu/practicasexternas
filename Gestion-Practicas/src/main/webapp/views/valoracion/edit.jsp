@@ -30,30 +30,13 @@
 			<div class="form-group col-md-4">						
 				<div>
 					<jstl:if test="${oferta.esCurricular}">					
-						<form:label path="notaCurricular">
-							<spring:message code="valoracion.calificacion" />
-						</form:label>	
-						<form:select id="curriculares" path="notaCurricular" cssClass="form-control" >
-							<form:option value="" label="${optVacio}" />
-							<form:option value="1" label="1" />
-							<form:option value="2" label="2" />
-							<form:option value="3" label="3" />
-							<form:option value="4" label="4" />
-							<form:option value="5" label="5" />
-							<form:option value="6" label="6" />
-							<form:option value="7" label="7" />
-							<form:option value="8" label="8" />
-							<form:option value="9" label="9" />
-							<form:option value="10" label="10" />						
-						</form:select>
-						<br />	
-						<form:errors cssClass="alert alert-danger medium" path="notaCurricular" />
+						<gp:textbox cssClass="form-control" code="valoracion.calificacion" path="notaCurricular" id="notaCurricular" required="required"/>						
 					</jstl:if>
 					<jstl:if test="${not oferta.esCurricular}">					
 						<form:label path="notaExtracurricular">
 							<spring:message code="valoracion.calificacion" />
 						</form:label>	
-						<form:select id="extracurriculares" path="notaExtracurricular" cssClass="form-control" >
+						<form:select id="extracurriculares" path="notaExtracurricular" cssClass="form-control">
 							<form:option value="" label="${optVacio}" />
 							<form:option id="apto" value="APTO" label="APTO" />
 							<form:option id="noApto" value="NO APTO" label="NO APTO" />						
