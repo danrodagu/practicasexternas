@@ -6,7 +6,8 @@
  -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"	
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd		
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
@@ -35,10 +36,7 @@
 		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" />
 		<!-- <security:intercept-url pattern="/security/index.do" access="permitAll" />  -->
 
-		<security:intercept-url pattern="/welcome/**" access="permitAll" />		
-		
-		<security:intercept-url pattern="/noticia/list.do" access="permitAll" />
-			
+		<security:intercept-url pattern="/welcome/**" access="permitAll" />					
 		
 		<security:intercept-url pattern="/coordinador/**" access="hasRole('COORDINADOR')" />
 			
@@ -103,10 +101,19 @@
 			username-parameter="username"
 			default-target-url="/welcome/index.do"
 			authentication-failure-url="/security/loginFailure.do"/>
-
 		<security:logout 
 			logout-success-url="/" 
 			invalidate-session="true" />
 	</security:http>
+	
+	<!-- <security:authentication-manager alias="authenticationManager">
+	  <security:authentication-provider>
+		<security:jdbc-user-service data-source-ref="dataSource"
+		  users-by-username-query=
+		    "SELECT a.userAccount.username as username, a.userAccount.password as password, a.activo as enabled FROM actor a WHERE a.userAccount.username = ?"
+		  authorities-by-username-query=
+		    "select u.userAccount.username, u.authority FROM useraccount_authorities u WHERE u.userAccount.username = ?" />
+	  </security:authentication-provider>
+	</security:authentication-manager> -->
 
 </beans>

@@ -27,7 +27,8 @@ public class LoginService implements UserDetailsService {
 	
 	// Business methods -------------------------------------------------------
 
-	public UserDetails loadUserByUsername(String username)
+	@Override
+	public UserDetails loadUserByUsername(final String username)
 			throws UsernameNotFoundException {
 		Assert.notNull(username);
 

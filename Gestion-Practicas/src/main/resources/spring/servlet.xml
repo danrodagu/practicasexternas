@@ -104,6 +104,15 @@
 			<security:password-encoder ref="passwordEncoder" />
 		</security:authentication-provider>
 	</security:authentication-manager>
+	
+	<!-- <security:authentication-manager>
+	  <security:authentication-provider>
+	  	<security:password-encoder ref="passwordEncoder" />
+		<security:jdbc-user-service data-source-ref="dataSource"
+		  users-by-username-query="SELECT a.userAccount.username as username, a.userAccount.password as password, a.activo as enabled FROM actor a WHERE a.userAccount.username = ?"
+		  authorities-by-username-query="select u.userAccount.username, u.authority FROM useraccount_authorities u WHERE u.userAccount.username = ?" />
+	  </security:authentication-provider>
+	</security:authentication-manager> -->
 
 	<!-- Tiles -->
 

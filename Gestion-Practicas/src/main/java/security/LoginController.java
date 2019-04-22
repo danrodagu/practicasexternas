@@ -40,8 +40,8 @@ public class LoginController extends AbstractController {
 	// Login ------------------------------------------------------------------
 
 	@RequestMapping("/login")
-	public ModelAndView login(@Valid @ModelAttribute Credentials credentials, BindingResult bindingResult,
-			@RequestParam(required = false) boolean showError) {
+	public ModelAndView login(@Valid @ModelAttribute final Credentials credentials, final BindingResult bindingResult,
+			@RequestParam(required = false) final boolean showError) {
 		Assert.notNull(credentials);
 		Assert.notNull(bindingResult);
 
