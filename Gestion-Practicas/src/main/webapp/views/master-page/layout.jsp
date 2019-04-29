@@ -68,7 +68,6 @@
 			<h1>
 				<tiles:insertAttribute name="title" />
 			</h1>
-			<tiles:insertAttribute name="body" />	
 			<jstl:if test="${message != null}">
 				<br />
 				<jstl:if test="${fn:contains(message, 'error')}">
@@ -80,9 +79,9 @@
 					<div class="alert alert-success medium" role="alert">
 						<spring:message code="${message}" />
 					</div>
-				</jstl:if>
-				
+				</jstl:if>				
 			</jstl:if>	
+			<tiles:insertAttribute name="body" />			
 		</div>
 	</div>
 

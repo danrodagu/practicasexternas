@@ -96,13 +96,19 @@
 		          	  <a class="dropdown-item" href="oferta/create.do"><spring:message code="master.page.oferta"/></a>
 		          </div>
 		      </div>
-		      <a id="todosAlum" class="nav-item nav-link" href="alumno/list.do?listAll=1"><spring:message code="master.page.alumnos"/></a>
+		      <div class="dropdown">
+			      <a id="listado" class="nav-item nav-link dropdown-toggle" style="cursor:pointer;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			      	<spring:message code="master.page.listado"/>
+			      </a>
+			      <div class="dropdown-menu" aria-labelledby="listado">
+			          <a id="todosAlum" class="dropdown-item" href="alumno/list.do?listAll=1"><spring:message code="master.page.alumnos"/></a>
+			          <a id="tutores" class="dropdown-item" href="tutor/list.do"><spring:message code="master.page.tutores"/></a>
+			          <a id="administrativos" class="dropdown-item" href="administrativo/list.do"><spring:message code="master.page.administrativos"/></a>
+		          </div>
+		      </div>
 	      </security:authorize>
 	      <security:authorize access="hasRole('COORDINADOR') || hasRole('TUTOR')">
 		      <a id="alumnos" class="nav-item nav-link" href="alumno/list.do"><spring:message code="master.page.mis.alumnos"/></a>
-	      </security:authorize>
-	      <security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
-		      <a id="tutores" class="nav-item nav-link" href="tutor/list.do"><spring:message code="master.page.tutores"/></a>
 	      </security:authorize>
 	      <security:authorize access="hasRole('ALUMNO')">
 	      	  <a id="practicas" class="nav-item nav-link" href="alumno/practicas.do"><spring:message code="master.page.mis.practicas"/></a>

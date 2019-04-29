@@ -393,13 +393,26 @@ public class OfertaController extends AbstractController {
 	public ModelAndView cerrarExpediente(@RequestParam(required = true) final int ofertaId) {
 		ModelAndView result;
 		Oferta oferta;
+		MensajeForm mensajeForm;
+		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+		String dominio = "";
+		
+		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
 		
 		oferta = ofertaService.findOne(ofertaId);
+		
+		mensajeForm = new MensajeForm();
+		mensajeForm.setAsunto("EXPEDIENTE CERRADO");
+		mensajeForm.setCuerpo("Se ha cerrado expediente para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId 
+				+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
+		mensajeForm.setIdReceptor(oferta.getAlumnoAsignado().getId());
 		
 		result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + oferta.getId());
 
 		try {			
-			ofertaService.cerrarExpediente(ofertaId);			
+			ofertaService.cerrarExpediente(ofertaId);
+			this.mensajeService.createMensaje(mensajeForm);
 		} catch (Throwable oops) {
 			result.addObject("message", "oferta.error");
 		}		

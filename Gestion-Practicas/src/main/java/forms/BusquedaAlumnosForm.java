@@ -1,6 +1,12 @@
 package forms;
 
+import java.util.Date;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class BusquedaAlumnosForm {
 
@@ -13,6 +19,18 @@ public class BusquedaAlumnosForm {
 	
 	private Boolean tienePracticaAbierta;
 	private Boolean activo;
+	
+	//OFERTA
+	private String empresa;
+	private String cifEmp;
+	private Boolean esCurricular;
+	private String duracion;
+	private String horas;
+	private Date fechaInicioDesde;
+	private Date fechaInicioHasta;
+	private Date fechaFinDesde;
+	private Date fechaFinHasta;
+	private String dotacion;	
 	
 
 	// Constructors -----------------------------------------------------------
@@ -71,6 +89,100 @@ public class BusquedaAlumnosForm {
 
 	public void setActivo(final Boolean activo) {
 		this.activo = activo;
+	}
+
+	@SafeHtml
+	public String getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(final String empresa) {
+		this.empresa = empresa;
+	}
+
+	@SafeHtml
+	public String getCifEmp() {
+		return cifEmp;
+	}
+
+	public void setCifEmp(final String cifEmp) {
+		this.cifEmp = cifEmp;
+	}
+
+	public Boolean getEsCurricular() {
+		return esCurricular;
+	}
+
+	public void setEsCurricular(final Boolean esCurricular) {
+		this.esCurricular = esCurricular;
+	}
+	
+	
+	public String getDuracion() {
+		return duracion;
+	}
+
+	public void setDuracion(final String duracion) {
+		this.duracion = duracion;
+	}
+	
+
+	public String getHoras() {
+		return horas;
+	}
+
+	public void setHoras(final String horas) {
+		this.horas = horas;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getFechaInicioDesde() {
+		return fechaInicioDesde;
+	}
+
+	public void setFechaInicioDesde(final Date fechaInicioDesde) {
+		this.fechaInicioDesde = fechaInicioDesde;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getFechaInicioHasta() {
+		return fechaInicioHasta;
+	}
+
+	public void setFechaInicioHasta(final Date fechaInicioHasta) {
+		this.fechaInicioHasta = fechaInicioHasta;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getFechaFinDesde() {
+		return fechaFinDesde;
+	}
+
+	public void setFechaFinDesde(final Date fechaFinDesde) {
+		this.fechaFinDesde = fechaFinDesde;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getFechaFinHasta() {
+		return fechaFinHasta;
+	}
+
+	public void setFechaFinHasta(final Date fechaFinHasta) {
+		this.fechaFinHasta = fechaFinHasta;
+	}
+	
+
+	
+	public String getDotacion() {
+		return dotacion;
+	}
+
+	public void setDotacion(final String dotacion) {
+		this.dotacion = dotacion;
 	}	
 
 	

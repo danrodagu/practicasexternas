@@ -78,7 +78,7 @@
 						<form:option value="false" label="${extracurricular}" />
 					</form:select>
 					<br />	
-					<form:errors cssClass="alert alert-danger medium" path="${path}" />	
+					<form:errors cssClass="alert alert-danger medium" path="esCurricular" />	
 				</div>
 			</div>
 		</div>

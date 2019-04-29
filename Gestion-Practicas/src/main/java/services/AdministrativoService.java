@@ -2,7 +2,13 @@
 package services;
 
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +17,7 @@ import org.springframework.util.Assert;
 
 import domain.Actor;
 import forms.AdministrativoForm;
+import forms.BusquedaAdministrativosForm;
 import repositories.ActorRepository;
 import security.Authority;
 import security.LoginService;
@@ -21,6 +28,9 @@ import security.UserAccountService;
 @Transactional
 public class AdministrativoService {
 
+	@PersistenceContext( unitName="Gestion-Practicas" )
+	private EntityManager em;
+	
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
@@ -177,6 +187,34 @@ public class AdministrativoService {
 
 
 		return res;
+	}
+	
+	public List<Actor> administrativosFiltrados(final BusquedaAdministrativosForm busqForm){
+		String query = "";
+		
+		query = "SELECT a from Actor a JOIN a.userAccount.authorities auth WHERE auth.authority = 'ADMINISTRATIVO'";
+		
+		if(!StringUtils.isEmpty(busqForm.getNif())) {
+			query += " AND a.nif LIKE '%" + busqForm.getNif() + "%'";
+		}
+		if(!StringUtils.isEmpty(busqForm.getNombre())) {
+			query += " AND a.nombre LIKE '%" + busqForm.getNombre() + "%'";
+		}
+		if(!StringUtils.isEmpty(busqForm.getApellidos())) {
+			query += " AND a.apellidos LIKE '%" + busqForm.getApellidos() + "%'";
+		}
+		
+		if(busqForm.getActivo() != null) {
+			if(busqForm.getActivo()) {
+				query += " AND a.userAccount.enabled = 1";
+			}else {
+				query += " AND a.userAccount.enabled = 0";
+			}
+		}
+		
+		TypedQuery<Actor> q = em.createQuery(query, Actor.class);
+		
+		return q.getResultList();
 	}
 
 }

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -55,7 +56,7 @@ public class AlumnoController extends AbstractController {
 	
 	// Listing --------------------------------------
 	@RequestMapping(value = "/list")
-	public ModelAndView list(@RequestParam(required = true,  defaultValue = "0") final int listAll, @Valid final BusquedaAlumnosForm busqForm, final HttpServletRequest request) {
+	public ModelAndView list(@RequestParam(required = true,  defaultValue = "0") final int listAll, @Valid final BusquedaAlumnosForm busqForm, final BindingResult bindingResult, final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Actor> alumnos;
 		
@@ -64,7 +65,7 @@ public class AlumnoController extends AbstractController {
 //		if(listAll == 0) {
 //			session.setAttribute("active", "alumnos");
 //			
-//			Assert.isTrue(actorService.isTutor() || actorService.isCoordinador());			
+//			Assert.isTrue(actorService.isTutor() || actorService.isCoordinador());
 //			alumnos = this.tutorService.findMyStudents();
 //		}else {
 //			session.setAttribute("active", "todosAlum");
@@ -73,13 +74,57 @@ public class AlumnoController extends AbstractController {
 ////			alumnos = alumnoService.findAll();
 //			alumnos = alumnoService.alumnosFiltrados(busqForm, listAll);
 //		}
-
-		alumnos = alumnoService.alumnosFiltrados(busqForm, listAll);
 		
 		result = new ModelAndView("alumno/list");
+		result.addObject("listAllAlum", listAll);
+		
+		try {
+			String regexDotacion = "^[1-9]+([.][0-9]{1,2})?$";			
+			
+			if(!StringUtils.isEmpty(busqForm.getDotacion())) {
+				String dotacion = busqForm.getDotacion().replaceAll(",", "\\.");
+				Assert.isTrue(dotacion.matches(regexDotacion));				
+			}
+			
+		} catch (final Throwable oops) {			
+			alumnos = alumnoService.alumnosFiltrados(null, listAll);
+			result.addObject("message", "alumno.search.dotacion.error");
+			result.addObject("alumnos", alumnos);
+			return result;
+		}
+		
+		try {
+			String regexDuracion = "^[1-9]([.][0-9]{1,2})?$";
+			
+			if(!StringUtils.isEmpty(busqForm.getDuracion())) {
+				String duracion = busqForm.getDuracion().replaceAll(",", "\\.");
+				Assert.isTrue(duracion.matches(regexDuracion));
+			}
+			
+		} catch (final Throwable oops) {
+			alumnos = alumnoService.alumnosFiltrados(null, listAll);
+			result.addObject("message", "alumno.search.duracion.error");
+			result.addObject("alumnos", alumnos);
+			return result;
+		}
+		
+		try {
+			String regexHoras = "^[1-9][0-9]*$";
+			
+			if(!StringUtils.isEmpty(busqForm.getHoras())) {				
+				Assert.isTrue(busqForm.getHoras().matches(regexHoras));
+			}
+			
+		} catch (final Throwable oops) {
+			alumnos = alumnoService.alumnosFiltrados(null, listAll);
+			result.addObject("message", "alumno.search.horas.error");
+			result.addObject("alumnos", alumnos);
+			return result;
+		}		
+
+		alumnos = alumnoService.alumnosFiltrados(busqForm, listAll);
 
 		result.addObject("alumnos", alumnos);
-		result.addObject("listAllAlum", listAll);
 
 		return result;
 	}

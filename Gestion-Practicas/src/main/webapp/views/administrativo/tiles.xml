@@ -21,4 +21,9 @@
 		<put-attribute name="body" value="/views/administrativo/edit.jsp" />
 	</definition>
 	
+	<definition name="administrativo/list" extends="master.page">	
+		<put-attribute name="title" value="" />
+		<put-attribute name="body" value="/views/administrativo/list.jsp" />
+	</definition>
+	
 </tiles-definitions>

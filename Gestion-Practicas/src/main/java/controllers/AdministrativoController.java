@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import forms.AdministrativoForm;
+import forms.BusquedaAdministrativosForm;
 import services.AdministrativoService;
 import services.CarpetaService;
 
@@ -59,98 +62,115 @@ public class AdministrativoController extends AbstractController {
 		return result;
 	}
 	
+	// Listing --------------------------------------
+	@RequestMapping(value = "/list")
+	public ModelAndView list(@Valid final BusquedaAdministrativosForm busqForm, final HttpServletRequest request) {
+		ModelAndView result;
+		Collection<Actor> administrativos;
+		
+		HttpSession session = request.getSession();
+
+		administrativos = administrativoService.administrativosFiltrados(busqForm);
+		
+		result = new ModelAndView("administrativo/list");
+
+		result.addObject("administrativos", administrativos);
+
+		return result;
+	}
+	
 	// Creation ---------------------------------------------------------------
 
-			@RequestMapping(value = "/create", method = RequestMethod.GET)
-			public ModelAndView create(final HttpServletRequest request) {
-				ModelAndView result;
-				AdministrativoForm administrativoForm;
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create(final HttpServletRequest request) {
+		ModelAndView result;
+		AdministrativoForm administrativoForm;
 
-				HttpSession session = request.getSession();
-				session.setAttribute("active", "alta");
+		HttpSession session = request.getSession();
+		session.setAttribute("active", "alta");
 
-				administrativoForm = new AdministrativoForm();
+		administrativoForm = new AdministrativoForm();
 
-				result = this.createEditModelAndView(administrativoForm);
+		result = this.createEditModelAndView(administrativoForm);
 
+		return result;
+	}
+
+	// Edition ----------------------------------------------------------------
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit() {
+		ModelAndView result;
+		Actor administrativo;
+		AdministrativoForm administrativoForm;
+
+		administrativo = this.administrativoService.findByPrincipal();
+		Assert.notNull(administrativo);
+
+		administrativoForm = this.administrativoService.takeForm(administrativo);
+		result = this.createEditModelAndView(administrativoForm);
+
+		return result;
+	}
+
+	// Save -------------------------------------------------------------------
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final AdministrativoForm administrativoForm, final BindingResult bindingResult) {
+
+		ModelAndView result;
+		Actor administrativo;
+
+		if (administrativoForm.getId() != 0) {
+			Assert.isTrue(administrativoForm.getId() == this.administrativoService.findByPrincipal().getId());
+			
+			try {
+				Assert.isTrue(administrativoForm.getPassword().equals(administrativoForm.getPassword2()));
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(administrativoForm, "actor.password.error");
 				return result;
 			}
+		}
 
-			// Edition ----------------------------------------------------------------
+		
 
-			@RequestMapping(value = "/edit", method = RequestMethod.GET)
-			public ModelAndView edit() {
-				ModelAndView result;
-				Actor administrativo;
-				AdministrativoForm administrativoForm;
-
-				administrativo = this.administrativoService.findByPrincipal();
-				Assert.notNull(administrativo);
-
-				administrativoForm = this.administrativoService.takeForm(administrativo);
-				result = this.createEditModelAndView(administrativoForm);
-
-				return result;
-			}
-
-			// Save -------------------------------------------------------------------
-
-			@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-			public ModelAndView save(@Valid final AdministrativoForm administrativoForm, final BindingResult bindingResult) {
-
-				ModelAndView result;
-				Actor administrativo;
-
-				if (administrativoForm.getId() != 0) {
-					Assert.isTrue(administrativoForm.getId() == this.administrativoService.findByPrincipal().getId());
-					
-					try {
-						Assert.isTrue(administrativoForm.getPassword().equals(administrativoForm.getPassword2()));
-					} catch (final Throwable oops) {
-						result = this.createEditModelAndView(administrativoForm, "actor.password.error");
-						return result;
-					}
+		if (bindingResult.hasErrors()) {
+			result = this.createEditModelAndView(administrativoForm);
+		} else {
+			try {
+				administrativo = this.administrativoService.reconstruct(administrativoForm);
+				administrativo = this.administrativoService.save(administrativo);
+				if (administrativoForm.getId() == 0) {
+					this.carpetaService.carpetasPorDefecto(administrativo);
 				}
-
-				
-
-				if (bindingResult.hasErrors()) {
-					result = this.createEditModelAndView(administrativoForm);
-				} else {
-					try {
-						administrativo = this.administrativoService.reconstruct(administrativoForm);
-						administrativo = this.administrativoService.save(administrativo);
-						if (administrativoForm.getId() == 0) {
-							this.carpetaService.carpetasPorDefecto(administrativo);
-						}
-						result = new ModelAndView("redirect:/welcome/index.do");
-					} catch (final Throwable oops) {
-						result = this.createEditModelAndView(administrativoForm, "actor.commit.error");
-					}
-				}
-
-				return result;
-
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(administrativoForm, "actor.commit.error");
 			}
+		}
 
-			// Ancillary methods ------------------------------------------------------
+		return result;
 
-			protected ModelAndView createEditModelAndView(final AdministrativoForm administrativoForm) {
-				ModelAndView result;
+	}
 
-				result = this.createEditModelAndView(administrativoForm, null);
+	// Ancillary methods ------------------------------------------------------
 
-				return result;
-			}
+	protected ModelAndView createEditModelAndView(final AdministrativoForm administrativoForm) {
+		ModelAndView result;
 
-			protected ModelAndView createEditModelAndView(final AdministrativoForm administrativoForm, final String message) {
-				ModelAndView result;
+		result = this.createEditModelAndView(administrativoForm, null);
 
-				result = new ModelAndView("administrativo/edit");
-				result.addObject("administrativoForm", administrativoForm);
-				result.addObject("message", message);
+		return result;
+	}
 
-				return result;
-			}
+	protected ModelAndView createEditModelAndView(final AdministrativoForm administrativoForm, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("administrativo/edit");
+		result.addObject("administrativoForm", administrativoForm);
+		result.addObject("message", message);
+
+		return result;
+	}
 
 }
