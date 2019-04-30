@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actor;
+import domain.Token;
 import forms.EdicionPerfilForm;
 import repositories.ActorRepository;
 import security.Authority;
@@ -333,6 +334,48 @@ public class ActorService {
         }
         
             
+	     
+	    // debug
+	    System.out.println("To: " + recipientAddress);
+	    System.out.println("Subject: " + subject);
+	    System.out.println("Message: " + message);
+	    
+	    // creacion del mensaje
+	    MimeMessage mimeMessage = mailSender.createMimeMessage();
+	    MimeMessageHelper helper;
+		try {
+			helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
+			helper.setSubject(subject);
+			helper.setTo(recipientAddress);			
+		    mimeMessage.setContent(message, "text/html");			    
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	    
+	     
+	    // envia el email
+		mailSender.send(mimeMessage);
+	}
+	
+	public void enviarFormCambioCoordiCorreo(final String email, final Token token) {		
+		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+		String dominio = "";
+		String subject;
+		String message;
+		
+		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		
+		// informacion del correo
+        String recipientAddress = email;        
+        
+    	subject = "Cambio de coordinador de la Plataforma de Gestión de Prácticas Externas";
+    	
+    	message = "Si ha recibido este email es porque usted es el próximo coordinador de la Plataforma de Gestión de Prácticas Externas."
+    			+ "<br /><br />"
+    			+ "Para proceder a su activación como coordinador acceda al siguiente enlace en menos de 24 horas desde que reciba este mensaje: "
+    			+ "<a href='http://" + dominio + "/security/login.do' target='_blank'>aquí</a>";
+               
 	     
 	    // debug
 	    System.out.println("To: " + recipientAddress);

@@ -89,6 +89,8 @@
 		<security:intercept-url pattern="/actor/activar.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		<security:intercept-url pattern="/actor/desactivar.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
+		<security:intercept-url pattern="/coordinador/peticionCambio.do" access="hasRole('COORDINADOR')" />
+		
 		<security:intercept-url pattern="/uploadServlet" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/downloadServlet" access="permitAll" />	
 		

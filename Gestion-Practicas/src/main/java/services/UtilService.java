@@ -1,16 +1,21 @@
 
 package services;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.Token;
 import repositories.ActorRepository;
 import repositories.CarpetaRepository;
 import repositories.DocumentoRepository;
 import repositories.MensajeRepository;
 import repositories.NoticiaRepository;
 import repositories.OfertaRepository;
+import repositories.TokenRepository;
 import repositories.ValoracionRepository;
 
 @Service
@@ -38,6 +43,9 @@ public class UtilService {
 	@Autowired
 	private ValoracionRepository valoracionRepository;
 	
+	@Autowired
+	private TokenRepository tokenRepository;
+	
 	public UtilService() {
 		super();
 	}
@@ -59,8 +67,9 @@ public class UtilService {
 		Integer idNoticia = noticiaRepository.maxNoticiaId();
 		Integer idOferta = ofertaRepository.maxOfertaId();
 		Integer idValoracion = valoracionRepository.maxValoracionId();
+		Integer idToken = tokenRepository.maxTokenId();
 		
-		Integer[] ids = {idActor,idCarpeta,idDocumento,idMensaje,idNoticia,idOferta,idValoracion};
+		Integer[] ids = {idActor,idCarpeta,idDocumento,idMensaje,idNoticia,idOferta,idValoracion,idToken};
 		
 		Integer maxId = 0;
 		
@@ -71,6 +80,24 @@ public class UtilService {
 		}	
 		
 		return maxId;		
+	}
+	
+	public boolean tokenExpirado(final Token token) {
+		Date fechaActual = new Date();
+		Date fechaExpiracion;
+		Calendar fechaAux;
+		
+		fechaAux = Calendar.getInstance();
+		fechaAux.setTime(token.getFechaCreacion());
+		fechaAux.add(Calendar.DAY_OF_YEAR, 1);
+		
+		fechaExpiracion = fechaAux.getTime();
+		
+		if(fechaActual.after(fechaExpiracion)) {
+			return true;
+		}else {
+			return false;
+		}		
 	}
 	
 }

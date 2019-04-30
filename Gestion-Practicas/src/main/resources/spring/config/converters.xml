@@ -34,6 +34,9 @@
 		<bean class="converters.ValoracionToStringConverter" />		
 		<bean class="converters.StringToValoracionConverter" />
 		
+		<bean class="converters.TokenToStringConverter" />		
+		<bean class="converters.StringToTokenConverter" />
+		
 		
 	</util:list>
 
