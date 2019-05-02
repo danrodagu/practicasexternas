@@ -33,7 +33,12 @@
   			<spring:message code="expediente.administrativo.confirm" var="confirmHeader" />
 	    	<li class="breadcrumb-item"><a href="oferta/cerrarExpediente.do?ofertaId=${oferta.id}" onclick="return confirm('${confirmHeader}')"><spring:message code="oferta.cerrarExp" /></a></li>
 	  	</jstl:if>
-  	</security:authorize>  	
+  	</security:authorize> 
+  	<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
+  		<jstl:if test="${oferta.enEvaluacion}">
+	    	<li class="breadcrumb-item"><a href="oferta/invalidaEvaluacion.do?ofertaId=${oferta.id}"><spring:message code="oferta.invalidarEvaluacion" /></a></li>
+	  	</jstl:if>
+  	</security:authorize>   	
   </ol>
 </nav>
 

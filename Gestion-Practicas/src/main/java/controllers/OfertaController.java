@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import domain.Oferta;
+import forms.InvalidaEvaluacionForm;
 import forms.MensajeForm;
 import forms.OfertaForm;
 import services.ActorService;
@@ -419,6 +420,21 @@ public class OfertaController extends AbstractController {
 
 		return result;
 	}
+	
+	@RequestMapping(value = "/invalidaEvaluacion", method = RequestMethod.GET)
+	public ModelAndView invalidaEvaluacion(@RequestParam(required = true) final int ofertaId) {
+		ModelAndView result;
+		InvalidaEvaluacionForm invalidaEvaluacionForm;
+		
+		invalidaEvaluacionForm = new InvalidaEvaluacionForm();
+		invalidaEvaluacionForm.setIdOferta(ofertaId);
+		
+		result = new ModelAndView("oferta/invalidaEvaluacion");
+		result.addObject("invalidaEvaluacionForm", invalidaEvaluacionForm);
+
+		return result;
+	}
+	
 	
 	protected ModelAndView createEditModelAndView(final OfertaForm ofertaForm, final String message) {
 		ModelAndView result;

@@ -1,5 +1,5 @@
 <%--
- * peticionCambio.jsp
+ * invalidaEvaluacion.jsp
 
  --%>
 
@@ -13,25 +13,26 @@
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 <fieldset>
-	<form:form action="coordinador/peticionCambio.do" modelAttribute="peticionCambioCoordiForm">
+	<form:form action="oferta/invalidaEvaluacion.do" modelAttribute="invalidaEvaluacionForm">
+		<form:hidden path="idOferta" />
 		
-		<spring:message code="coordinador.peticionCambio.msg" />
+		<spring:message code="oferta.invalidaEvaluacion.msg" />
 		<br />
 		<br />
 		
 		<div class="row">
 			<div class="form-group col-md-4">
-				<gp:textbox id="email" code="actor.email" path="email" cssClass="form-control" required="required" />
+				<gp:textarea id="justificacion" cols="20" rows="10" code="oferta.justificacion" path="justificacion" cssClass="form-control" required="required" />
 			</div>
 		</div>		
 		
 		<br />
 		<br />		
 		
-		<spring:message code="coordinador.peticionCambio.confirm" var="confirmHeader" />
+		<spring:message code="oferta.invalidaEvaluacion.confirm" var="confirmHeader" />
 		<button name="save" type="submit" onclick="return confirm('${confirmHeader}')" class="btn btn-dark"><spring:message code="crear.submit" /></button>
 		&nbsp;&nbsp;
-		<button type="button" class="btn btn-dark" onclick="javascript: window.location.replace('welcome/index.do');"  >
+		<button type="button" class="btn btn-dark" onclick="javascript: window.location.replace('oferta/display.do?ofertaId=${invalidaEvaluacionForm.idOferta}');"  >
 			<spring:message code="actor.cancel" />
 		</button>				
 		

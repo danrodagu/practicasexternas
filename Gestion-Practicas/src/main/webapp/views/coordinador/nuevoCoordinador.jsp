@@ -13,7 +13,16 @@
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 <fieldset>
-	<form:form action="${action}" modelAttribute="nuevoCoordiForm">
+	<jstl:if test="${faseForm == 1}">
+		<jstl:set var="nuevoCoordiFormName" value="nuevoCoordiForm1"></jstl:set>
+		<jstl:set var="action" value="coordinador/nuevoCoordinador1.do"></jstl:set>
+	</jstl:if>
+	<jstl:if test="${faseForm == 2}">
+		<jstl:set var="nuevoCoordiFormName" value="nuevoCoordiForm2"></jstl:set>
+		<jstl:set var="action" value="coordinador/nuevoCoordinador2.do"></jstl:set>
+	</jstl:if>
+	
+	<form:form action="${action}" modelAttribute="${nuevoCoordiFormName}">
 		
 		<jstl:if test="${faseForm == 1}">
 			<div class="row">

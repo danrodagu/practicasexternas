@@ -1,5 +1,7 @@
 package controllers;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,33 +73,33 @@ public class CoordinadorController extends AbstractController {
 	@RequestMapping(value = "/peticionCambio", method = RequestMethod.GET)
 	public ModelAndView peticionCambio() {
 		ModelAndView result;
-		PeticionCambioCoordiForm form;		
+		PeticionCambioCoordiForm peticionCambioCoordiForm;		
 		
-		form = new PeticionCambioCoordiForm();		
+		peticionCambioCoordiForm = new PeticionCambioCoordiForm();		
 
 		result = new ModelAndView("coordinador/peticionCambio");
-		result.addObject("form", form);
+		result.addObject("peticionCambioCoordiForm", peticionCambioCoordiForm);
 		
 		return result;
 	}
 	
 	@RequestMapping(value = "/peticionCambio", method = RequestMethod.POST, params = "save")
-	public ModelAndView peticionCambio(@Valid final PeticionCambioCoordiForm form, final BindingResult bindingResult) {
+	public ModelAndView peticionCambio(@Valid final PeticionCambioCoordiForm peticionCambioCoordiForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		Token token;
 		
 
 		if (bindingResult.hasErrors()) {
-			result = this.createPeticionCambioModelAndView(form, null);
+			result = this.createPeticionCambioModelAndView(peticionCambioCoordiForm, null);
 		} else {		
 			try {
 				token = new Token();				
-				actorService.enviarFormCambioCoordiCorreo(form.getEmail(), token);
+				actorService.enviarFormCambioCoordiCorreo(peticionCambioCoordiForm.getEmail(), token);
 				
 				result = new ModelAndView("welcome/index");
 				result.addObject("message", "coordinador.peticionCambio.success");
 			} catch (final Throwable oops) {
-				result = this.createPeticionCambioModelAndView(form, "actor.commit.error");
+				result = this.createPeticionCambioModelAndView(peticionCambioCoordiForm, "actor.commit.error");
 			}
 		}
 
@@ -106,26 +108,29 @@ public class CoordinadorController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/nuevoCoordinador", method = RequestMethod.GET)
-	public ModelAndView nuevoCoordinador(@RequestParam(required = false) final String confirmationToken, @RequestParam(required = false) final int fase) {
+	public ModelAndView nuevoCoordinador(@RequestParam(required = false) final String confirmationToken, @RequestParam(required = false) final int fase, final HttpServletRequest request) {
 		ModelAndView result;
 		NuevoCoordiForm1 nuevoCoordiForm1;
 		NuevoCoordiForm2 nuevoCoordiForm2;
 		Token token;		
 				
-		token = tokenRepository.findTokenByConfirmationToken(confirmationToken);		
+		token = tokenRepository.findTokenByConfirmationToken(confirmationToken);
+		
+		HttpSession session = request.getSession();
 		
 		if(!utilService.tokenExpirado(token)) {
 			result = new ModelAndView("coordinador/nuevoCoordinador");
 			result.addObject("faseForm", fase);
 			
+			//Guardamos el idToken para poder eliminarlo en bd más adelante si se completa el proceso de cambio de coordinador
+			session.setAttribute("idToken", token.getId());
+			
 			if(fase == 1) {
 				nuevoCoordiForm1 = new NuevoCoordiForm1();
-				result.addObject("nuevoCoordiForm", nuevoCoordiForm1);
-				result.addObject("action", "coordinador/nuevoCoordinador1.do");
+				result.addObject("nuevoCoordiForm1", nuevoCoordiForm1);
 			}else if (fase == 2) {
 				nuevoCoordiForm2 = new NuevoCoordiForm2();
-				result.addObject("nuevoCoordiForm", nuevoCoordiForm2);
-				result.addObject("action", "coordinador/nuevoCoordinador2.do");
+				result.addObject("nuevoCoordiForm2", nuevoCoordiForm2);
 			}			
 			
 		}else {
@@ -137,21 +142,26 @@ public class CoordinadorController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/nuevoCoordinador1", method = RequestMethod.POST, params = "save")
-	public ModelAndView nuevoCoordinador1(@Valid final NuevoCoordiForm1 nuevoCoordiForm1, final BindingResult bindingResult) {
+	public ModelAndView nuevoCoordinador1(@Valid final NuevoCoordiForm1 nuevoCoordiForm1, final BindingResult bindingResult, final HttpServletRequest request) {
 		ModelAndView result;
-		Token token;		
+		
+		HttpSession session = request.getSession();
 		
 		if (bindingResult.hasErrors()) {
 			result = new ModelAndView("coordinador/nuevoCoordinador");
-			result.addObject("nuevoCoordiForm", nuevoCoordiForm1);
+			result.addObject("nuevoCoordiForm1", nuevoCoordiForm1);
 			result.addObject("faseForm", 1);
-			result.addObject("action", "coordinador/nuevoCoordinador1.do");
 			return result;
 		}else {
 			Actor actor = actorService.findByUsername(nuevoCoordiForm1.getUvus());
 			if(actor != null) {
 				//se ejecuta el metodo de registro (cambiar authorities) sin necesidad del 2do form
 				coordinadorService.cambioCoordinadorUsuarioExistente(actor.getId());
+				//Eliminamos el token y la variable de sesión
+				int idToken = (int) session.getAttribute("idToken");
+				tokenRepository.delete(idToken);
+				session.removeAttribute("idToken");
+				
 				result = new ModelAndView("welcome/index");
 				result.addObject("message", "coordinador.cambioCoordi.success");
 			}else {
@@ -159,9 +169,8 @@ public class CoordinadorController extends AbstractController {
 				nuevoCoordiForm2Aux.setUsername(nuevoCoordiForm1.getUvus());
 				
 				result = new ModelAndView("coordinador/nuevoCoordinador");
-				result.addObject("nuevoCoordiForm", nuevoCoordiForm2Aux);
+				result.addObject("nuevoCoordiForm2", nuevoCoordiForm2Aux);
 				result.addObject("faseForm", 2);
-				result.addObject("action", "coordinador/nuevoCoordinador2.do");
 			}
 		}		
 
@@ -170,16 +179,23 @@ public class CoordinadorController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/nuevoCoordinador2", method = RequestMethod.POST, params = "save")
-	public ModelAndView nuevoCoordinador2(@Valid final NuevoCoordiForm2 nuevoCoordiForm2, final BindingResult bindingResult) {
-		ModelAndView result;		
+	public ModelAndView nuevoCoordinador2(@Valid final NuevoCoordiForm2 nuevoCoordiForm2, final BindingResult bindingResult, final HttpServletRequest request) {
+		ModelAndView result;
+		
+		HttpSession session = request.getSession();
 		
 		if (bindingResult.hasErrors()) {
 			result = new ModelAndView("coordinador/nuevoCoordinador");
-			result.addObject("nuevoCoordiForm", nuevoCoordiForm2);
+			result.addObject("nuevoCoordiForm2", nuevoCoordiForm2);
 			result.addObject("faseForm", 2);
 		}else {
 			//se ejecuta el metodo de registro con el 2do form y authorities
 			coordinadorService.cambioCoordinadorUsuarioInexistente(nuevoCoordiForm2);
+			//Eliminamos el token y la variable de sesión
+			int idToken = (int) session.getAttribute("idToken");
+			tokenRepository.delete(idToken);
+			session.removeAttribute("idToken");
+			
 			result = new ModelAndView("welcome/index");
 			result.addObject("message", "coordinador.cambioCoordi.success");
 		}		
@@ -187,12 +203,12 @@ public class CoordinadorController extends AbstractController {
 		return result;
 	}
 	
-	protected ModelAndView createPeticionCambioModelAndView(final PeticionCambioCoordiForm form, final String message) {
+	protected ModelAndView createPeticionCambioModelAndView(final PeticionCambioCoordiForm peticionCambioCoordiForm, final String message) {
 		ModelAndView result;
 		
 		result = new ModelAndView("coordinador/peticionCambio");
 		
-		result.addObject("form", form);
+		result.addObject("peticionCambioCoordiForm", peticionCambioCoordiForm);
 		result.addObject("message", message);
 
 		return result;

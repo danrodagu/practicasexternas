@@ -87,6 +87,10 @@ public class UtilService {
 		Date fechaExpiracion;
 		Calendar fechaAux;
 		
+		if(token == null) {
+			return true;
+		}
+		
 		fechaAux = Calendar.getInstance();
 		fechaAux.setTime(token.getFechaCreacion());
 		fechaAux.add(Calendar.DAY_OF_YEAR, 1);
