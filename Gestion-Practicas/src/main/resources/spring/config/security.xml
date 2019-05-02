@@ -36,9 +36,13 @@
 		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" />
 		<!-- <security:intercept-url pattern="/security/index.do" access="permitAll" />  -->
 
-		<security:intercept-url pattern="/welcome/**" access="permitAll" />					
+		<security:intercept-url pattern="/welcome/**" access="permitAll" />		
 		
-		<security:intercept-url pattern="/coordinador/**" access="hasRole('COORDINADOR')" />
+		<security:intercept-url pattern="/coordinador/nuevoCoordinador.do" access="permitAll" />
+		<security:intercept-url pattern="/coordinador/nuevoCoordinador1.do" access="permitAll" />	
+		<security:intercept-url pattern="/coordinador/nuevoCoordinador2.do" access="permitAll" />			
+		
+		<!-- <security:intercept-url pattern="/coordinador/**" access="hasRole('COORDINADOR')" /> -->
 			
 		<!-- CREATE -->
 		<security:intercept-url pattern="/administrativo/create.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />	
@@ -90,6 +94,7 @@
 		<security:intercept-url pattern="/actor/desactivar.do" access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')" />
 		
 		<security:intercept-url pattern="/coordinador/peticionCambio.do" access="hasRole('COORDINADOR')" />
+		
 		
 		<security:intercept-url pattern="/uploadServlet" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/downloadServlet" access="permitAll" />	

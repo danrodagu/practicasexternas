@@ -91,7 +91,7 @@ public class CoordinadorController extends AbstractController {
 			result = this.createPeticionCambioModelAndView(form, null);
 		} else {		
 			try {
-				token = new Token();
+				token = new Token();				
 				actorService.enviarFormCambioCoordiCorreo(form.getEmail(), token);
 				
 				result = new ModelAndView("welcome/index");
@@ -120,12 +120,12 @@ public class CoordinadorController extends AbstractController {
 			
 			if(fase == 1) {
 				nuevoCoordiForm1 = new NuevoCoordiForm1();
-				nuevoCoordiForm1.setConfirmationToken(confirmationToken);
-				result.addObject("nuevoCoordiForm", nuevoCoordiForm1);			
+				result.addObject("nuevoCoordiForm", nuevoCoordiForm1);
+				result.addObject("action", "coordinador/nuevoCoordinador1.do");
 			}else if (fase == 2) {
 				nuevoCoordiForm2 = new NuevoCoordiForm2();
-				nuevoCoordiForm2.setConfirmationToken(confirmationToken);
 				result.addObject("nuevoCoordiForm", nuevoCoordiForm2);
+				result.addObject("action", "coordinador/nuevoCoordinador2.do");
 			}			
 			
 		}else {
@@ -136,50 +136,55 @@ public class CoordinadorController extends AbstractController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/nuevoCoordinador", method = RequestMethod.POST, params = "save")
-	public ModelAndView nuevoCoordinador(@Valid final NuevoCoordiForm1 nuevoCoordiForm1, @Valid final NuevoCoordiForm2 nuevoCoordiForm2, final BindingResult bindingResult) {
+	@RequestMapping(value = "/nuevoCoordinador1", method = RequestMethod.POST, params = "save")
+	public ModelAndView nuevoCoordinador1(@Valid final NuevoCoordiForm1 nuevoCoordiForm1, final BindingResult bindingResult) {
 		ModelAndView result;
-		Token token;
+		Token token;		
 		
-		if(nuevoCoordiForm1 != null) {
-			if (bindingResult.hasErrors()) {
-				result = new ModelAndView("coordinador/nuevoCoordinador");
-				result.addObject("nuevoCoordiForm", nuevoCoordiForm1);
-				result.addObject("faseForm", 1);
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("coordinador/nuevoCoordinador");
+			result.addObject("nuevoCoordiForm", nuevoCoordiForm1);
+			result.addObject("faseForm", 1);
+			result.addObject("action", "coordinador/nuevoCoordinador1.do");
+			return result;
+		}else {
+			Actor actor = actorService.findByUsername(nuevoCoordiForm1.getUvus());
+			if(actor != null) {
+				//se ejecuta el metodo de registro (cambiar authorities) sin necesidad del 2do form
+				coordinadorService.cambioCoordinadorUsuarioExistente(actor.getId());
+				result = new ModelAndView("welcome/index");
+				result.addObject("message", "coordinador.cambioCoordi.success");
 			}else {
-				Actor actor = actorService.findByUsername(nuevoCoordiForm1.getUvus());
-				if(actor != null) {
-					//se ejecuta el metodo de registro (cambiar authorities) sin necesidad del 2do form
-				}
-			}
-		}
-		
-		if(nuevoCoordiForm2 != null) {
-			if (bindingResult.hasErrors()) {
+				NuevoCoordiForm2 nuevoCoordiForm2Aux = new NuevoCoordiForm2();
+				nuevoCoordiForm2Aux.setUsername(nuevoCoordiForm1.getUvus());
+				
 				result = new ModelAndView("coordinador/nuevoCoordinador");
-				result.addObject("nuevoCoordiForm", nuevoCoordiForm2);
+				result.addObject("nuevoCoordiForm", nuevoCoordiForm2Aux);
 				result.addObject("faseForm", 2);
-			}else {
-				//se ejecuta el metodo de registro con el 2do form y authorities
+				result.addObject("action", "coordinador/nuevoCoordinador2.do");
 			}
-		}
-
-//		if (bindingResult.hasErrors()) {
-//			result = this.createPeticionCambioModelAndView(form, null);
-//		} else {		
-//			try {
-//				token = new Token();
-//				actorService.enviarFormCambioCoordiCorreo(form.getEmail(), token);
-//				
-//				result = new ModelAndView("welcome/index");
-//				result.addObject("message", "coordinador.peticionCambio.success");
-//			} catch (final Throwable oops) {
-//				result = this.createPeticionCambioModelAndView(form, "actor.commit.error");
-//			}
-//		}
+		}		
 
 		return result;
 
+	}
+	
+	@RequestMapping(value = "/nuevoCoordinador2", method = RequestMethod.POST, params = "save")
+	public ModelAndView nuevoCoordinador2(@Valid final NuevoCoordiForm2 nuevoCoordiForm2, final BindingResult bindingResult) {
+		ModelAndView result;		
+		
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("coordinador/nuevoCoordinador");
+			result.addObject("nuevoCoordiForm", nuevoCoordiForm2);
+			result.addObject("faseForm", 2);
+		}else {
+			//se ejecuta el metodo de registro con el 2do form y authorities
+			coordinadorService.cambioCoordinadorUsuarioInexistente(nuevoCoordiForm2);
+			result = new ModelAndView("welcome/index");
+			result.addObject("message", "coordinador.cambioCoordi.success");
+		}		
+
+		return result;
 	}
 	
 	protected ModelAndView createPeticionCambioModelAndView(final PeticionCambioCoordiForm form, final String message) {

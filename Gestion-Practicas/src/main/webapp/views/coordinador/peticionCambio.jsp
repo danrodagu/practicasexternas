@@ -16,6 +16,8 @@
 	<form:form action="coordinador/peticionCambio.do" modelAttribute="form">
 		
 		<spring:message code="coordinador.peticionCambio.msg" />
+		<br />
+		<br />
 		
 		<div class="row">
 			<div class="form-group col-md-4">

@@ -31,6 +31,7 @@ import domain.Actor;
 import domain.Token;
 import forms.EdicionPerfilForm;
 import repositories.ActorRepository;
+import repositories.TokenRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
@@ -49,6 +50,9 @@ public class ActorService {
 	
 	@Autowired
     private JavaMailSender mailSender;
+	
+	@Autowired
+	private TokenRepository tokenRepository;
 
 	// Supporting Services ----------------------------------------------------
 
@@ -374,7 +378,7 @@ public class ActorService {
     	message = "Si ha recibido este email es porque usted es el próximo coordinador de la Plataforma de Gestión de Prácticas Externas."
     			+ "<br /><br />"
     			+ "Para proceder a su activación como coordinador acceda al siguiente enlace en menos de 24 horas desde que reciba este mensaje: "
-    			+ "<a href='http://" + dominio + "/security/login.do' target='_blank'>aquí</a>";
+    			+ "<a href='http://" + dominio + "/Gestion-Practicas/coordinador/nuevoCoordinador.do?confirmationToken=" + token.getConfirmationToken() + "&fase=1' target='_blank'>aquí</a>";
                
 	     
 	    // debug
@@ -397,6 +401,7 @@ public class ActorService {
 	     
 	    // envia el email
 		mailSender.send(mimeMessage);
+		tokenRepository.save(token);
 	}
 	
 	public String cifrarPassword(final String password) {

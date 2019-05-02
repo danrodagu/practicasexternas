@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actor;
+import forms.NuevoCoordiForm2;
 import repositories.ActorRepository;
 import security.Authority;
 import security.LoginService;
@@ -32,6 +33,9 @@ public class CoordinadorService {
 	
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private CarpetaService carpetaService;
 
 	// Constructors -----------------------------------------------------------
 	public CoordinadorService() {
@@ -117,6 +121,100 @@ public class CoordinadorService {
 
 		return result;
 
+	}
+	
+	public void cambioCoordinadorUsuarioExistente(final int idFuturoCoordinador) {
+		Collection<Actor> coordinadores;
+		Actor coordinadorActual;
+		Actor futuroCoordinador;
+		Authority authCoordi = new Authority();
+		Authority authTutor = new Authority();
+		
+		futuroCoordinador = actorService.findOne(idFuturoCoordinador);
+		
+		coordinadores = findAll();		
+		Assert.isTrue(coordinadores.size() == 1);		
+		coordinadorActual = coordinadores.iterator().next();
+		
+		//Se elimina el rol de tutor y se añade el de coordinador para el futuro coordinador
+		for(Authority auth : futuroCoordinador.getUserAccount().getAuthorities()) {
+			if(auth.getAuthority().equals("TUTOR")) {
+				authTutor = auth;
+				break;
+			}
+		}
+		futuroCoordinador.getUserAccount().removeAuthority(authTutor);
+		authCoordi = new Authority();
+		authCoordi.setAuthority("COORDINADOR");
+		futuroCoordinador.getUserAccount().addAuthority(authCoordi);
+		
+		//Se elimina el rol de coordinador y se añade el de tutor para el coordinador actual
+		for(Authority auth : coordinadorActual.getUserAccount().getAuthorities()) {
+			if(auth.getAuthority().equals("COORDINADOR")) {
+				authCoordi = auth;
+				break;
+			}
+		}
+		coordinadorActual.getUserAccount().removeAuthority(authCoordi);
+		authTutor = new Authority();
+		authTutor.setAuthority("TUTOR");
+		coordinadorActual.getUserAccount().addAuthority(authTutor);
+		
+		//Se guardan ambos actores
+		actorService.save(coordinadorActual);
+		actorService.save(futuroCoordinador);		
+	}
+	
+	public void cambioCoordinadorUsuarioInexistente(final NuevoCoordiForm2 nuevoCoordiForm2) {
+		Collection<Actor> coordinadores;
+		Actor coordinadorActual;
+		Actor futuroCoordinador;
+		Authority authTutor = new Authority();
+		Authority authCoordi = new Authority();
+		BCryptPasswordEncoder encoder;
+
+		encoder = new BCryptPasswordEncoder();		
+		
+		coordinadores = findAll();	
+		Assert.isTrue(coordinadores.size() == 1);		
+		coordinadorActual = coordinadores.iterator().next();
+		
+		futuroCoordinador = create();
+		
+		//Generación de contraseña
+		String password = actorService.generateSecureRandomPassword();			
+//		futuroCoordinador.getUserAccount().setPassword(password);
+		futuroCoordinador.getUserAccount().setPassword(encoder.encode(password));		
+		
+		futuroCoordinador.setNombre(nuevoCoordiForm2.getNombre());
+		futuroCoordinador.setApellidos(nuevoCoordiForm2.getApellidos());
+		futuroCoordinador.setNif(nuevoCoordiForm2.getNif());
+		futuroCoordinador.setDepartamento(nuevoCoordiForm2.getDepartamento());
+		futuroCoordinador.setEmail(nuevoCoordiForm2.getEmail());
+		
+		futuroCoordinador.getUserAccount().setUsername(nuevoCoordiForm2.getUsername());
+		
+		//Se elimina el rol de coordinador y se añade el de tutor para el coordinador actual
+		for(Authority auth : coordinadorActual.getUserAccount().getAuthorities()) {
+			if(auth.getAuthority().equals("COORDINADOR")) {
+				authCoordi = auth;
+				break;				
+			}
+		}
+		coordinadorActual.getUserAccount().removeAuthority(authCoordi);
+		authTutor = new Authority();
+		authTutor.setAuthority("TUTOR");
+		coordinadorActual.getUserAccount().addAuthority(authTutor);
+		
+		//Se guardan ambos actores
+		coordinadorActual = actorService.save(coordinadorActual);
+		futuroCoordinador = actorService.save(futuroCoordinador);	
+		
+		//Se crean las carpetas por defecto para el futuro coordinador
+		carpetaService.carpetasPorDefecto(futuroCoordinador);
+		
+		//Se envían las credenciales de acceso para el futuro coordinador
+		actorService.enviarCredencialesCorreo(nuevoCoordiForm2.getEmail(), nuevoCoordiForm2.getUsername(), password, false);
 	}
 
 }

@@ -120,6 +120,16 @@
 	      		<b id="contadorMsg" style="color:red;" ></b>
 	      	</a>
 	      </security:authorize>
+	      <security:authorize access="hasRole('COORDINADOR')">
+		      <div class="dropdown">
+			      <a id="configuracion" class="nav-item nav-link dropdown-toggle" style="cursor:pointer;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			      	<spring:message code="master.page.configuracion"/>
+			      </a>
+			      <div class="dropdown-menu" aria-labelledby="configuracion">
+			          <a id="peticionCambioCoordi" class="dropdown-item" href="coordinador/peticionCambio.do"><spring:message code="master.page.peticionCambio"/></a>
+		          </div>
+			   </div>
+		    </security:authorize>
 	    </div>
 	  </div>
 	</nav>	

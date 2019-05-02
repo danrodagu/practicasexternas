@@ -52,11 +52,11 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="mail.us.es" />
         <property name="port" value="587" />
-        <property name="username" value="" />
-        <property name="password" value="" />
+        <property name="username" value="danrodagu@alum.us.es" />
+        <property name="password" value="DAnilo88" />
         <property name="javaMailProperties">
             <props>
-            	<prop key="mail.from"></prop>
+            	<prop key="mail.from">danrodagu@alum.us.es</prop>
                 <prop key="mail.transport.protocol">smtp</prop>
                 <prop key="mail.smtp.auth">true</prop>
                 <prop key="mail.smtp.starttls.enable">true</prop>

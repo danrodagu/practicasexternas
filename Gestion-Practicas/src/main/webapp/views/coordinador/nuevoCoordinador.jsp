@@ -13,20 +13,47 @@
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 <fieldset>
-	<form:form action="coordinador/nuevoCoordinador.do" modelAttribute="nuevoCoordiForm">
-		<form:hidden path="confirmationToken" />
+	<form:form action="${action}" modelAttribute="nuevoCoordiForm">
 		
-		<div class="row">
-			<div class="form-group col-md-4">
-				<gp:textbox id="email" code="actor.email" path="email" cssClass="form-control" required="required" />
+		<jstl:if test="${faseForm == 1}">
+			<div class="row">
+				<div class="form-group col-md-4">
+					<gp:textbox id="username" code="actor.username" path="uvus" cssClass="form-control" required="required" />
+				</div>
+			</div>	
+		</jstl:if>
+		
+		<jstl:if test="${faseForm == 2}">
+			<div class="row">
+				<div class="form-group col-md-4">
+					<gp:textbox id="nif" code="actor.nif" path="nif" cssClass="form-control" required="required" />
+				</div>
+				<div class="form-group col-md-4">
+					<gp:textbox id="nombre" code="actor.nombre" path="nombre" cssClass="form-control" required="required" />
+				</div>
+				<div class="form-group col-md-4">
+					<gp:textbox id="apellidos" code="actor.apellidos" path="apellidos" cssClass="form-control" required="required"/>				
+				</div>
 			</div>
-		</div>		
+		
+			<div class="row">
+				<div class="form-group col-md-4">
+					<gp:textbox id="departamento" code="actor.departamento" path="departamento" cssClass="form-control" required="required" />
+				</div>
+				<div class="form-group col-md-4">
+					<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" readonly="true"/>
+				</div>
+				<div class="form-group col-md-4">
+					<gp:textbox id="email" code="actor.email" path="email" cssClass="form-control" required="required" />
+				</div>
+			</div>
+		</jstl:if>
+			
 		
 		<br />
 		<br />		
 		
-		<spring:message code="coordinador.peticionCambio.confirm" var="confirmHeader" />
-		<button name="save" type="submit" onclick="return confirm('${confirmHeader}')" class="btn btn-dark"><spring:message code="crear.submit" /></button>
+		<button name="save" type="submit" class="btn btn-dark"><spring:message code="crear.submit" /></button>
 		&nbsp;&nbsp;
 		<button type="button" class="btn btn-dark" onclick="javascript: window.location.replace('welcome/index.do');"  >
 			<spring:message code="actor.cancel" />
