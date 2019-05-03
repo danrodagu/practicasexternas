@@ -11,20 +11,14 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
-
 <p><spring:message code="welcome.greeting.current.time" /> ${moment}</p>
 
-<%-- <form:form id="form" action="sendEmailServlet" >
-<span id="uploadBtn" class="input-group-text" style="cursor: pointer;"><spring:message code="documento.upload" /></span>
-</form:form>
-
-
-
-<script type="text/javascript">	
+<div>	
+	<div style="float:left;width:80%;padding-right:20px">
+	La Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas ExternasLa Plataforma de Prácticas Externas
+	</div>
 	
-	$('#uploadBtn').click(function(){		
-		$('#form').submit();
-	});	
-	
-</script> --%>
+	<div style="float:right;position:absolute;display:inline-block;">
+		<a class="twitter-timeline" data-lang="es" data-width="300" data-height="800" data-theme="light" data-link-color="#2B7BB9" href="https://twitter.com/Etsii_practicas?ref_src=twsrc%5Etfw">Tweets by Etsii_practicas</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	</div>	
+</div>

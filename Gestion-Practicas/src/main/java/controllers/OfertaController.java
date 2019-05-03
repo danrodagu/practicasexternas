@@ -435,6 +435,29 @@ public class OfertaController extends AbstractController {
 		return result;
 	}
 	
+	@RequestMapping(value = "/invalidaEvaluacion", method = RequestMethod.POST, params = "save")
+	public ModelAndView invalidaEvaluacion(@Valid final InvalidaEvaluacionForm invalidaEvaluacionForm, final BindingResult bindingResult) {
+
+		ModelAndView result;
+
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("oferta/invalidaEvaluacion");
+			result.addObject("invalidaEvaluacionForm", invalidaEvaluacionForm);
+		} else {			
+			try {
+				this.ofertaService.invalidarEvaluacion(invalidaEvaluacionForm);
+				result = new ModelAndView("welcome/index");
+				result.addObject("message", "oferta.invalidaEvaluacion.success");
+			} catch (final Throwable oops) {
+				result = new ModelAndView("oferta/invalidaEvaluacion");
+				result.addObject("invalidaEvaluacionForm", invalidaEvaluacionForm);
+				result.addObject("message", "oferta.error");
+			}
+		}
+
+		return result;
+	}
+	
 	
 	protected ModelAndView createEditModelAndView(final OfertaForm ofertaForm, final String message) {
 		ModelAndView result;

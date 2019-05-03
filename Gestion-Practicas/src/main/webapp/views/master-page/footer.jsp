@@ -28,9 +28,10 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script> -->
 	
-	<hr />
 	
-	<div class="footer text-center">
+	<!-- <div class="footer text-center"> -->
+	<div  align="center" style="position: sticky;width: 100%;bottom: 0%;clear: both;padding-top: 20px;">
+		<hr />
 		<p class="small">Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Escuela Técnica Superior de Ingeniería Informática</b>
 	</div>
 </html>

@@ -2,6 +2,10 @@
 package services;
 
 import java.util.Collection;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actor;
+import domain.Documento;
 import domain.Oferta;
+import domain.Valoracion;
+import forms.InvalidaEvaluacionForm;
+import forms.MensajeForm;
 import forms.OfertaForm;
 import repositories.OfertaRepository;
 
@@ -17,6 +25,9 @@ import repositories.OfertaRepository;
 @Transactional
 public class OfertaService {
 
+	@PersistenceContext( unitName="Gestion-Practicas" )
+	private EntityManager em;
+	
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
@@ -29,6 +40,15 @@ public class OfertaService {
 	
 	@Autowired
 	private AlumnoService alumnoService;
+	
+	@Autowired
+	private DocumentoService documentoService;
+	
+	@Autowired
+	private ValoracionService valoracionService;
+	
+	@Autowired
+	private MensajeService mensajeService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -336,6 +356,60 @@ public class OfertaService {
 		Assert.isTrue(oferta.isActaFirmada());
 		
 		oferta.setExpedienteCerrado(true);
+	}
+	
+	public void invalidarEvaluacion(final InvalidaEvaluacionForm invalidaEvaluacionForm) {
+		Oferta oferta;
+		Collection<Documento> documentos;
+		Valoracion valoracion;
+		
+		//Obtenemos la oferta, sus documentos y la valoración asociada si la hubiera
+		oferta = findOne(invalidaEvaluacionForm.getIdOferta());
+		documentos = documentoService.findDocumentosByOferta(oferta.getId());
+		valoracion = valoracionService.findByOferta(oferta.getId());
+		
+		//Eliminamos las preactas/actas si las hubiera
+		for(Documento d : documentos) {
+			if(d.getTitulo().equals("ActaFirmada.pdf") || d.getTitulo().equals("ActaNoFirmada.pdf")) {
+				documentoService.delete(d);
+			}
+		}
+		
+		//Eliminamos la valoración si la hubiera
+		if(valoracion != null) {
+			valoracionService.delete(valoracion);
+		}
+		
+		//Anulamos por completo el proceso de evaluación
+		oferta.setEnEvaluacion(false);
+		oferta.setDocuCerrada(false);
+		oferta.setEvaluada(false);
+		oferta.setPreacta(false);
+		oferta.setActaFirmada(false);
+		oferta.setExpedienteCerrado(false);
+		
+		oferta = save(oferta);
+		
+		//Notificamos al alumno de la anulación de la evaluación
+		MensajeForm mensajeForm;
+		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+		String dominio = "";
+		
+		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
+		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		
+		mensajeForm = new MensajeForm();
+		mensajeForm.setAsunto("ANULACIÓN DE EVALUACIÓN");
+		mensajeForm.setCuerpo("Se ha anulado la evaluación para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + oferta.getId() 
+				+ "<br />La justificación es la siguiente:"
+				+ "<br /><br />"
+				+ "<i>" + invalidaEvaluacionForm.getJustificacion() + "</i>"
+				+ "<br /><br />"
+				+ "Es necesario que vuelva a solicitar la evaluación de la práctica para que se lleve a cabo el proceso nuevamente."
+				+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
+		mensajeForm.setIdReceptor(oferta.getAlumnoAsignado().getId());
+		
+		mensajeService.createMensaje(mensajeForm);
 	}
 
 }
