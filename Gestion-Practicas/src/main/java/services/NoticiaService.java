@@ -48,7 +48,7 @@ public class NoticiaService {
 	public Collection<Noticia> findAll() {
 		Collection<Noticia> result;
 
-		result = this.noticiaRepository.findAll();
+		result = this.noticiaRepository.findAllOrderedByDate();
 
 		return result;
 	}

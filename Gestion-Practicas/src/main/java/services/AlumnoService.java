@@ -415,7 +415,7 @@ public class AlumnoService {
 		}		
 		
 		
-		query += " GROUP BY a";		
+		query += " GROUP BY a ORDER BY a.apellidos";		
 	
 		
 		TypedQuery<Actor> q = em.createQuery(query, Actor.class);

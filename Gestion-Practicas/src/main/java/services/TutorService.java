@@ -224,6 +224,8 @@ public class TutorService {
 			}
 		}
 		
+		query += " ORDER BY a.apellidos";	
+		
 		TypedQuery<Actor> q = em.createQuery(query, Actor.class);
 		
 		return q.getResultList();

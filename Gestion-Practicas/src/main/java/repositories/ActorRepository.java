@@ -13,7 +13,7 @@ import domain.Actor;
 public interface ActorRepository extends JpaRepository<Actor, Integer> {
 
 	// Obtiene todos los actores activos
-	@Query("select a from Actor a where a.userAccount.enabled = 1")
+	@Query("select a from Actor a where a.userAccount.enabled = 1 ORDER BY a.apellidos")
 	Collection<Actor> findAllActoresActivos();
 	
 	// Obtiene actor que está logado
@@ -35,11 +35,11 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 //	--- ALUMNO ---
 	
 	// Obtiene todos los alumnos
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ALUMNO'")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ALUMNO' ORDER BY a.apellidos")
 	Collection<Actor> findAllAlumnos();
 	
 	// Obtiene todos los alumnos activos
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ALUMNO' AND a.userAccount.enabled = 1")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ALUMNO' AND a.userAccount.enabled = 1 ORDER BY a.apellidos")
 	Collection<Actor> findAllAlumnosActivos();
 	
 	
@@ -56,25 +56,25 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 //	--- TUTOR ---
 	
 	// Obtiene todos los tutores
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'TUTOR' OR auth.authority = 'COORDINADOR'")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'TUTOR' OR auth.authority = 'COORDINADOR' ORDER BY a.apellidos")
 	Collection<Actor> findAllTutores();
 	
 	// Obtiene todos los tutores
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'TUTOR' OR auth.authority = 'COORDINADOR' AND a.userAccount.enabled = 1")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'TUTOR' OR auth.authority = 'COORDINADOR' AND a.userAccount.enabled = 1 ORDER BY a.apellidos")
 	Collection<Actor> findAllTutoresActivos();
 	
 	// Obtiene los alumnos del tutor logueado
-	@Query("select o.alumnoAsignado from Oferta o WHERE o.tutorAsignado.id = ?1")
+	@Query("select o.alumnoAsignado from Oferta o WHERE o.tutorAsignado.id = ?1 ORDER BY o.alumnoAsignado.apellidos")
 	Collection<Actor> findMyStudents(int tutorId);
 	
 //	--- ADMINISTRATIVO ---
 	
 	// Obtiene todos los administrativos
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ADMINISTRATIVO'")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ADMINISTRATIVO' ORDER BY a.apellidos")
 	Collection<Actor> findAllAdministrativos();
 	
 	// Obtiene todos los administrativos activos
-	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ADMINISTRATIVO' AND a.userAccount.enabled = 1")
+	@Query("select a from Actor a join a.userAccount.authorities auth where auth.authority = 'ADMINISTRATIVO' AND a.userAccount.enabled = 1 ORDER BY a.apellidos")
 	Collection<Actor> findAllAdministrativosActivos();
 
 }

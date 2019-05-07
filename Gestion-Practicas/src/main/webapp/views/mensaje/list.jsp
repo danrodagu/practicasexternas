@@ -12,6 +12,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 
@@ -20,7 +21,9 @@
 	pagesize="10" class="table table-hover">
 	
 	<spring:message code="mensaje.fecha" var="fechaHeader" />
-	<display:column property="fecha" title="${fechaHeader}" sortable="true" />
+	<display:column title="${fechaHeader}" sortable="true ">
+		<fmt:formatDate value="${row.fecha}" pattern="dd/MM/yyyy HH:mm" />
+	</display:column>
 
 	<spring:message code="mensaje.asunto" var="asuntoHeader" />
 	<display:column property="asunto" title="${asuntoHeader}" />

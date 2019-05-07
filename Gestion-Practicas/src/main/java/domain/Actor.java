@@ -64,6 +64,11 @@ public class Actor extends DomainEntity {
 		return getApellidos() + ", " + getNombre();
 	}
 	
+	@Transient
+	public String getNombreCompletoYRol() {		
+		return getApellidos() + ", " + getNombre() + " (" + getUserAccount().getAuthorities().iterator().next().getAuthority() + ")";
+	}
+	
 	@NotNull
 	@NotBlank
 	public String getNif() {

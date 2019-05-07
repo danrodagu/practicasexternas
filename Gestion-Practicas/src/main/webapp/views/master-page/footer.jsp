@@ -30,7 +30,7 @@
 	
 	
 	<!-- <div class="footer text-center"> -->
-	<div  align="center" style="position: sticky;width: 100%;bottom: 0%;clear: both;padding-top: 20px;">
+	<div  align="center" style="width: 100%;bottom: 0;clear: both;padding-top: 20px;">
 		<hr />
 		<p class="small">Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Escuela Técnica Superior de Ingeniería Informática</b>
 	</div>

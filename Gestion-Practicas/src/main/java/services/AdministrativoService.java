@@ -212,6 +212,8 @@ public class AdministrativoService {
 			}
 		}
 		
+		query += " ORDER BY a.apellidos";	
+		
 		TypedQuery<Actor> q = em.createQuery(query, Actor.class);
 		
 		return q.getResultList();

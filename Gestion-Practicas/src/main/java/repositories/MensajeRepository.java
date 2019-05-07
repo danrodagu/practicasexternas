@@ -13,7 +13,7 @@ import domain.Mensaje;
 public interface MensajeRepository extends JpaRepository<Mensaje, Integer> {
 
 	// lista de mensajes de una carpeta
-	@Query("select m from Mensaje m where m.carpeta.id=?1 ORDER BY m.fecha DESC ")
+	@Query("select m from Mensaje m where m.carpeta.id=?1 ORDER BY m.fecha DESC")
 	Collection<Mensaje> findMensajesByCarpeta(int carpetaId);
 	
 	// Obtiene numero de mensajes no leidos por actor(carpeta 'recibido')

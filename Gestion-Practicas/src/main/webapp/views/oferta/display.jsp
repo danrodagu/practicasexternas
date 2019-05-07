@@ -12,6 +12,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 <br />
@@ -80,12 +81,12 @@
 
 <spring:message code="oferta.fechaInicio" />:
 &nbsp;&nbsp;
-<jstl:out value="${oferta.fechaInicio}" />
+<fmt:formatDate value="${oferta.fechaInicio}" pattern="dd/MM/yyyy" />
 <br />
 
 <spring:message code="oferta.fechaFin" />:
 &nbsp;&nbsp;
-<jstl:out value="${oferta.fechaFin}" />
+<fmt:formatDate value="${oferta.fechaFin}" pattern="dd/MM/yyyy" />
 <br />
 
 <spring:message code="oferta.horas" />:

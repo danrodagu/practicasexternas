@@ -17,7 +17,7 @@
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 <br />
-<div class="table-responsive">
+<div class="table-responsive" style="float:left;width:70%;padding-right: 5%">
 <div align="right">
 	<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
 		<%-- <gp:buttonUrl url="noticia/create.do" code="noticia.create"/> --%>
@@ -28,7 +28,7 @@
 <br />
 <!-- <div style="float:left;"> -->
 <display:table name="noticias" id="row" requestURI="noticia/list.do"
-	pagesize="10" class="table table-hover">
+	pagesize="10" class="table table-hover" >
 	
 	<spring:message code="noticias" var="noticiasHeader" />
 	<spring:message code="noticia.fechaModificacion" var="fechaModificacionHeader" />
@@ -60,10 +60,14 @@
 		
 </display:table>
 <!-- </div> -->
+
 <!-- <div style="float:right;position:absolute;display:inline;">
 			<a class="twitter-timeline" data-lang="es" data-width="300" data-height="800" data-theme="light" data-link-color="#2B7BB9" href="https://twitter.com/Etsii_practicas?ref_src=twsrc%5Etfw">Tweets by Etsii_practicas</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		</div> -->
 </div>
+<div style="float:right;width:30%;display:inline-block;padding-top: 6%"> <!-- display:inline-block; -->
+		<a class="twitter-timeline" data-lang="es" data-width="300" data-height="800" data-theme="light" data-link-color="#2B7BB9" href="https://twitter.com/Etsii_practicas?ref_src=twsrc%5Etfw">Tweets by Etsii_practicas</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	</div>	
 
 
 
