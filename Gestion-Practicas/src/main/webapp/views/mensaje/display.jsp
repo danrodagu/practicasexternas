@@ -12,6 +12,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 <jsp:useBean id="util" class="utilities.UtilMethods" scope="page"/>
@@ -28,7 +29,7 @@
 
 <spring:message code="mensaje.fecha" />:
 &nbsp;&nbsp;
-<jstl:out value="${mensaje.fecha}" />
+<fmt:formatDate value="${mensaje.fecha}" pattern="dd/MM/yyyy HH:mm" />
 <br />
 
 <spring:message code="mensaje.asunto" />:
@@ -37,6 +38,11 @@
 <br />
 <br />
 <%-- <spring:message code="mensaje.cuerpo" />: --%>
+<div align="right">
+	<gp:iconUrl url="mensaje/reply.do?mensajeId=${mensaje.id}&actorId=${mensaje.emisor.id}" icon="fas fa-reply" name="mensaje.reply" color="Crimson"/>
+	&nbsp;
+	<gp:iconUrl url="mensaje/forward.do?mensajeId=${mensaje.id}" icon="fas fa-reply-all" name="mensaje.forward" color="Crimson"/>
+</div>
 
 <div class="card">
 	<div class="card-body" id="cuerpo">

@@ -71,9 +71,12 @@ public class CoordinadorController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/peticionCambio", method = RequestMethod.GET)
-	public ModelAndView peticionCambio() {
+	public ModelAndView peticionCambio(final HttpServletRequest request) {
 		ModelAndView result;
-		PeticionCambioCoordiForm peticionCambioCoordiForm;		
+		PeticionCambioCoordiForm peticionCambioCoordiForm;
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("active", "configuracion");
 		
 		peticionCambioCoordiForm = new PeticionCambioCoordiForm();		
 

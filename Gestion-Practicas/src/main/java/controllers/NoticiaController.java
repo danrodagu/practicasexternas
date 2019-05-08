@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +57,12 @@ public class NoticiaController {
 
 	// Listing --------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Noticia> noticias;
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("active", "noticias");
 
 		noticias = this.noticiaService.findAll();
 		result = new ModelAndView("noticia/list");

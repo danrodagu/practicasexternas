@@ -76,7 +76,8 @@
 
 <spring:message code="oferta.duracion" />:
 &nbsp;&nbsp;
-<jstl:out value="${oferta.duracion}" />
+<%-- <jstl:out value="${oferta.duracion}" /> --%>
+<fmt:formatNumber value="${oferta.duracion}" maxFractionDigits="1"/>
 <br />
 
 <spring:message code="oferta.fechaInicio" />:
@@ -96,7 +97,8 @@
 
 <spring:message code="oferta.dotacion" />:
 &nbsp;&nbsp;
-<jstl:out value="${oferta.dotacion}" />
+<%-- <jstl:out value="${oferta.dotacion}" /> --%>
+<fmt:formatNumber value="${oferta.dotacion}" maxFractionDigits="2"/>
 <br />
 
 <spring:message code="oferta.esCurricular" />:

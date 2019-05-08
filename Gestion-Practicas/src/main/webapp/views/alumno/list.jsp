@@ -141,13 +141,13 @@
 		pagesize="10" class="table table-hover">	
 	
 		<spring:message code="alumno" var="alumnoHeader" />
-		<display:column property="nombreCompleto" title="${alumnoHeader}" />
+		<display:column sortable="true" property="nombreCompleto" title="${alumnoHeader}" />
 		
 		<spring:message code="actor.nif" var="nifHeader" />
-		<display:column property="nif" title="${nifHeader}" />
+		<display:column sortable="true" property="nif" title="${nifHeader}" />
 		
 		<spring:message code="actor.titulacion" var="titulacionHeader" />
-		<display:column property="titulacion" title="${titulacionHeader}" />
+		<display:column sortable="true" property="titulacion" title="${titulacionHeader}" />
 				
 		<display:column>
 			<gp:iconUrl url="alumno/practicas.do?listAllAlum=${listAllAlum}&alumnoId=${row.id}" icon="fas fa-graduation-cap" name="alumno.practicas" color="Crimson"/>

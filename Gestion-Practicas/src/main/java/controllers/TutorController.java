@@ -51,6 +51,7 @@ public class TutorController extends AbstractController {
 		Collection<Actor> tutores;
 		
 		HttpSession session = request.getSession();
+		session.setAttribute("active", "listado");
 
 		tutores = tutorService.tutoresFiltrados(busqForm);
 		

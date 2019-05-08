@@ -69,6 +69,7 @@ public class AdministrativoController extends AbstractController {
 		Collection<Actor> administrativos;
 		
 		HttpSession session = request.getSession();
+		session.setAttribute("active", "listado");
 
 		administrativos = administrativoService.administrativosFiltrados(busqForm);
 		

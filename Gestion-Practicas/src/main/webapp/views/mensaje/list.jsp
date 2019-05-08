@@ -17,48 +17,38 @@
 
 
 <div class="table-responsive">
-<display:table name="mensajes" id="row" requestURI="${requestURI}"
-	pagesize="10" class="table table-hover">
-	
-	<spring:message code="mensaje.fecha" var="fechaHeader" />
-	<display:column title="${fechaHeader}" sortable="true ">
-		<fmt:formatDate value="${row.fecha}" pattern="dd/MM/yyyy HH:mm" />
-	</display:column>
-
-	<spring:message code="mensaje.asunto" var="asuntoHeader" />
-	<display:column property="asunto" title="${asuntoHeader}" />
-
-	<spring:message code="mensaje.emisor" var="emisorHeader" />
-	<display:column property="emisor.userAccount.username" title="${emisorHeader}" />
-
-	<spring:message code="mensaje.receptor" var="receptorHeader" />
-	<display:column property="receptor.userAccount.username" title="${receptorHeader}" />
-
-	<spring:message code="mensaje.leido" var="leidoHeader" />
-	<display:column property="leidoStr" title="${leidoHeader}" />
-
+	<display:table name="mensajes" id="row" requestURI="${requestURI}"
+		pagesize="10" class="table table-hover">
 		
-	<display:column>
-		<gp:iconUrl url="mensaje/display.do?mensajeId=${row.id}" icon="fas fa-eye" name="mensaje.display" color="Crimson"/>
-	</display:column>
+		<spring:message code="mensaje.fecha" var="fechaHeader" />
+		<display:column title="${fechaHeader}" sortable="true">
+			<fmt:formatDate value="${row.fecha}" pattern="dd/MM/yyyy HH:mm" />
+		</display:column>
 	
+		<spring:message code="mensaje.asunto" var="asuntoHeader" />
+		<display:column property="asunto" title="${asuntoHeader}" sortable="true"/>
 	
-	<display:column>
-		<gp:iconUrl url="mensaje/reply.do?mensajeId=${row.id}&actorId=${row.emisor.id}" icon="fas fa-reply" name="mensaje.reply" color="Crimson"/>
-	</display:column>
-
+		<spring:message code="mensaje.emisor" var="emisorHeader" />
+		<display:column property="emisor.nombreCompleto" title="${emisorHeader}" sortable="true"/>
 	
-	<display:column>
-		<gp:iconUrl url="mensaje/forward.do?mensajeId=${row.id}" icon="fas fa-reply-all" name="mensaje.forward" color="Crimson"/>
-	</display:column>
-
+		<%-- <spring:message code="mensaje.receptor" var="receptorHeader" />
+		<display:column property="receptor.userAccount.username" title="${receptorHeader}" /> --%>
 	
-	<display:column>
-		<gp:iconUrl url="mensaje/delete.do?mensajeId=${row.id}" deleteConfirmMsg="mensaje.delete.confirm" icon="fas fa-trash-alt" name="mensaje.delete" color="Crimson"/>
-	</display:column>
+		<spring:message code="mensaje.leido" var="leidoHeader" />
+		<display:column property="leidoStr" title="${leidoHeader}" sortable="true"/>
 	
-
-</display:table>
+			
+		<display:column>
+			<gp:iconUrl url="mensaje/display.do?mensajeId=${row.id}" icon="fas fa-eye" name="mensaje.display" color="Crimson"/>
+		</display:column>
+		
+		
+		<display:column>
+			<gp:iconUrl url="mensaje/delete.do?mensajeId=${row.id}" deleteConfirmMsg="mensaje.delete.confirm" icon="fas fa-trash-alt" name="mensaje.delete" color="Crimson"/>
+		</display:column>
+		
+	
+	</display:table>
 </div>
 
 <script type="text/javascript">

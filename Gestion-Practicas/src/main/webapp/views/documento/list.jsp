@@ -51,10 +51,11 @@
 		pagesize="10" class="table table-hover">	
 	
 		<spring:message code="documento.titulo" var="tituloHeader" />
-		<display:column property="titulo" title="${tituloHeader}" />
+		<display:column sortable="true" property="titulo" title="${tituloHeader}" />
 		
 		<spring:message code="documento.uploader" var="uploaderHeader" />
-		<display:column property="uploader.userAccount.username" title="${uploaderHeader}" />
+		<display:column sortable="true" property="uploader.userAccount.username" title="${uploaderHeader}" />
+
 		
 		<jstl:if test="${not (esAlumno && (row.titulo == 'ActaNoFirmada.pdf' || row.titulo == 'ActaFirmada.pdf'))}">
 			<display:column>

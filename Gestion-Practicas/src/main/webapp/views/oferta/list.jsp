@@ -12,6 +12,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 
@@ -19,12 +20,15 @@
 <div class="table-responsive">
 	<display:table name="ofertas" id="row" requestURI="oferta/list.do"
 		pagesize="10" class="table table-hover">	
+		
 	
 		<spring:message code="oferta.empresa" var="empresaHeader" />
 		<display:column property="empresa" title="${empresaHeader}" />
 		
 		<spring:message code="oferta.duracion" var="duracionHeader" />
-		<display:column property="duracion" title="${duracionHeader}" />
+		<display:column title="${duracionHeader}">
+			<fmt:formatNumber value="${row.duracion}" maxFractionDigits="1"/>
+		</display:column>
 		
 		<spring:message code="oferta.esCurricular" var="esCurricularHeader" />
 		<display:column property="esCurricularStr" title="${esCurricularHeader}"/>

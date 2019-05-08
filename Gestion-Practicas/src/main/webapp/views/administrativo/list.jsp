@@ -64,10 +64,10 @@
 		pagesize="10" class="table table-hover">	
 	
 		<spring:message code="administrativo" var="administrativoHeader" />
-		<display:column property="nombreCompleto" title="${administrativoHeader}" />
+		<display:column sortable="true" property="nombreCompleto" title="${administrativoHeader}" />
 		
 		<spring:message code="actor.nif" var="nifHeader" />
-		<display:column property="nif" title="${nifHeader}" />
+		<display:column sortable="true" property="nif" title="${nifHeader}" />
 		
 		<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
 			<display:column>

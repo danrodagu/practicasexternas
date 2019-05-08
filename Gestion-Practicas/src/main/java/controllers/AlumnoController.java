@@ -62,6 +62,12 @@ public class AlumnoController extends AbstractController {
 		
 		HttpSession session = request.getSession();
 		
+		if(listAll == 0) {
+			session.setAttribute("active", "alumnos");
+		}else {
+			session.setAttribute("active", "listado");
+		}
+		
 //		if(listAll == 0) {
 //			session.setAttribute("active", "alumnos");
 //			

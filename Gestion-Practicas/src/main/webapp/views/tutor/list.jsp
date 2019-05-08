@@ -67,13 +67,13 @@
 		pagesize="10" class="table table-hover">	
 	
 		<spring:message code="tutor" var="tutorHeader" />
-		<display:column property="nombreCompleto" title="${tutorHeader}" />
+		<display:column sortable="true" property="nombreCompleto" title="${tutorHeader}" />
 		
 		<spring:message code="actor.nif" var="nifHeader" />
-		<display:column property="nif" title="${nifHeader}" />
+		<display:column sortable="true" property="nif" title="${nifHeader}" />
 		
 		<spring:message code="actor.departamento" var="departamentoHeader" />
-		<display:column property="departamento" title="${departamentoHeader}" />
+		<display:column sortable="true" property="departamento" title="${departamentoHeader}" />
 		
 		<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
 			<display:column>
