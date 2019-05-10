@@ -110,6 +110,7 @@
 			password-parameter="password" 
 			username-parameter="username"
 			default-target-url="/welcome/index.do"
+			always-use-default-target="true"
 			authentication-failure-url="/security/loginFailure.do"/>
 		<security:logout 
 			logout-success-url="/" 

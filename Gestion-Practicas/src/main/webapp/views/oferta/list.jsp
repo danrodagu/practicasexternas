@@ -88,6 +88,10 @@
 	</display:table>
 </div>
 
+<%-- <div align="right">
+	<a onclick="window.history.back()" class="btn btn-danger" style="color:white;" role="button"><spring:message code="master.page.atras" /></a>
+</div> --%>
+
 
 <script type="text/javascript">
 	function feedback(ofertaId){			

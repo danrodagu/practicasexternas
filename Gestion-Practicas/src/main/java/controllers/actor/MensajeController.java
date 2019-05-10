@@ -24,11 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
+import domain.Carpeta;
 import domain.Mensaje;
 import domain.Oferta;
 import forms.MensajeForm;
 import repositories.MensajeRepository;
 import services.ActorService;
+import services.CarpetaService;
 import services.MensajeService;
 import services.OfertaService;
 
@@ -52,6 +54,9 @@ public class MensajeController {
 	
 	@Autowired
 	private OfertaService	ofertaService;
+	
+	@Autowired
+	private CarpetaService	carpetaService;
 
 
 	// Constructors -------------------------------------------------------
@@ -64,11 +69,14 @@ public class MensajeController {
 	public ModelAndView list(@RequestParam final int carpetaId) {
 		ModelAndView result;
 		Collection<Mensaje> mensajes;
-
+		Carpeta carpeta;
+		
+		carpeta = this.carpetaService.findOne(carpetaId);
 		mensajes = this.mensajeService.findMensajesByCarpeta(carpetaId);
 		result = new ModelAndView("mensaje/list");
 
 		result.addObject("mensajes", mensajes);
+		result.addObject("carpeta", carpeta);
 		result.addObject("requestURI", "mensaje/list.do?carpetaId=" + carpetaId);
 
 		return result;

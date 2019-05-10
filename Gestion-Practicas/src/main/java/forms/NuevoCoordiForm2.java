@@ -27,6 +27,7 @@ public class NuevoCoordiForm2 {
 	@NotNull
 	@NotBlank
 	@SafeHtml
+	@Size(min = 9, max = 9)
 	public String getNif() {
 		return nif;
 	}

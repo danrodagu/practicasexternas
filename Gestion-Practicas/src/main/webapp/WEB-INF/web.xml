@@ -53,4 +53,8 @@
     <error-code>403</error-code>
     <location>/views/misc/403.jsp</location>
   </error-page>
+  <!-- <session-config>
+  	<session-timeout>15</session-timeout>
+  </session-config> -->
+  
 </web-app>

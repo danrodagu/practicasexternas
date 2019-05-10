@@ -1,6 +1,8 @@
 
 package forms;
 
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.SafeHtml;
 
@@ -42,6 +44,7 @@ public class EdicionPerfilForm {
 
 
 	@SafeHtml
+	@Size(min = 9, max = 9)
 	public String getNif() {
 		return nif;
 	}

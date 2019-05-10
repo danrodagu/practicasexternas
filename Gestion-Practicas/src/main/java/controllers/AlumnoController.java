@@ -253,7 +253,8 @@ public class AlumnoController extends AbstractController {
 				if (alumnoForm.getId() == 0) {
 					this.carpetaService.carpetasPorDefecto(alumno);
 				}
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("welcome/index");
+				result.addObject("message", "alumno.creado.success");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(alumnoForm, "actor.commit.error");
 			}

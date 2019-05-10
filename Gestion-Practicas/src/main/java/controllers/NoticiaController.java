@@ -139,7 +139,7 @@ public class NoticiaController {
 				noticiaForm.setCuerpo(cuerpo);
 				noticia = this.noticiaService.reconstruct(noticiaForm);
 				this.noticiaService.save(noticia);
-				result = new ModelAndView("redirect:/noticia/list.do");
+				result = new ModelAndView("redirect:/noticia/list.do?message=noticia.success");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(noticiaForm, "noticia.commit.error");
 			}

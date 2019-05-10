@@ -79,6 +79,19 @@
 						<spring:message code="${message}" />
 					</div>
 				</jstl:if>				
+			</jstl:if>
+			<jstl:if test="${param.message != null}"> <!-- Se usa para los mensajes que se pasen como parametros en la URL por ser redirecciones -->
+				<br />
+				<jstl:if test="${fn:contains(param.message, 'error')}">
+					<div class="alert alert-danger medium" role="alert">
+						<spring:message code="${param.message}" />
+					</div>
+				</jstl:if>
+				<jstl:if test="${fn:contains(param.message, 'success')}">
+					<div class="alert alert-success medium" role="alert">
+						<spring:message code="${param.message}" />
+					</div>
+				</jstl:if>				
 			</jstl:if>	
 			<tiles:insertAttribute name="body" />			
 		</div>

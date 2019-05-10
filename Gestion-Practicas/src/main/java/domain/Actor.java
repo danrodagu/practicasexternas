@@ -4,11 +4,13 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -71,6 +73,8 @@ public class Actor extends DomainEntity {
 	
 	@NotNull
 	@NotBlank
+	@Column(unique = true)
+	@Size(min = 9, max = 9)
 	public String getNif() {
 		return nif;
 	}

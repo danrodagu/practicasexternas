@@ -150,6 +150,9 @@
 <jstl:out value="${oferta.tutorEmp}" />
 <br />
 <br />
+<%-- <div align="right">
+	<a onclick="window.history.back()" class="btn btn-danger" style="color:white;" role="button"><spring:message code="master.page.atras" /></a>
+</div> --%>
 
 
 

@@ -148,7 +148,8 @@ public class TutorController extends AbstractController {
 					if (tutorForm.getId() == 0) {
 						this.carpetaService.carpetasPorDefecto(tutor);
 					}
-					result = new ModelAndView("redirect:/welcome/index.do");
+					result = new ModelAndView("welcome/index");
+					result.addObject("message", "tutor.creado.success");
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(tutorForm, "actor.commit.error");
 				}

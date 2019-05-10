@@ -52,6 +52,7 @@ public class TutorForm {
 	@NotNull
 	@NotBlank
 	@SafeHtml
+	@Size(min = 9, max = 9)
 	public String getNif() {
 		return nif;
 	}

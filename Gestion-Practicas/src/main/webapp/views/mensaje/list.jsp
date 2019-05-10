@@ -15,6 +15,10 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
+<div align="right">
+	<a onclick="window.location.replace('carpeta/list.do');" class="btn btn-danger" style="color:white;" role="button"><spring:message code="master.page.atras" /></a>
+</div>
+<br />
 
 <div class="table-responsive">
 	<display:table name="mensajes" id="row" requestURI="${requestURI}"
@@ -28,11 +32,15 @@
 		<spring:message code="mensaje.asunto" var="asuntoHeader" />
 		<display:column property="asunto" title="${asuntoHeader}" sortable="true"/>
 	
-		<spring:message code="mensaje.emisor" var="emisorHeader" />
-		<display:column property="emisor.nombreCompleto" title="${emisorHeader}" sortable="true"/>
+		<jstl:if test="${carpeta.nombre eq 'Recibido' || carpeta.nombre eq 'Papelera'}">
+			<spring:message code="mensaje.emisor" var="emisorHeader" />
+			<display:column property="emisor.nombreCompleto" title="${emisorHeader}" sortable="true"/>
+		</jstl:if>
 	
-		<%-- <spring:message code="mensaje.receptor" var="receptorHeader" />
-		<display:column property="receptor.userAccount.username" title="${receptorHeader}" /> --%>
+		<jstl:if test="${carpeta.nombre eq 'Enviado' || carpeta.nombre eq 'Papelera'}">
+			<spring:message code="mensaje.receptor" var="receptorHeader" />
+			<display:column property="receptor.nombreCompleto" title="${receptorHeader}" sortable="true" />
+		</jstl:if>		
 	
 		<spring:message code="mensaje.leido" var="leidoHeader" />
 		<display:column property="leidoStr" title="${leidoHeader}" sortable="true"/>

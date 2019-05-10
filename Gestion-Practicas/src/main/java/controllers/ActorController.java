@@ -174,9 +174,9 @@ public class ActorController extends AbstractController {
 			try {
 				actor = this.actorService.reconstruct(edicionPerfilForm);
 				actor = this.actorService.save(actor);				
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/actor/edit.do?message=actor.modificacion.success");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(edicionPerfilForm, "actor.commit.error");
+				result = this.createEditModelAndView(edicionPerfilForm, "actor.unique.error");
 			}
 		}
 
@@ -223,12 +223,11 @@ public class ActorController extends AbstractController {
 	
 	@RequestMapping(value = "/desactivar", method = RequestMethod.GET)
 	public ModelAndView desactivar(@RequestParam(required = true) final int actorId, @RequestHeader(value = "referer", required = false) final String referer) {
-		ModelAndView result;
-		
-		result = new ModelAndView("redirect:" + referer);
+		ModelAndView result;		
 
 		try {			
-			actorService.desactivarUsuario(actorId);			
+			actorService.desactivarUsuario(actorId);
+			result = new ModelAndView("redirect:" + referer);
 		} catch (Throwable oops) {
 			result = new ModelAndView("welcome/index");
 			result.addObject("message", "actor.commit.error");
@@ -240,11 +239,10 @@ public class ActorController extends AbstractController {
 	@RequestMapping(value = "/activar", method = RequestMethod.GET)
 	public ModelAndView activar(@RequestParam(required = true) final int actorId, @RequestHeader(value = "referer", required = false) final String referer) {
 		ModelAndView result;
-		
-		result = new ModelAndView("redirect:" + referer);
 
 		try {			
-			actorService.activarUsuario(actorId);			
+			actorService.activarUsuario(actorId);
+			result = new ModelAndView("redirect:" + referer);
 		} catch (Throwable oops) {
 			result = new ModelAndView("welcome/index");
 			result.addObject("message", "actor.commit.error");

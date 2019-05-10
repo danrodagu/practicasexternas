@@ -144,7 +144,8 @@ public class AdministrativoController extends AbstractController {
 				if (administrativoForm.getId() == 0) {
 					this.carpetaService.carpetasPorDefecto(administrativo);
 				}
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("welcome/index");
+				result.addObject("message", "administrativo.creado.success");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(administrativoForm, "actor.commit.error");
 			}

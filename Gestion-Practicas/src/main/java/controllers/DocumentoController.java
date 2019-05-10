@@ -326,7 +326,7 @@ public class DocumentoController extends AbstractController {
 			        pdfDocument = PDDocument.load(new File(absoluteFilePath));
 
 			        PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
-			        PDAcroForm acroForm = docCatalog.getAcroForm();
+			        PDAcroForm acroForm = docCatalog.getAcroForm();			        
 			        
 			        LocalDateTime fechaAux = LocalDateTime.now();
 			        String fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH).format(fechaAux);
@@ -415,7 +415,7 @@ public class DocumentoController extends AbstractController {
 //				}
 				
 				//faltaria añadir mensaje de éxito 'acta.administrativo.success'
-				result =  new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
+				result =  new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId() + "&message=acta.administrativo.success");
 			}
 			
 			

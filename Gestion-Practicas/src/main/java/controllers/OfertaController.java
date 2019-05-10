@@ -207,7 +207,8 @@ public class OfertaController extends AbstractController {
 			
 			try {
 				this.ofertaService.registrarOferta(ofertaForm);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("welcome/index");
+				result.addObject("message", "oferta.creada.success");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(ofertaForm, "actor.commit.error");
 			}
@@ -262,7 +263,8 @@ public class OfertaController extends AbstractController {
 			try {
 				oferta = this.ofertaService.reconstructEdit(ofertaForm);
 				this.ofertaService.save(oferta);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("welcome/index");
+				result.addObject("message", "actor.modificacion.success");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(ofertaForm, "actor.commit.error");
 			}
@@ -324,13 +326,14 @@ public class OfertaController extends AbstractController {
 				+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());			
 		
-		result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
+		
 
 		try {			
 			ofertaService.cerrarDocumentacion(ofertaId);
 			this.mensajeService.createMensaje(mensajeForm);
+			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId() + "&message=oferta.cerrarDocu.success");
 		} catch (Throwable oops) {
-			result.addObject("message", "oferta.cerrarDocu.error");
+			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId() + "&message=oferta.cerrarDocu.error");
 		}		
 
 		return result;
@@ -343,12 +346,13 @@ public class OfertaController extends AbstractController {
 		
 		oferta = ofertaService.findOne(ofertaId);
 		
-		result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
+		
 
 		try {			
-			ofertaService.abrirDocumentacion(ofertaId);			
+			ofertaService.abrirDocumentacion(ofertaId);
+			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
 		} catch (Throwable oops) {
-			result.addObject("message", "oferta.abrirDocu.error");
+			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId() + "&message=oferta.abrirDocu.error");
 		}		
 
 		return result;
@@ -366,12 +370,11 @@ public class OfertaController extends AbstractController {
 		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
 		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
 		
-		oferta = ofertaService.findOne(ofertaId);		
+		oferta = ofertaService.findOne(ofertaId);	
 		
-		result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId());
 
 		try {			
-			ofertaService.actaFirmada(ofertaId);
+			ofertaService.actaFirmada(ofertaId);			
 			
 			for(Actor a : administrativoService.findAllActivos()) {
 				mensajeForm = new MensajeForm();
@@ -381,10 +384,12 @@ public class OfertaController extends AbstractController {
 						+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 				mensajeForm.setIdReceptor(a.getId());
 				
-				this.mensajeService.createMensaje(mensajeForm);
+				this.mensajeService.createMensaje(mensajeForm);				
 			}
+			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId() + "&message=oferta.notificarCierreExp.success");
+
 		} catch (Throwable oops) {
-			result.addObject("message", "oferta.error");
+			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId() + "&message=oferta.error");
 		}
 
 		return result;
@@ -408,14 +413,14 @@ public class OfertaController extends AbstractController {
 		mensajeForm.setCuerpo("Se ha cerrado expediente para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId 
 				+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getAlumnoAsignado().getId());
-		
-		result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + oferta.getId());
 
 		try {			
 			ofertaService.cerrarExpediente(ofertaId);
 			this.mensajeService.createMensaje(mensajeForm);
+			
+			result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + oferta.getId() + "&message=oferta.cerrarExp.success");
 		} catch (Throwable oops) {
-			result.addObject("message", "oferta.error");
+			result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + oferta.getId() + "&message=oferta.error");
 		}		
 
 		return result;
@@ -446,8 +451,7 @@ public class OfertaController extends AbstractController {
 		} else {			
 			try {
 				this.ofertaService.invalidarEvaluacion(invalidaEvaluacionForm);
-				result = new ModelAndView("welcome/index");
-				result.addObject("message", "oferta.invalidaEvaluacion.success");
+				result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + invalidaEvaluacionForm.getIdOferta() + "&message=oferta.invalidaEvaluacion.success");
 			} catch (final Throwable oops) {
 				result = new ModelAndView("oferta/invalidaEvaluacion");
 				result.addObject("invalidaEvaluacionForm", invalidaEvaluacionForm);

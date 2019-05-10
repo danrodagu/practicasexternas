@@ -99,7 +99,7 @@
 		<br />
 		<button name="save" type="submit" class="btn btn-dark"><spring:message code="crear.submit" /></button>
 		&nbsp;&nbsp;
-		<button type="button" class="btn btn-dark" onclick="javascript: window.location.replace('welcome/index.do');"  >
+		<button type="button" class="btn btn-dark" onclick="javascript: window.history.back();"  >
 			<spring:message code="actor.cancel" />
 		</button>				
 		

@@ -168,7 +168,7 @@ public class ValoracionController extends AbstractController {
 					this.mensajeService.createMensaje(mensajeForm);
 				}	
 				
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + valoracionForm.getIdOferta() + "&message=valoracion.success");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(valoracionForm, "actor.commit.error");
 			}
