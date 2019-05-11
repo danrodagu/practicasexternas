@@ -3,7 +3,6 @@ package controllers.actor;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,6 +32,7 @@ import services.ActorService;
 import services.CarpetaService;
 import services.MensajeService;
 import services.OfertaService;
+import services.UtilService;
 
 @RequestMapping("/mensaje")
 @Controller
@@ -57,6 +57,9 @@ public class MensajeController {
 	
 	@Autowired
 	private CarpetaService	carpetaService;
+	
+	@Autowired
+	private UtilService	utilService;
 
 
 	// Constructors -------------------------------------------------------
@@ -219,17 +222,18 @@ public class MensajeController {
 		String body = null;
 		Oferta oferta;
 		MensajeForm mensajeForm;
-		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
+		String url = "";
 		
-		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
-				
+		dominio = utilService.getDominio(request);
+		url = "http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId;
+		
 		oferta = ofertaService.findOne(ofertaId);
 		
 		mensajeForm = new MensajeForm();
 		mensajeForm.setAsunto("PETICIÓN DE FEEDBACK");
-		mensajeForm.setCuerpo("Se requiere feedback para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + "<br /><br />- Este mensaje ha sido generado automáticamente -");
+//		mensajeForm.setCuerpo("Se requiere feedback para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + "<br /><br />- Este mensaje ha sido generado automáticamente -");
+		mensajeForm.setCuerpo("Se requiere feedback para la siguiente práctica: <a href='" + url + "' target='_blank'>" + url + "</a><br /><br />- Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());
 		
 		this.mensajeService.createMensaje(mensajeForm);	

@@ -3,6 +3,8 @@ package services;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -165,7 +167,7 @@ public class CoordinadorService {
 		actorService.save(futuroCoordinador);		
 	}
 	
-	public void cambioCoordinadorUsuarioInexistente(final NuevoCoordiForm2 nuevoCoordiForm2) {
+	public void cambioCoordinadorUsuarioInexistente(final NuevoCoordiForm2 nuevoCoordiForm2, final HttpServletRequest request) {
 		Collection<Actor> coordinadores;
 		Actor coordinadorActual;
 		Actor futuroCoordinador;
@@ -214,7 +216,7 @@ public class CoordinadorService {
 		carpetaService.carpetasPorDefecto(futuroCoordinador);
 		
 		//Se envían las credenciales de acceso para el futuro coordinador
-		actorService.enviarCredencialesCorreo(nuevoCoordiForm2.getEmail(), nuevoCoordiForm2.getUsername(), password, false);
+		actorService.enviarCredencialesCorreo(nuevoCoordiForm2.getEmail(), nuevoCoordiForm2.getUsername(), password, false, request);
 	}
 
 }

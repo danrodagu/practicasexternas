@@ -2,7 +2,6 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,6 +32,7 @@ import services.AlumnoService;
 import services.MensajeService;
 import services.OfertaService;
 import services.TutorService;
+import services.UtilService;
 
 @Controller
 @RequestMapping("/oferta")
@@ -60,6 +60,9 @@ public class OfertaController extends AbstractController {
 	
 	@Autowired
 	private MensajeService	mensajeService;
+	
+	@Autowired
+	private UtilService	utilService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -282,19 +285,19 @@ public class OfertaController extends AbstractController {
 		String body = null;
 		Oferta oferta;
 		MensajeForm mensajeForm;
-		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
+		String url = "";
 		
-		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
-				
+		dominio = utilService.getDominio(request);
+		url = "http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId;
+		
 		oferta = ofertaService.findOne(ofertaId);
 		oferta.setEnEvaluacion(true);
 		
 		for(Actor a : administrativoService.findAllActivos()) {
 			mensajeForm = new MensajeForm();
 			mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
-			mensajeForm.setCuerpo("Se requiere subir la evaluación de la empresa para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
+			mensajeForm.setCuerpo("Se requiere subir la evaluación de la empresa para la siguiente práctica: <a href='" + url + "' target='_blank'>" + url + "</a>" + 
 					" <br /><br /> Compruebe que no falte ningún documento necesario para la evaluación y pulse el botón 'Cerrar documentación' tras la subida correspondiente."
 					+ "<br /><br /> NOTA: No lleve a cabo este proceso si otro administrativo ya lo ha realizado."
 					+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
@@ -307,21 +310,21 @@ public class OfertaController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/cerrarDocumentacion", method = RequestMethod.GET)
-	public ModelAndView cerrarDocumentacion(@RequestParam(required = true) final int ofertaId) {
+	public ModelAndView cerrarDocumentacion(@RequestParam(required = true) final int ofertaId, final HttpServletRequest request) {
 		ModelAndView result;
 		Oferta oferta;
 		MensajeForm mensajeForm;
-		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
+		String url = "";
 		
-		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		dominio = utilService.getDominio(request);
+		url = "http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId;
 		
 		oferta = ofertaService.findOne(ofertaId);
 		
 		mensajeForm = new MensajeForm();
 		mensajeForm.setAsunto("PETICIÓN DE EVALUACIÓN");
-		mensajeForm.setCuerpo("Se requiere evaluación para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
+		mensajeForm.setCuerpo("Se requiere evaluación para la siguiente práctica: <a href='" + url + "' target='_blank'>" + url + "</a>" + 
 				" <br /><br /> Se ha habilitado el formulario de evaluación. "
 				+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());			
@@ -344,9 +347,7 @@ public class OfertaController extends AbstractController {
 		ModelAndView result;
 		Oferta oferta;
 		
-		oferta = ofertaService.findOne(ofertaId);
-		
-		
+		oferta = ofertaService.findOne(ofertaId);		
 
 		try {			
 			ofertaService.abrirDocumentacion(ofertaId);
@@ -359,19 +360,17 @@ public class OfertaController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/notificarCierreExp", method = RequestMethod.GET)
-	public ModelAndView notificarCierreExp(@RequestParam(required = true) final int ofertaId) {
+	public ModelAndView notificarCierreExp(@RequestParam(required = true) final int ofertaId, final HttpServletRequest request) {
 		ModelAndView result;
-		Oferta oferta;
-		
+		Oferta oferta;		
 		MensajeForm mensajeForm;
-		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
+		String url = "";
 		
-		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		dominio = utilService.getDominio(request);
+		url = "http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId;
 		
-		oferta = ofertaService.findOne(ofertaId);	
-		
+		oferta = ofertaService.findOne(ofertaId);		
 
 		try {			
 			ofertaService.actaFirmada(ofertaId);			
@@ -379,7 +378,7 @@ public class OfertaController extends AbstractController {
 			for(Actor a : administrativoService.findAllActivos()) {
 				mensajeForm = new MensajeForm();
 				mensajeForm.setAsunto("PETICIÓN DE CIERRE DE EXPEDIENTE");
-				mensajeForm.setCuerpo("Se requiere cierre de expediente para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId + 
+				mensajeForm.setCuerpo("Se requiere cierre de expediente para la siguiente práctica: <a href='" + url + "' target='_blank'>" + url + "</a>" + 
 						" <br /><br /> Se ha habilitado para ello el botón 'Cerrar expediente'. No olvide revisar que el acta esté correctamente firmada. "
 						+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 				mensajeForm.setIdReceptor(a.getId());
@@ -396,21 +395,21 @@ public class OfertaController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/cerrarExpediente", method = RequestMethod.GET)
-	public ModelAndView cerrarExpediente(@RequestParam(required = true) final int ofertaId) {
+	public ModelAndView cerrarExpediente(@RequestParam(required = true) final int ofertaId, final HttpServletRequest request) {
 		ModelAndView result;
 		Oferta oferta;
 		MensajeForm mensajeForm;
-		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
+		String url = "";
 		
-		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		dominio = utilService.getDominio(request);
+		url = "http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId;
 		
 		oferta = ofertaService.findOne(ofertaId);
 		
 		mensajeForm = new MensajeForm();
 		mensajeForm.setAsunto("EXPEDIENTE CERRADO");
-		mensajeForm.setCuerpo("Se ha cerrado expediente para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + ofertaId 
+		mensajeForm.setCuerpo("Se ha cerrado expediente para la siguiente práctica: <a href='" + url + "' target='_blank'>" + url + "</a>" 
 				+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getAlumnoAsignado().getId());
 
@@ -441,7 +440,7 @@ public class OfertaController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/invalidaEvaluacion", method = RequestMethod.POST, params = "save")
-	public ModelAndView invalidaEvaluacion(@Valid final InvalidaEvaluacionForm invalidaEvaluacionForm, final BindingResult bindingResult) {
+	public ModelAndView invalidaEvaluacion(@Valid final InvalidaEvaluacionForm invalidaEvaluacionForm, final BindingResult bindingResult, final HttpServletRequest request) {
 
 		ModelAndView result;
 
@@ -450,7 +449,7 @@ public class OfertaController extends AbstractController {
 			result.addObject("invalidaEvaluacionForm", invalidaEvaluacionForm);
 		} else {			
 			try {
-				this.ofertaService.invalidarEvaluacion(invalidaEvaluacionForm);
+				this.ofertaService.invalidarEvaluacion(invalidaEvaluacionForm, request);
 				result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + invalidaEvaluacionForm.getIdOferta() + "&message=oferta.invalidaEvaluacion.success");
 			} catch (final Throwable oops) {
 				result = new ModelAndView("oferta/invalidaEvaluacion");

@@ -2,10 +2,10 @@
 package services;
 
 import java.util.Collection;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +49,9 @@ public class OfertaService {
 	
 	@Autowired
 	private MensajeService mensajeService;
+	
+	@Autowired
+	private UtilService	utilService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -358,7 +361,7 @@ public class OfertaService {
 		oferta.setExpedienteCerrado(true);
 	}
 	
-	public void invalidarEvaluacion(final InvalidaEvaluacionForm invalidaEvaluacionForm) {
+	public void invalidarEvaluacion(final InvalidaEvaluacionForm invalidaEvaluacionForm, final HttpServletRequest request) {
 		Oferta oferta;
 		Collection<Documento> documentos;
 		Valoracion valoracion;
@@ -392,15 +395,15 @@ public class OfertaService {
 		
 		//Notificamos al alumno de la anulación de la evaluación
 		MensajeForm mensajeForm;
-		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
+		String url = "";
 		
-		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		dominio = utilService.getDominio(request);
+		url = "http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + oferta.getId();
 		
 		mensajeForm = new MensajeForm();
 		mensajeForm.setAsunto("ANULACIÓN DE EVALUACIÓN");
-		mensajeForm.setCuerpo("Se ha anulado la evaluación para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + oferta.getId() 
+		mensajeForm.setCuerpo("Se ha anulado la evaluación para la siguiente práctica: <a href='" + url + "' target='_blank'>" + url + "</a>" 
 				+ "<br />La justificación es la siguiente:"
 				+ "<br /><br />"
 				+ "<i>" + invalidaEvaluacionForm.getJustificacion() + "</i>"

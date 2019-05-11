@@ -226,7 +226,7 @@ public class AlumnoController extends AbstractController {
 	// Save -------------------------------------------------------------------
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final AlumnoForm alumnoForm, final BindingResult bindingResult) {
+	public ModelAndView save(@Valid final AlumnoForm alumnoForm, final BindingResult bindingResult, final HttpServletRequest request) {
 
 		ModelAndView result;
 		Actor alumno;
@@ -248,7 +248,7 @@ public class AlumnoController extends AbstractController {
 			result = this.createEditModelAndView(alumnoForm);
 		} else {
 			try {
-				alumno = this.alumnoService.reconstruct(alumnoForm);
+				alumno = this.alumnoService.reconstruct(alumnoForm, request);
 				alumno = this.alumnoService.save(alumno);
 				if (alumnoForm.getId() == 0) {
 					this.carpetaService.carpetasPorDefecto(alumno);

@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +20,10 @@ import domain.Oferta;
 import domain.Valoracion;
 import forms.MensajeForm;
 import forms.ValoracionForm;
-import services.ActorService;
 import services.AdministrativoService;
-import services.AlumnoService;
 import services.MensajeService;
 import services.OfertaService;
-import services.TutorService;
+import services.UtilService;
 import services.ValoracionService;
 
 @Controller
@@ -40,13 +36,7 @@ public class ValoracionController extends AbstractController {
 	// Services ---------------------------------------------------------------
 
 	@Autowired
-	private AlumnoService alumnoService;
-	
-	@Autowired
-	private TutorService tutorService;
-	
-	@Autowired
-	private ActorService actorService;
+	private UtilService	utilService;
 	
 	@Autowired
 	private ValoracionService valoracionService;
@@ -125,13 +115,13 @@ public class ValoracionController extends AbstractController {
 	// Save -------------------------------------------------------------------
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final ValoracionForm valoracionForm, final BindingResult bindingResult) {
+	public ModelAndView save(@Valid final ValoracionForm valoracionForm, final BindingResult bindingResult, final HttpServletRequest request) {
 
 		ModelAndView result;
 		Valoracion valoracion;
 		MensajeForm mensajeForm;
-		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
 		String dominio = "";
+		String url = "";
 		
 		if(valoracionForm.getNotaCurricular() != null) {
 			try {
@@ -154,13 +144,14 @@ public class ValoracionController extends AbstractController {
 				valoracion = this.valoracionService.save(valoracion);
 				this.ofertaService.evaluarOferta(valoracion.getOferta().getId());
 				
-				dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-				dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+				dominio = utilService.getDominio(request);
+				url = "http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + valoracion.getOferta().getId();
+				
 				
 				for(Actor a : administrativoService.findAllActivos()) {
 					mensajeForm = new MensajeForm();
 					mensajeForm.setAsunto("PETICIÓN DE ACTA");
-					mensajeForm.setCuerpo("Se requiere rellenar los datos de la preacta para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + valoracion.getOferta().getId() + 
+					mensajeForm.setCuerpo("Se requiere rellenar los datos de la preacta para la siguiente práctica: <a href='" + url + "' target='_blank'>" + url + "</a>" + 
 							" \r\r Se ha habilitado el formulario correspondiente. "
 							+ "\r\r - Este mensaje ha sido generado automáticamente -");
 					mensajeForm.setIdReceptor(a.getId());

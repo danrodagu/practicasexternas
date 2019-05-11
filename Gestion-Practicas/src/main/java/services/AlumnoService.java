@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,7 +171,7 @@ public class AlumnoService {
 		return alumnoForm;
 	}
 
-	public Actor reconstruct(final AlumnoForm alumnoForm) {
+	public Actor reconstruct(final AlumnoForm alumnoForm, final HttpServletRequest request) {
 		Actor res;
 
 		if (alumnoForm.getId() == 0) {
@@ -180,7 +181,7 @@ public class AlumnoService {
 			String password = actorService.generateSecureRandomPassword();
 			res.getUserAccount().setPassword(password);
 			
-			actorService.enviarCredencialesCorreo(alumnoForm.getEmail(), alumnoForm.getUsername(), password, false);
+			actorService.enviarCredencialesCorreo(alumnoForm.getEmail(), alumnoForm.getUsername(), password, false, request);
 		} else {
 			res = this.findByPrincipal();
 			

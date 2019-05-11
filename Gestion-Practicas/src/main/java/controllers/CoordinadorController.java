@@ -87,7 +87,7 @@ public class CoordinadorController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/peticionCambio", method = RequestMethod.POST, params = "save")
-	public ModelAndView peticionCambio(@Valid final PeticionCambioCoordiForm peticionCambioCoordiForm, final BindingResult bindingResult) {
+	public ModelAndView peticionCambio(@Valid final PeticionCambioCoordiForm peticionCambioCoordiForm, final BindingResult bindingResult, final HttpServletRequest request) {
 		ModelAndView result;
 		Token token;
 		
@@ -97,7 +97,7 @@ public class CoordinadorController extends AbstractController {
 		} else {		
 			try {
 				token = new Token();				
-				actorService.enviarFormCambioCoordiCorreo(peticionCambioCoordiForm.getEmail(), token);
+				actorService.enviarFormCambioCoordiCorreo(peticionCambioCoordiForm.getEmail(), token, request);
 				
 				result = new ModelAndView("welcome/index");
 				result.addObject("message", "coordinador.peticionCambio.success");
@@ -193,7 +193,7 @@ public class CoordinadorController extends AbstractController {
 			result.addObject("faseForm", 2);
 		}else {
 			//se ejecuta el metodo de registro con el 2do form y authorities
-			coordinadorService.cambioCoordinadorUsuarioInexistente(nuevoCoordiForm2);
+			coordinadorService.cambioCoordinadorUsuarioInexistente(nuevoCoordiForm2, request);
 			//Eliminamos el token y la variable de sesión
 			int idToken = (int) session.getAttribute("idToken");
 			tokenRepository.delete(idToken);

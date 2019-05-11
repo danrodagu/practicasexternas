@@ -93,7 +93,7 @@ public class ActorController extends AbstractController {
 					String newPassword = actorService.generateSecureRandomPassword();
 					actorService.changePassword(actor, newPassword);
 					
-					actorService.enviarCredencialesCorreo(email, actor.getUserAccount().getUsername(), newPassword, true);
+					actorService.enviarCredencialesCorreo(email, actor.getUserAccount().getUsername(), newPassword, true, request);
 					
 					result.addObject("message", "actor.recover.password.success");
 				}			

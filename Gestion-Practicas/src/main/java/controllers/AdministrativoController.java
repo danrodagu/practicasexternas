@@ -117,7 +117,7 @@ public class AdministrativoController extends AbstractController {
 	// Save -------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final AdministrativoForm administrativoForm, final BindingResult bindingResult) {
+	public ModelAndView save(@Valid final AdministrativoForm administrativoForm, final BindingResult bindingResult, final HttpServletRequest request) {
 
 		ModelAndView result;
 		Actor administrativo;
@@ -139,7 +139,7 @@ public class AdministrativoController extends AbstractController {
 			result = this.createEditModelAndView(administrativoForm);
 		} else {
 			try {
-				administrativo = this.administrativoService.reconstruct(administrativoForm);
+				administrativo = this.administrativoService.reconstruct(administrativoForm, request);
 				administrativo = this.administrativoService.save(administrativo);
 				if (administrativoForm.getId() == 0) {
 					this.carpetaService.carpetasPorDefecto(administrativo);

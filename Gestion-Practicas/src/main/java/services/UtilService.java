@@ -3,6 +3,10 @@ package services;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -102,6 +106,26 @@ public class UtilService {
 		}else {
 			return false;
 		}		
+	}
+	
+	public String getDominio(final HttpServletRequest request) {
+		String res = null;
+		StringBuffer requestURL = request.getRequestURL();
+		if (request.getQueryString() != null) {
+		    requestURL.append("?").append(request.getQueryString());
+		}
+		String completeURL = requestURL.toString(); //http://localhost:8080/Gestion-Practicas/...
+		Pattern pattern = Pattern.compile("http:\\/\\/(.*?)\\/"); //Se coge el dominio entre 'http://' y '/'
+		Matcher matcher = pattern.matcher(completeURL);
+		
+		if (matcher.find()){
+			res = matcher.group(1);
+		    System.out.println(res);
+		}else {
+			System.out.println("No se ha encontrado dominio");
+		}
+		
+		return res;
 	}
 	
 }

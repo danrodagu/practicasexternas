@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -290,8 +289,8 @@ public class DocumentoController extends AbstractController {
 			Oferta oferta;
 			Valoracion valoracion;
 			MensajeForm mensajeForm;
-			Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
-			String dominio = "";			
+			String dominio = "";
+			String url = "";
 			
 			oferta = ofertaService.findOne(actaForm.getIdOferta());
 			valoracion = valoracionService.findByOferta(oferta.getId());
@@ -378,12 +377,12 @@ public class DocumentoController extends AbstractController {
 		            statement.executeUpdate();	            
 		            
 		            //Se notifica al tutor de que puede firmar el acta	    		
-		    		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-		    		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		            dominio = utilService.getDominio(request);
+		            url = "http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + oferta.getId();
 		            
 		            mensajeForm = new MensajeForm();
 		    		mensajeForm.setAsunto("PETICIÓN DE FIRMA");
-		    		mensajeForm.setCuerpo("Se requiere firmar por parte del tutor el acta disponible para la siguiente práctica: http://" + dominio + "/Gestion-Practicas/oferta/display.do?ofertaId=" + oferta.getId() + 
+		    		mensajeForm.setCuerpo("Se requiere firmar por parte del tutor el acta disponible para la siguiente práctica: <a href='" + url + "' target='_blank'>" + url + "</a>" + 
 		    				" \r\r Descargue el acta disponible en 'Documentos' y vuélvala a subir firmada. La firma se puede realizar con Adobe Acrobat si se desea."
 		    				+ "\r\r Pulse el botón 'Notificar cierre de expediente' tras la subida del documento para que se revise el acta y se proceda al cierre de expediente."
 		    				+ "\r\r - Este mensaje ha sido generado automáticamente -");

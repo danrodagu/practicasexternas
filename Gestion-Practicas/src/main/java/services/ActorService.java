@@ -5,7 +5,6 @@ import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -15,6 +14,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +52,14 @@ public class ActorService {
     private JavaMailSender mailSender;
 	
 	@Autowired
-	private TokenRepository tokenRepository;
+	private TokenRepository tokenRepository;	
+	
 
 	// Supporting Services ----------------------------------------------------
 
+	@Autowired
+	private UtilService	utilService;
+	
 	// Constructors -----------------------------------------------------------
 	public ActorService() {
 		super();
@@ -303,14 +307,12 @@ public class ActorService {
 	
 	
 	
-	public void enviarCredencialesCorreo(final String email, final String username, final String password, final boolean recoverPassword) {		
-		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+	public void enviarCredencialesCorreo(final String email, final String username, final String password, final boolean recoverPassword, final HttpServletRequest request) {		
 		String dominio = "";
 		String subject;
 		String message;
 		
-		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		dominio = utilService.getDominio(request);
 		
 		// informacion del correo
         String recipientAddress = email;
@@ -361,14 +363,12 @@ public class ActorService {
 		mailSender.send(mimeMessage);
 	}
 	
-	public void enviarFormCambioCoordiCorreo(final String email, final Token token) {		
-		Map<String, Object> propiedades = em.getEntityManagerFactory().getProperties();
+	public void enviarFormCambioCoordiCorreo(final String email, final Token token, final HttpServletRequest request) {	
 		String dominio = "";
 		String subject;
 		String message;
 		
-		dominio = propiedades.get("javax.persistence.jdbc.url").toString(); // jdbc:mysql://localhost:3306/Gestion-Practicas?useSSL=false
-		dominio = dominio.substring(dominio.indexOf("jdbc:mysql://") + 13, dominio.indexOf("/Gestion-Practicas?useSSL=false"));
+		dominio = utilService.getDominio(request);
 		
 		// informacion del correo
         String recipientAddress = email;        
