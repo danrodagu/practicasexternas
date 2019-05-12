@@ -303,7 +303,7 @@ public class OfertaController extends AbstractController {
 					+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 			mensajeForm.setIdReceptor(a.getId());
 			
-			this.mensajeService.createMensaje(mensajeForm);
+			this.mensajeService.createMensaje(mensajeForm, true);
 		}			
 			
 		return new ResponseEntity<Object>(body, headers, HttpStatus.OK);
@@ -333,7 +333,7 @@ public class OfertaController extends AbstractController {
 
 		try {			
 			ofertaService.cerrarDocumentacion(ofertaId);
-			this.mensajeService.createMensaje(mensajeForm);
+			this.mensajeService.createMensaje(mensajeForm, true);
 			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId() + "&message=oferta.cerrarDocu.success");
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId() + "&message=oferta.cerrarDocu.error");
@@ -383,7 +383,7 @@ public class OfertaController extends AbstractController {
 						+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 				mensajeForm.setIdReceptor(a.getId());
 				
-				this.mensajeService.createMensaje(mensajeForm);				
+				this.mensajeService.createMensaje(mensajeForm,true);				
 			}
 			result = new ModelAndView("redirect:/documento/list.do?ofertaId=" + oferta.getId() + "&message=oferta.notificarCierreExp.success");
 
@@ -415,7 +415,7 @@ public class OfertaController extends AbstractController {
 
 		try {			
 			ofertaService.cerrarExpediente(ofertaId);
-			this.mensajeService.createMensaje(mensajeForm);
+			this.mensajeService.createMensaje(mensajeForm,true);
 			
 			result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + oferta.getId() + "&message=oferta.cerrarExp.success");
 		} catch (Throwable oops) {

@@ -69,38 +69,41 @@ public class MensajeService {
 		return result;
 	}
 
-	public Mensaje save(Mensaje mensaje) {
+	public Mensaje save(Mensaje mensaje, final boolean esAutomatico) {
 		Date fecha;
 		Mensaje m;
 
-		// Copia mensaje para receptor
+		
 		if (mensaje.getId() == 0) {
-
 			fecha = new Date();
 			fecha.setTime(fecha.getTime() - 1);
-			mensaje.setFecha(fecha);
+			mensaje.setFecha(fecha);			
+			
+			if(!esAutomatico) {
+				// Copia mensaje para el actor que envía
+				Carpeta outbox = null;
+				outbox = this.carpetaService.findCarpetaByNombreAndActor("Enviado", this.actorService.findByPrincipal().getId());
+				Assert.notNull(outbox);
 
-			Carpeta inbox = null;
-			inbox = this.carpetaService.findCarpetaByNombreAndActor("Recibido", mensaje.getReceptor().getId());
-			Assert.notNull(inbox);
+				m = new Mensaje();
 
-			m = new Mensaje();
-
-			m.setCarpeta(inbox);
-			m.setFecha(fecha);
-			m.setCuerpo(mensaje.getCuerpo());
-			m.setAsunto(mensaje.getAsunto());
-			m.setLeido(false);
-			m.setReceptor(mensaje.getReceptor());
-			m.setEmisor(mensaje.getEmisor());
-//			m.setAttachments(mensaje.getAttachments());
-			m = this.mensajeRepository.save(m);
+				m.setCarpeta(outbox);
+				m.setFecha(fecha);
+				m.setCuerpo(mensaje.getCuerpo());
+				m.setAsunto(mensaje.getAsunto());
+				m.setLeido(true);
+				m.setReceptor(mensaje.getReceptor());
+				m.setEmisor(mensaje.getEmisor());
+				//Guardamos mensaje en enviados del emisor
+				m = this.mensajeRepository.save(m);		
+			}			
+				
 		}
-
-		mensaje = this.mensajeRepository.save(mensaje);
+		
+		// Guardamos mensaje en recibidos del receptor
+		mensaje = this.mensajeRepository.save(mensaje);		
 
 		return mensaje;
-
 	}
 
 	public void delete(final Mensaje mensaje) {
@@ -122,18 +125,18 @@ public class MensajeService {
 			Assert.notNull(trashbox);
 
 			mensaje.setCarpeta(trashbox);
-			this.save(mensaje);
+			this.save(mensaje, false);
 		}
 
 	}
 
 	// other methods ----------------------------------------------------------
 
-	public Mensaje createMensaje(final MensajeForm mensajeForm) {
+	public Mensaje createMensaje(final MensajeForm mensajeForm, final boolean esAutomatico) {
 		Mensaje mensaje;
 		Actor emisor;
 		Actor receptor;
-		Carpeta outbox = null;
+		Carpeta inbox = null;
 
 		// Recupero el actor que está enviando el mensaje
 		emisor = this.actorService.findByPrincipal();
@@ -141,20 +144,20 @@ public class MensajeService {
 		// Recupero el actor que recibe el mensaje		
 		receptor = actorService.findOne(mensajeForm.getIdReceptor());
 
-		// Guardo el outbox del actor que envía el mensaje
-		outbox = this.carpetaService.findCarpetaByNombreAndActor("Enviado", this.actorService.findByPrincipal().getId());
+		// Guardo el inbox del actor que recibe el mensaje
+		inbox = this.carpetaService.findCarpetaByNombreAndActor("Recibido", receptor.getId());		
 
 		mensaje = this.create();
 
 		mensaje.setCuerpo(mensajeForm.getCuerpo());
 		mensaje.setAsunto(mensajeForm.getAsunto());
-		mensaje.setLeido(true);
+		mensaje.setLeido(false);
 		mensaje.setEmisor(emisor);
 		mensaje.setReceptor(receptor);
 //		mensaje.setAttachments(mensajeForm.getAttachments());
-		mensaje.setCarpeta(outbox);
+		mensaje.setCarpeta(inbox);
 
-		mensaje = this.save(mensaje);
+		mensaje = this.save(mensaje, esAutomatico);
 		return mensaje;
 	}
 
@@ -183,10 +186,12 @@ public class MensajeService {
 		String day;
 		String month;
 		String year;
-		String fecha;
+		String fechaMensajeAnterior;
 		Calendar calendar;
-		String hora;
+		String horaMensajeAnterior;
 		Integer minuto;
+		String fechaMensajeActual;
+		String horaMensajeActual;
 
 		result = new MensajeForm();
 		mensaje = this.findOne(mensajeId);
@@ -208,6 +213,7 @@ public class MensajeService {
 			result.setAsunto(mensaje.getAsunto());
 		}
 		
+		//fecha y hora mensaje anterior
 		localDate = mensaje.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();		
 		day = String.valueOf(localDate.getDayOfMonth());
 		month = String.valueOf(localDate.getMonthValue());
@@ -218,21 +224,46 @@ public class MensajeService {
 		}
 		if(month.length() == 1) {
 			month = "0" + month;
-		}
+		}		
 		
-		fecha = day + "/" + month + "/" + year;
+		fechaMensajeAnterior = day + "/" + month + "/" + year;
 		
 		calendar = Calendar.getInstance();
 		calendar.setTime(mensaje.getFecha());
 		minuto = calendar.get(Calendar.MINUTE);
 		
-		hora = calendar.get(Calendar.HOUR_OF_DAY) + ":" + ((minuto.toString().length() == 1) ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE));
+		horaMensajeAnterior = calendar.get(Calendar.HOUR_OF_DAY) + ":" + ((minuto.toString().length() == 1) ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE));
+		
+		//fecha y hora mensaje actual
+		localDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();		
+		day = String.valueOf(localDate.getDayOfMonth());
+		month = String.valueOf(localDate.getMonthValue());
+		year = String.valueOf(localDate.getYear());
+		
+		if(day.length() == 1) {
+			day = "0" + day;
+		}
+		if(month.length() == 1) {
+			month = "0" + month;
+		}	
+		
+		fechaMensajeActual = day + "/" + month + "/" + year;
+		
+		calendar = Calendar.getInstance();
+		minuto = calendar.get(Calendar.MINUTE);
+		
+		horaMensajeActual = calendar.get(Calendar.HOUR_OF_DAY) + ":" + ((minuto.toString().length() == 1) ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE));
+		
 		
 		if(mensaje.getCuerpo().contains("__________________________________")) {
 			String[] cuerpoAux = mensaje.getCuerpo().split("__________________________________");
-			cuerpo = " <span style='color: rgb(0, 71, 178);'>El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + cuerpoAux[1] + "</span><br />__________________________________";
+			if(cuerpoAux.length > 1) {
+				cuerpo = " <span style='color: rgb(0, 71, 178);'>El " + fechaMensajeAnterior + " a las " + horaMensajeAnterior + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + cuerpoAux[1] + "</span><br />__________________________________<br /><br />Escribe tu respuesta aquí";
+			}else {
+				cuerpo = " <span style='color: rgb(0, 71, 178);'>El " + fechaMensajeAnterior + " a las " + horaMensajeAnterior + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + cuerpoAux[0] + "</span><br />__________________________________<br /><br />Escribe tu respuesta aquí";
+			}
 		}else {
-			cuerpo = " <span style='color: rgb(0, 71, 178);'>El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + mensaje.getCuerpo() + "</span><br />__________________________________";
+			cuerpo = " <span style='color: rgb(0, 71, 178);'>El " + fechaMensajeAnterior + " a las " + horaMensajeAnterior + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + mensaje.getCuerpo() + "</span><br />__________________________________<br /><br />Escribe tu respuesta aquí";
 		}
 		
 		
@@ -286,9 +317,13 @@ public class MensajeService {
 		
 		if(mensaje.getCuerpo().contains("__________________________________")) {
 			String[] cuerpoAux = mensaje.getCuerpo().split("__________________________________");
-			cuerpo = " <span style='color: rgb(0, 71, 178);'>----Mensaje enviado----<br /><br />  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + cuerpoAux[1] + "</span><br />__________________________________";
+			if(cuerpoAux.length > 1) {
+				cuerpo = " <span style='color: rgb(0, 71, 178);'>----Mensaje enviado----<br /><br />  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + cuerpoAux[1] + "</span><br />__________________________________<br /><br />Escribe tu texto aquí";
+			}else {
+				cuerpo = " <span style='color: rgb(0, 71, 178);'>----Mensaje enviado----<br /><br />  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + cuerpoAux[0] + "</span><br />__________________________________<br /><br />Escribe tu texto aquí";
+			}
 		}else {
-			cuerpo = " <span style='color: rgb(0, 71, 178);'>----Mensaje enviado----<br /><br />  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + mensaje.getCuerpo() + "</span><br />__________________________________";
+			cuerpo = " <span style='color: rgb(0, 71, 178);'>----Mensaje enviado----<br /><br />  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br /></span><span style='color: rgb(0, 71, 178);'>" + mensaje.getCuerpo() + "</span><br />__________________________________<br /><br />Escribe tu texto aquí";
 		}
 		
 //		cuerpo = " ----Mensaje enviado----<br /><br />  El " + fecha + " a las " + hora + ", " + mensaje.getEmisor().getUserAccount().getUsername() + " escribió: <br /><br />" + mensaje.getCuerpo();

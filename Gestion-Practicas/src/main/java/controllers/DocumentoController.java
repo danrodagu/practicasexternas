@@ -389,7 +389,7 @@ public class DocumentoController extends AbstractController {
 		    		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());
 		    		
 		    		ofertaService.preactaGenerada(oferta.getId());
-		    		this.mensajeService.createMensaje(mensajeForm);
+		    		this.mensajeService.createMensaje(mensajeForm, true);
 		            
 			    } catch (IOException | SQLException e) {
 			        // TODO Auto-generated catch block

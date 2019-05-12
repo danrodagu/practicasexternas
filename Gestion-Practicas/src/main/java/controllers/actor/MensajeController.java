@@ -171,7 +171,7 @@ public class MensajeController {
 		} else {
 			try {
 				mensajeForm.setCuerpo(cuerpo);
-				this.mensajeService.createMensaje(mensajeForm);
+				this.mensajeService.createMensaje(mensajeForm, false);
 				result = new ModelAndView("redirect:/carpeta/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(mensajeForm, "mensaje.commit.error");
@@ -236,7 +236,7 @@ public class MensajeController {
 		mensajeForm.setCuerpo("Se requiere feedback para la siguiente práctica: <a href='" + url + "' target='_blank'>" + url + "</a><br /><br />- Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getTutorAsignado().getId());
 		
-		this.mensajeService.createMensaje(mensajeForm);	
+		this.mensajeService.createMensaje(mensajeForm, true);	
 			
 		return new ResponseEntity<Object>(body, headers, HttpStatus.OK);
 	}

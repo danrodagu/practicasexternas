@@ -156,7 +156,7 @@ public class ValoracionController extends AbstractController {
 							+ "\r\r - Este mensaje ha sido generado automáticamente -");
 					mensajeForm.setIdReceptor(a.getId());
 					
-					this.mensajeService.createMensaje(mensajeForm);
+					this.mensajeService.createMensaje(mensajeForm,true);
 				}	
 				
 				result = new ModelAndView("redirect:/oferta/display.do?ofertaId=" + valoracionForm.getIdOferta() + "&message=valoracion.success");

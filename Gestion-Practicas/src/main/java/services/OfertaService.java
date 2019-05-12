@@ -412,7 +412,7 @@ public class OfertaService {
 				+ "<br /><br /> - Este mensaje ha sido generado automáticamente -");
 		mensajeForm.setIdReceptor(oferta.getAlumnoAsignado().getId());
 		
-		mensajeService.createMensaje(mensajeForm);
+		mensajeService.createMensaje(mensajeForm, true);
 	}
 
 }
