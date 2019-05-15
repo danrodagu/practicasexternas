@@ -51,12 +51,12 @@
 					<br />
 					<security:authorize access="isAnonymous()">
 						<spring:message code="master.page.login" var="login"/>
-						<input type="button" class="btn btn-dark" value="${login}" onclick="location.href = 'security/login.do';">						
+						<input type="button" class="btn btn-primary" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;" value="${login}" onclick="window.location.replace('security/login.do');">						
 					</security:authorize>
 					
 					<security:authorize access="isAuthenticated()">
 						<div class="btn-group dropleft" >
-							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<button class="btn btn-primary dropdown-toggle" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<%= session.getAttribute("uvus") %>
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenu">					

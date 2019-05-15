@@ -16,7 +16,7 @@
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
 <div align="right">
-	<a onclick="window.location.replace('carpeta/list.do');" class="btn btn-danger" style="color:white;" role="button"><spring:message code="master.page.atras" /></a>
+	<a onclick="window.location.replace('carpeta/list.do');" class="btn btn-primary" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;" role="button"><spring:message code="master.page.atras" /></a>
 </div>
 <br />
 

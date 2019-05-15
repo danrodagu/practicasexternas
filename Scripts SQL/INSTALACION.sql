@@ -1,8 +1,16 @@
+--
+-- Creacion de la base de datos
+--
+
 DROP DATABASE IF EXISTS `gestion-practicas`;
 
 CREATE SCHEMA `gestion-practicas`;
 
 USE `gestion-practicas`;
+
+--
+-- Creacion de tablas
+--
 
 CREATE TABLE `hibernate_sequences` (
   `sequence_name` varchar(255),
@@ -142,3 +150,13 @@ CREATE TABLE `token` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Creacion de coordinador
+--
+
+INSERT INTO `gestion-practicas`.`useraccount` (`id`, `version`, `password`, `username`, `enabled`) VALUES ('1', '0', '$2a$10$fcf.d6byXUh7Yj9mHwN8bONkj0q5hrBCkNwicxbWAjaCilydY40Y.', 'coordi', '1');
+INSERT INTO `gestion-practicas`.`useraccount_authorities` (`UserAccount_id`, `authority`) VALUES ('1','COORDINADOR');
+INSERT INTO `gestion-practicas`.`actor` (`id`, `version`, `nombre`, `apellidos`, `userAccount_id`, `nif`, `titulacion`, `departamento`, `email`) VALUES ('2', '0', 'NombreCoordi', 'ApellidoCoordi', '1', 'DNICoordi', '', 'departamentoCoordi', 'coordi@us.es');
+INSERT INTO `gestion-practicas`.`carpeta` (`id`, `version`, `nombre`, `noModificable`, `actor_id`) VALUES ('3', '0', 'Recibido', '1', '2');
+INSERT INTO `gestion-practicas`.`carpeta` (`id`, `version`, `nombre`, `noModificable`, `actor_id`) VALUES ('4', '0', 'Enviado', '1', '2');
+INSERT INTO `gestion-practicas`.`carpeta` (`id`, `version`, `nombre`, `noModificable`, `actor_id`) VALUES ('5', '0', 'Papelera', '1', '2');

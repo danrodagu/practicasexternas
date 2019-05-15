@@ -159,7 +159,7 @@ public class MensajeController {
 		String cuerpo = (String) request.getSession().getAttribute("cuerpoMensaje");
 		request.removeAttribute("cuerpoMensaje");
 		
-		if(cuerpo == null || cuerpo.isEmpty() || cuerpo.equals("<p><br></p>")) {
+		if(cuerpo == null || cuerpo.isEmpty() || cuerpo.equals("<p><br></p>") || cuerpo.equals("<br>")) {
 			cuerpoVacio = true;
 		}
 		

@@ -18,7 +18,7 @@
 
 <div class="table-responsive">
 	<div align="right">
-		<a href="mensaje/create.do" class="btn btn-danger" role="button"><spring:message code="mensaje.create" /></a>
+		<a href="mensaje/create.do" class="btn btn-primary" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;" role="button"><spring:message code="mensaje.create" /></a>
 	</div>
 	<br />
 	<display:table name="carpetas" id="row" requestURI="carpeta/list.do"

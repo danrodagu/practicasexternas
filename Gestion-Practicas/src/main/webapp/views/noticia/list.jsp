@@ -22,7 +22,7 @@
 	<security:authorize access="hasRole('COORDINADOR') || hasRole('ADMINISTRATIVO')">
 		<%-- <gp:buttonUrl url="noticia/create.do" code="noticia.create"/> --%>
 		<%-- <gp:iconUrl url="noticia/create.do" icon="fas fa-plus-circle" name="noticia.create" color="Crimson"/> --%>
-		<a href="noticia/create.do" class="btn btn-danger" role="button"><spring:message code="noticia.create" /></a>
+		<a href="noticia/create.do" class="btn btn-primary" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;" role="button"><spring:message code="noticia.create" /></a>
 	</security:authorize>
 </div>
 <br />
@@ -35,7 +35,7 @@
 	<display:column title="${noticiasHeader}">
 		<h4>${row.titulo}</h4>
 		<br />		
-		<span style="font-size: 15px; color: Crimson;">
+		<span style="font-size: 15px; color: #3E58AA;">
 			<i class="fas fa-calendar-alt"></i>
 		</span>
 		<i style="font-size:medium;"> ${fechaModificacionHeader}&nbsp;<fmt:formatDate value="${row.fechaModificacion}" pattern="dd/MM/yyyy HH:mm" />	</i>	

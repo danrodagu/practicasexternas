@@ -125,7 +125,7 @@ public class NoticiaController {
 		String cuerpo = (String) request.getSession().getAttribute("cuerpoNoticia");
 		request.removeAttribute("cuerpoNoticia");
 		
-		if(cuerpo == null || cuerpo.isEmpty() || cuerpo.equals("<p><br></p>")) {
+		if(cuerpo == null || cuerpo.isEmpty() || cuerpo.equals("<p><br></p>") || cuerpo.equals("<br>")) {
 			cuerpoVacio = true;
 		}
 		

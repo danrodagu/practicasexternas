@@ -126,7 +126,7 @@
 			<gp:textbox id="dotacion" code="oferta.dotacion" path="dotacion" cssClass="form-control" />				
 		</div>	
 		<div class="form-group col-md-4" style="position: relative; margin-top: 0.6%">
-			<button name="search" type="submit" class="btn btn-dark"><spring:message code="alumno.search.btn" /></button>				
+			<button name="search" type="submit" class="btn btn-primary" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;"><spring:message code="alumno.search.btn" /></button>				
 		</div>
 	</div>	
 	

@@ -80,9 +80,9 @@
 			
 			<br />
 			
-			<button id="save" name="save" type="submit" class="btn btn-dark"><spring:message code="noticia.submit" /></button>
+			<button id="save" name="save" type="submit" class="btn btn-primary" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;"><spring:message code="noticia.submit" /></button>
 			&nbsp;&nbsp;
-			<button type="button" class="btn btn-dark" onclick="javascript: window.location.replace('noticia/list.do');">
+			<button type="button" class="btn btn-primary" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;" onclick="javascript: window.location.replace('noticia/list.do');">
 				<spring:message code="actor.cancel" />
 			</button>
 		</div>		

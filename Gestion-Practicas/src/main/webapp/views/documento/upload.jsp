@@ -22,9 +22,9 @@
 			</div>
 		</div>
 		
-		<button name="save" type="submit" class="btn btn-dark"><spring:message code="documento.upload" /></button>
+		<button name="save" type="submit" class="btn btn-primary" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;"><spring:message code="documento.upload" /></button>
 		&nbsp;&nbsp;
-		<button type="button" class="btn btn-dark" onclick="javascript: window.location.replace('welcome/index.do');"  >
+		<button type="button" class="btn btn-primary" style="background-color: #3E58AA;border: 1px solid #39529e;color:white;" onclick="javascript: window.location.replace('welcome/index.do');"  >
 			<spring:message code="actor.cancel" />
 		</button>				
 		
