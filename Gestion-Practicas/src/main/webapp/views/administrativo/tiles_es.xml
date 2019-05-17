@@ -17,7 +17,7 @@
 	</definition>
 	
 	<definition name="administrativo/edit" extends="master.page">	
-		<put-attribute name="title" value="Editar Administrativo" />
+		<put-attribute name="title" value="Alta Administrativo" />
 		<put-attribute name="body" value="/views/administrativo/edit.jsp" />
 	</definition>
 	

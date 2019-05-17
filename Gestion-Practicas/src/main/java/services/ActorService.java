@@ -247,7 +247,7 @@ public class ActorService {
 			if(isAlumno(actorPerfil.getId())){
 				actorPerfil.setTitulacion(edicionPerfilForm.getTitulacion());
 			}
-			if(isTutor(actorPerfil.getId())) {
+			if(isTutor(actorPerfil.getId()) || isCoordinador(actorPerfil.getId())) {
 				actorPerfil.setDepartamento(edicionPerfilForm.getDepartamento());
 			}
 		}

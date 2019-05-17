@@ -12,6 +12,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
+<br />
 <fieldset>
 	<form:form action="administrativo/edit.do" modelAttribute="administrativoForm">
 		<form:hidden path="id" />

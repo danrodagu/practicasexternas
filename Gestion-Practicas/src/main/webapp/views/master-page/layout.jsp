@@ -61,10 +61,11 @@
 <body>	
 	<div>
 		<tiles:insertAttribute name="header" />
-	</div>
-	<div class="container">
+	</div>	
+	<div class="container">	
+		<br />
 		<div>
-			<h1>
+			<h1 style="font-family: Helvetica, Arial, sans-serif!important;color:#3E58AA">
 				<tiles:insertAttribute name="title" />
 			</h1>
 			<jstl:if test="${message != null}">
@@ -92,7 +93,8 @@
 						<spring:message code="${param.message}" />
 					</div>
 				</jstl:if>				
-			</jstl:if>	
+			</jstl:if>
+			
 			<tiles:insertAttribute name="body" />			
 		</div>
 	</div>

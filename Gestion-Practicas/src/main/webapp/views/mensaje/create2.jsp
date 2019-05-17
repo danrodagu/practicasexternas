@@ -14,6 +14,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
+<br />
 <form:form id="formId" action="mensaje/edit.do" modelAttribute="mensajeForm">
 
 	<fieldset>

@@ -174,7 +174,7 @@ public class ActorController extends AbstractController {
 			try {
 				actor = this.actorService.reconstruct(edicionPerfilForm);
 				actor = this.actorService.save(actor);				
-				result = new ModelAndView("redirect:/actor/edit.do?message=actor.modificacion.success");
+				result = new ModelAndView("redirect:/actor/edit.do?actorId=" + actor.getId() + "&message=actor.modificacion.success");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(edicionPerfilForm, "actor.unique.error");
 			}

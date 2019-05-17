@@ -68,7 +68,7 @@
 		
 		<security:authorize access="hasRole('ADMINISTRATIVO') || hasRole('COORDINADOR')">
 			<spring:message code="documento.uploader" var="uploaderHeader" />
-			<display:column property="uploader.userAccount.username" title="${uploaderHeader}" />
+			<display:column property="uploader.nombreCompleto" title="${uploaderHeader}" />
 		</security:authorize>		
 		
 		<display:column>

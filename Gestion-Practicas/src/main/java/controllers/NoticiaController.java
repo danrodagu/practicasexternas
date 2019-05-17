@@ -23,10 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Noticia;
 import forms.NoticiaForm;
-import repositories.NoticiaRepository;
-import services.ActorService;
 import services.NoticiaService;
-import services.OfertaService;
 
 @RequestMapping("/noticia")
 @Controller
@@ -36,19 +33,10 @@ public class NoticiaController {
 	private EntityManager em;
 
 	// Repositories ---------------------------------------------------------------
-	@Autowired
-	private NoticiaRepository	noticiaRepository;
 	
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private NoticiaService	noticiaService;
-
-	@Autowired
-	private ActorService	actorService;
-	
-	@Autowired
-	private OfertaService	ofertaService;
-
 
 	// Constructors -------------------------------------------------------
 	public NoticiaController() {

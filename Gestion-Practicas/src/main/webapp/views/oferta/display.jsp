@@ -15,7 +15,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="gp" tagdir="/WEB-INF/tags"%>
 
-<br />
+
 <nav aria-label="breadcrumb" >
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="documento/list.do?ofertaId=${oferta.id}"><spring:message code="alumno.documentos" /></a></li>

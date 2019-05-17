@@ -40,9 +40,9 @@
 	<div class="row" style="margin-bottom:2%">
     	<div class="span4">
 			<div class="clearfix content-heading">
-				<h1 style="float:left;margin-left:3%;margin-top:1%;padding-right:3%">Prácticas<br />Externas</h1>
+				<h1 style="float:left;margin-left:3%;margin-top:1%;padding-right:3%;font-family: Helvetica, Arial, sans-serif!important;color:#3E58AA" >Prácticas<br />Externas</h1>
 				
-				<img src="images/logo-etsii.png" alt="ETSII" class="img-fluid" style="width:60%" />				
+				<img src="images/logoETSII.png" alt="ETSII" class="img-fluid" style="width:60%;padding-left:60px;padding-top:20px" />				
 				
 				<div style="float:right;padding-right:3%;">
 					<div style="padding-bottom:5px;">

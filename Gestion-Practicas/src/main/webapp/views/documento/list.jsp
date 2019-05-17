@@ -54,7 +54,7 @@
 		<display:column sortable="true" property="titulo" title="${tituloHeader}" />
 		
 		<spring:message code="documento.uploader" var="uploaderHeader" />
-		<display:column sortable="true" property="uploader.userAccount.username" title="${uploaderHeader}" />
+		<display:column sortable="true" property="uploader.nombreCompleto" title="${uploaderHeader}" />
 
 		
 		<jstl:if test="${not (esAlumno && (row.titulo == 'ActaNoFirmada.pdf' || row.titulo == 'ActaFirmada.pdf'))}">

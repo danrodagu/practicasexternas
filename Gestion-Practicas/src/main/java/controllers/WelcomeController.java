@@ -68,17 +68,17 @@ public class WelcomeController extends AbstractController {
 
 	// Noticias ------------------------------------------------------------------
 
-	@RequestMapping(value = "/noticias")
-	public ModelAndView noticias(final HttpServletRequest request) throws ServletException, IOException {
-		ModelAndView result;
-
-		HttpSession session = request.getSession();
-		session.setAttribute("active", "noticias");
-
-		result = new ModelAndView("welcome/noticias");
-
-		return result;
-	}
+//	@RequestMapping(value = "/noticias")
+//	public ModelAndView noticias(final HttpServletRequest request) throws ServletException, IOException {
+//		ModelAndView result;
+//
+//		HttpSession session = request.getSession();
+//		session.setAttribute("active", "noticias");
+//
+//		result = new ModelAndView("welcome/noticias");
+//
+//		return result;
+//	}
 	
 	// Documentacion ------------------------------------------------------------------
 
