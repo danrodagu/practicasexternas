@@ -236,8 +236,8 @@ public class ActorService {
 			mismoActorLogYPerfil = false;
 		}		
 		
-		//El administrativo es el que puede modificar estos campos
-		if(isAdministrativo(actorLogueado.getId())) {
+		//El administrativo es el que puede modificar todos los campos en todos los usuarios
+		if(isAdministrativo(actorLogueado.getId())) {				
 			actorPerfil.setNombre(edicionPerfilForm.getNombre());
 			actorPerfil.setApellidos(edicionPerfilForm.getApellidos());
 			actorPerfil.setNif(edicionPerfilForm.getNif());
@@ -250,6 +250,16 @@ public class ActorService {
 			if(isTutor(actorPerfil.getId()) || isCoordinador(actorPerfil.getId())) {
 				actorPerfil.setDepartamento(edicionPerfilForm.getDepartamento());
 			}
+		}
+		
+		//El coordinador solo puede modificar todos los campos en su propio perfil, en el resto de perfiles solo el email
+		if(isCoordinador(actorLogueado.getId()) && mismoActorLogYPerfil) {
+			actorPerfil.setNombre(edicionPerfilForm.getNombre());
+			actorPerfil.setApellidos(edicionPerfilForm.getApellidos());
+			actorPerfil.setNif(edicionPerfilForm.getNif());
+			
+			actorPerfil.getUserAccount().setUsername(edicionPerfilForm.getUsername());
+			actorPerfil.setDepartamento(edicionPerfilForm.getDepartamento());
 		}
 		
 		actorPerfil.setEmail(edicionPerfilForm.getEmail());

@@ -19,7 +19,7 @@
 
 		
 		<div class="row">
-			<jstl:if test="${rolLogueado == 'ADMINISTRATIVO'}">
+			<jstl:if test="${rolLogueado == 'ADMINISTRATIVO' || (rolLogueado == 'COORDINADOR' && rolPerfil == 'COORDINADOR')}">
 				<div class="form-group col-md-4">
 					<gp:textbox id="nif" code="actor.nif" path="nif" cssClass="form-control" required="required" />
 				</div>
@@ -31,7 +31,7 @@
 					<gp:textbox id="apellidos" code="actor.apellidos" path="apellidos" cssClass="form-control" required="required"/>				
 				</div>
 			</jstl:if>
-			<jstl:if test="${rolLogueado != 'ADMINISTRATIVO'}">
+			<jstl:if test="${rolLogueado != 'ADMINISTRATIVO' && !(rolLogueado == 'COORDINADOR' && rolPerfil == 'COORDINADOR')}">
 				<div class="form-group col-md-4">
 					<gp:textbox id="nif" code="actor.nif" path="nif" cssClass="form-control" required="required" readonly="true" />
 				</div>
@@ -47,33 +47,36 @@
 		
 		
 		<div class="row">
-			<jstl:if test="${rolLogueado == 'ADMINISTRATIVO'}">
+			<jstl:if test="${rolLogueado == 'ADMINISTRATIVO' || (rolLogueado == 'COORDINADOR' && rolPerfil == 'COORDINADOR')}">
 				<div class="form-group col-md-4">
 					<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" />
-				</div>							
-				<jstl:if test="${rolPerfil == 'ALUMNO'}">
-					<div class="form-group col-md-4">
-						<gp:textbox id="titulacion" code="actor.titulacion" path="titulacion" cssClass="form-control" required="required" />
-					</div>
-				</jstl:if>			
-				<jstl:if test="${rolPerfil == 'TUTOR' || rolPerfil == 'COORDINADOR'}">
-					<div class="form-group col-md-4">
-						<gp:textbox id="departamento" code="actor.departamento" path="departamento" cssClass="form-control" required="required" />
-					</div>
-				</jstl:if>
+				</div>	
+			</jstl:if>						
+			<jstl:if test="${rolLogueado == 'ADMINISTRATIVO' && rolPerfil == 'ALUMNO'}">
+				<div class="form-group col-md-4">
+					<gp:textbox id="titulacion" code="actor.titulacion" path="titulacion" cssClass="form-control" required="required" />
+				</div>
+			</jstl:if>			
+			<jstl:if test="${(rolLogueado == 'ADMINISTRATIVO' && (rolPerfil == 'TUTOR' || rolPerfil == 'COORDINADOR')) || (rolLogueado == 'COORDINADOR' && rolPerfil == 'COORDINADOR')}">
+				<div class="form-group col-md-4">
+					<gp:textbox id="departamento" code="actor.departamento" path="departamento" cssClass="form-control" required="required" />
+				</div>
 			</jstl:if>
 			
+			
 			<jstl:if test="${rolLogueado != 'ADMINISTRATIVO'}">
-				<div class="form-group col-md-4">
-					<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" readonly="true"/>
-				</div>		
+				<jstl:if test="${!(rolLogueado == 'COORDINADOR' && rolPerfil == 'COORDINADOR')}">
+					<div class="form-group col-md-4">
+						<gp:textbox id="username" code="actor.username" path="username" cssClass="form-control" required="required" readonly="true"/>
+					</div>	
+				</jstl:if>					
 				<jstl:if test="${rolPerfil == 'ALUMNO'}">
 					<div class="form-group col-md-4">
 						<gp:textbox id="titulacion" code="actor.titulacion" path="titulacion" cssClass="form-control" required="required" readonly="true"/>
 					</div>
 				</jstl:if>
 				
-				<jstl:if test="${rolPerfil == 'TUTOR' || rolPerfil == 'COORDINADOR'}">
+				<jstl:if test="${rolPerfil == 'TUTOR'}">
 					<div class="form-group col-md-4">
 						<gp:textbox id="departamento" code="actor.departamento" path="departamento" cssClass="form-control" required="required" readonly="true"/>
 					</div>
