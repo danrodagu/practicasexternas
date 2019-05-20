@@ -1,5 +1,5 @@
 CREATE TABLE `valoracion` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT, 
   `version` int(11) NOT NULL,
   `texto` varchar(500) NOT NULL,
   `notaCurricular` decimal(3,1),

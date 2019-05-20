@@ -1,5 +1,5 @@
 CREATE TABLE `token` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `confirmationToken` varchar(255),
   `fechaCreacion` datetime,

@@ -350,14 +350,14 @@ public class DocumentoController extends AbstractController {
 			        pdfDocument.save(workingDirectory + "\\src\\main\\webapp\\plantillas\\actaTemporal.pdf");
 			        pdfDocument.close();
 			        
-			        String insertSQL = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?, ?)";
+			        String insertSQL = "INSERT INTO documento (version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?)";
 					 
 			        PreparedStatement statement = conn.prepareStatement(insertSQL);			        
 			        
-			        statement.setInt(1, utilService.maximoIdDB()+1);
-		            statement.setInt(2, 0);
-		            statement.setString(3, "ActaNoFirmada.pdf");
-		            statement.setString(4, "pdf");	             
+//			        statement.setInt(1, utilService.maximoIdDB()+1);
+		            statement.setInt(1, 0);
+		            statement.setString(2, "ActaNoFirmada.pdf");
+		            statement.setString(3, "pdf");	             
 
 		            //Se recupera el pdf como un array de bytes
 		        	Path pdfPath = Paths.get(workingDirectory + "\\src\\main\\webapp\\plantillas\\actaTemporal.pdf");
@@ -367,12 +367,12 @@ public class DocumentoController extends AbstractController {
 		        	Files.deleteIfExists(pdfPath); 
 		            
 		            if (pdf != null) {                
-		                statement.setBytes(5, pdf);
+		                statement.setBytes(4, pdf);
 		            }
 		            
-		            statement.setInt(6, actorService.findByPrincipal().getId());	            
+		            statement.setInt(5, actorService.findByPrincipal().getId());	            
 		            
-		            statement.setInt(7, oferta.getId());	            
+		            statement.setInt(6, oferta.getId());	            
 			        
 		            statement.executeUpdate();	            
 		            

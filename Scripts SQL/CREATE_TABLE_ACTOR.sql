@@ -1,5 +1,5 @@
 CREATE TABLE `actor` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `nif` varchar(9) NOT NULL,
   `nombre` varchar(255) NOT NULL,

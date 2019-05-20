@@ -12,13 +12,13 @@ USE `gestion-practicas`;
 -- Creacion de tablas
 --
 
-CREATE TABLE `hibernate_sequences` (
-  `sequence_name` varchar(255),
-  `sequence_next_hi_value` int(11)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- CREATE TABLE `hibernate_sequences` (
+--  `sequence_name` varchar(255),
+--  `sequence_next_hi_value` int(11)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `useraccount` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `password` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE `useraccount_authorities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `actor` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `nif` varchar(9) NOT NULL,
   `nombre` varchar(255) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE `actor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `oferta` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `titulo` varchar(255) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE `oferta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `carpeta` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `noModificable` tinyint(1) NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE `carpeta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `mensaje` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `asunto` varchar(255) NOT NULL,
   `cuerpo` longtext,
@@ -107,7 +107,7 @@ CREATE TABLE `mensaje` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `noticia` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `titulo` varchar(255) NOT NULL,
   `cuerpo` longtext,
@@ -118,7 +118,7 @@ CREATE TABLE `noticia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `valoracion` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `texto` varchar(500) NOT NULL,
   `notaCurricular` decimal(3,1),
@@ -130,7 +130,7 @@ CREATE TABLE `valoracion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `documento` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `titulo` varchar(255) NOT NULL,
   `formato` varchar(10) NOT NULL,
@@ -143,7 +143,7 @@ CREATE TABLE `documento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `token` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `confirmationToken` varchar(255),
   `fechaCreacion` datetime,
@@ -160,3 +160,9 @@ INSERT INTO `gestion-practicas`.`actor` (`id`, `version`, `nombre`, `apellidos`,
 INSERT INTO `gestion-practicas`.`carpeta` (`id`, `version`, `nombre`, `noModificable`, `actor_id`) VALUES ('3', '0', 'Recibido', '1', '2');
 INSERT INTO `gestion-practicas`.`carpeta` (`id`, `version`, `nombre`, `noModificable`, `actor_id`) VALUES ('4', '0', 'Enviado', '1', '2');
 INSERT INTO `gestion-practicas`.`carpeta` (`id`, `version`, `nombre`, `noModificable`, `actor_id`) VALUES ('5', '0', 'Papelera', '1', '2');
+
+--
+-- Insertamos proximo valor de hibernate_sequences
+--
+
+-- INSERT INTO `gestion-practicas`.`hibernate_sequences` (`sequence_name`, `sequence_next_hi_value`) VALUES ('DomainEntity', '6');

@@ -1,5 +1,5 @@
 CREATE TABLE `carpeta` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `noModificable` tinyint(1) NOT NULL,

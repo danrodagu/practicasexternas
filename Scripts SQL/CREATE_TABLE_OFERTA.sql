@@ -1,5 +1,5 @@
 CREATE TABLE `oferta` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) NOT NULL,
   `titulo` varchar(255) NOT NULL,
   `descripcion` varchar(255) NOT NULL,

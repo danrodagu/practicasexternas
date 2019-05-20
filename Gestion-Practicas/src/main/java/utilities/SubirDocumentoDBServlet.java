@@ -98,24 +98,24 @@ public class SubirDocumentoDBServlet extends HttpServlet{
                 String sql;
                 
                 if(oferta != null) {
-                	sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?, ?)";
+                	sql = "INSERT INTO documento (version, titulo, formato, archivo, uploader_id, oferta_id) values (?, ?, ?, ?, ?, ?)";
                 }else {
-                	sql = "INSERT INTO documento (id, version, titulo, formato, archivo, uploader_id) values (?, ?, ?, ?, ?, ?)";
+                	sql = "INSERT INTO documento (version, titulo, formato, archivo, uploader_id) values (?, ?, ?, ?, ?)";
                 }
                 PreparedStatement statement = conn.prepareStatement(sql);
-                statement.setInt(1, utilService.maximoIdDB()+1);
-                statement.setInt(2, 0);
-                statement.setString(3, titulo);
-                statement.setString(4, formato);
+//                statement.setInt(1, utilService.maximoIdDB()+1);
+                statement.setInt(1, 0);
+                statement.setString(2, titulo);
+                statement.setString(3, formato);
                  
                 if (inputStream != null) {                
-                    statement.setBlob(5, inputStream);
+                    statement.setBlob(4, inputStream);
                 }
                 
-                statement.setInt(6, uploader);
+                statement.setInt(5, uploader);
                 
                 if(oferta != null) {
-                	statement.setInt(7, Integer.parseInt(ofertaId));
+                	statement.setInt(6, Integer.parseInt(ofertaId));
                 }       
 
                 
