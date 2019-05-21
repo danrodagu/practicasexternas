@@ -13,6 +13,9 @@
 	
 		<bean class="converters.AuthorityToStringConverter" />
 	
+		<bean class="converters.TokenToStringConverter" />		
+		<bean class="converters.StringToTokenConverter" />
+	
 		<bean class="converters.ActorToStringConverter" />
 		<bean class="converters.StringToActorConverter" />		
 		
@@ -34,8 +37,7 @@
 		<bean class="converters.ValoracionToStringConverter" />		
 		<bean class="converters.StringToValoracionConverter" />
 		
-		<bean class="converters.TokenToStringConverter" />		
-		<bean class="converters.StringToTokenConverter" />
+		
 		
 		
 	</util:list>
